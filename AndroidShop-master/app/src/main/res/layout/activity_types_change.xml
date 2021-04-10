@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:text="Ҳаридор номи"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent" />
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal">
+       <AutoCompleteTextView
+           android:id="@+id/client"
+           android:layout_width="wrap_content"
+           android:layout_height="40dp"
+           android:background="@drawable/backgroun"
+           android:ems="10"
+           android:layout_margin="2dp"
+
+           android:singleLine="true" />
+
+       <ImageView
+           android:id="@+id/imageView2"
+           android:layout_width="wrap_content"
+           android:layout_height="40dp"
+           android:layout_weight="1"
+           android:layout_margin="2dp"
+           app:srcCompat="@drawable/barcodescan" />
+
+       <ImageView
+           android:id="@+id/imageView3"
+           android:layout_width="wrap_content"
+           android:layout_height="40dp"
+           android:layout_weight="1"
+           android:layout_margin="2dp"
+           app:srcCompat="@android:drawable/ic_input_add" />
+
+
+   </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:text="Савдо режими"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:layout_marginTop="10dp"/>
+
+    <RadioGroup
+        android:id="@+id/choices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/type1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:text="Чакана" />
+
+            <RadioButton
+                android:id="@+id/type2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:text="Улг1 нақт" />
+
+            <RadioButton
+                android:id="@+id/type3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:text="Улг2 нақт"
+                android:textSize="14sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/type4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:text="Улг1 плас" />
+
+            <RadioButton
+                android:id="@+id/type5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:text="Улг2 плас" />
+
+            <RadioButton
+                android:id="@+id/type6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:text="Пул ўтк" />
+        </LinearLayout>
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Сумма: 15000 Сўм, 14"
+            android:textColor="@color/colorAccent"
+            android:layout_margin="4dp"
+            />
+
+        <Button
+
+            android:id="@+id/done"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+
+            android:background="@drawable/backgroun2"
+            android:text="Якунлаш"
+            android:layout_margin="2dp"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/gone"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+
+            android:background="@drawable/backgroun2"
+            android:text="Сотув"
+            android:layout_margin="2dp"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</LinearLayout>

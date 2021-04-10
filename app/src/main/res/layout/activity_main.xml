@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+  <include
+      layout="@layout/toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"/>
+
+  <TextView
+      android:id="@+id/sum_price"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Умуммий сумма: 0.0 Сўм"
+      android:textAlignment="center"
+      android:layout_marginLeft="8dp"
+      android:layout_marginTop="4dp"
+      android:layout_marginRight="8dp"
+      android:layout_marginBottom="4dp"
+      android:queryHint="Qidirish"
+      android:textColor="@color/colorAccent"
+      />
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/backgroun"
+       >
+
+        <SearchView
+            android:id="@+id/searchView"
+            android:layout_width="216dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+
+
+            android:iconifiedByDefault="false"
+            android:queryHint="Қидириш"
+            android:textColor="@color/colorBlueDark" />
+
+        <ImageView
+            android:id="@+id/action_image_barcode"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            app:srcCompat="@drawable/barcodescan" />
+
+    </LinearLayout>
+
+  <ListView
+      android:id="@+id/listView"
+      android:layout_width="match_parent"
+      android:layout_height="120dp"
+      android:layout_below="@+id/searchView"
+      android:layout_marginLeft="8dp"
+      android:layout_marginTop="4dp"
+      android:layout_marginRight="8dp"
+      android:layout_marginBottom="4dp">
+
+  </ListView>
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="90dp"
+      android:orientation="vertical"
+      android:layout_marginLeft="8dp"
+      android:layout_marginRight="8dp"
+      >
+
+    <LinearLayout
+        android:id="@+id/linerLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+
+        android:background="@drawable/backgroun4"
+        >
+
+      <TextView
+          android:id="@+id/select_product"
+          android:layout_width="match_parent"
+          android:layout_height="30dp"
+          android:text="@string/product"
+          android:textAlignment="center"
+          android:textColor="@color/black"
+          android:textSize="18sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linerLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@drawable/backgroun4"
+        >
+
+      <TextView
+          android:id="@+id/textView"
+          android:layout_width="55dp"
+          android:layout_height="30dp"
+          android:text="Асосий:"
+          android:textColor="@color/black"
+          />
+
+      <EditText
+          android:id="@+id/price_product_count"
+          android:layout_width="60dp"
+          android:layout_height="50dp"
+          android:ems="10"
+          android:inputType="number"
+          android:layout_marginRight="10dp"
+          android:layout_marginTop="4dp"
+          android:layout_marginBottom="4dp"
+          android:layout_marginEnd="10dp"
+          android:autofillHints=""
+          android:textColor="@color/black"
+          />
+
+      <TextView
+          android:id="@+id/textView2"
+          android:layout_width="35dp"
+          android:layout_height="40dp"
+          android:text="Ички"
+          android:textColor="@color/black"
+          />
+
+      <EditText
+          android:id="@+id/price_inproduct_count"
+          android:layout_width="60dp"
+          android:layout_height="50dp"
+          android:layout_marginEnd="10dp" android:ems="10"
+          android:inputType="number"
+          android:layout_marginRight="10dp"
+          android:layout_marginTop="4dp"
+          android:layout_marginBottom="4dp"
+          />
+
+      <ImageView
+          android:id="@+id/save"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:contentDescription="TODO"
+          app:srcCompat="@android:drawable/ic_menu_save"
+          android:layout_marginTop="8dp"
+          android:layout_marginBottom="8dp"
+          android:layout_marginLeft="4dp"
+          android:layout_marginRight="4dp"
+          />
+
+      <ImageView
+          android:id="@+id/calsel"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:contentDescription="TODO"
+          app:srcCompat="@android:drawable/ic_delete"
+          android:layout_marginTop="8dp"
+          android:layout_marginBottom="8dp"
+          android:layout_marginLeft="4dp"
+          android:layout_marginRight="4dp"
+
+          />
+    </LinearLayout>
+
+  </LinearLayout>
+  <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+    <ListView
+        android:id="@+id/listView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/searchView"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="4dp"
+        android:paddingBottom="8dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:src="@android:drawable/ic_menu_send"
+        app:backgroundTint="@color/colorBlueDark" />
+  </FrameLayout>
+
+</LinearLayout>

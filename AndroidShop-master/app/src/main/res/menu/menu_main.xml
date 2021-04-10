@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    >
+    <item
+        android:id="@+id/item1"
+        android:orderInCategory="100"
+        android:title="Савдо режими"
+        />
+    <item
+        android:id="@+id/item2"
+        android:orderInCategory="100"
+        android:title="Сотув"
+        />
+    <item
+        android:id="@+id/item3"
+        android:orderInCategory="100"
+        android:title="Махсулотлар"
+        />
+    <item
+        android:id="@+id/item4"
+        android:orderInCategory="100"
+        android:title="Кирим"
+        />
+</menu>
