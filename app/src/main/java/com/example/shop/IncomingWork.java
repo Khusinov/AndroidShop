@@ -40,6 +40,7 @@ public class IncomingWork extends AppCompatActivity {
         ip=intent.getStringExtra("ip");
         thisuUser=(User) intent.getSerializableExtra("user");
         list=new ArrayList<>();
+
     }
 
 }
