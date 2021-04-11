@@ -199,6 +199,54 @@ public class HttpHandler {
         return 0;
     }
 
+    public Integer makeServicePostSeries(String reqUrl, SeriesModel newProducts, User user) {
+        HttpURLConnection conn = null;
+        try {
+            URL url = new URL(reqUrl);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json; utf-8");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setDoOutput(true);
+            JSONObject object = new JSONObject();
+            object.put("id", newProducts.getId());
+            object.put("user_id",user.getUser_id());
+            object.put("brend", 0);
+            object.put("papka", 0);
+            object.put("tz_id", 0);
+            object.put("shtrix_full", 0);
+            object.put("qr", 0);
+            object.put("kg", 0);
+            object.put("shtrix_in", 0);
+            object.put("nom_ru", "");
+            object.put("shtrixkod", 1);
+            object.put("qrkod", 0);
+            object.put("izm_id", 1);
+            object.put("del_flag", 0);
+            object.put("client_id", user.getClient_id());
+
+
+            String jsonInputString = object.toString();
+            OutputStream os = conn.getOutputStream();
+            byte[] input = jsonInputString.getBytes("utf-8");
+            os.write(input, 0, input.length);
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+            StringBuilder response = new StringBuilder();
+            String responseLine = null;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+            return Integer.parseInt(response.toString());
+
+
+        } catch (IOException e) {
+            Log.v("MyTag", e.getMessage());
+        } catch (JSONException e) {
+            Log.v("MyTag", e.getMessage());
+        }
+        return 0;
+    }
+
 
     public Integer makeServiceAddNewProduct(String reqUrl, Product selectedItem) {
         HttpURLConnection conn = null;
