@@ -12,8 +12,17 @@ public class User implements Serializable {
     private String  userpass;
     private String  fio;
     private Integer delFlag;
+    private Integer user_id;
 
     public User() {
+    }
+
+    public Integer getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
     }
 
     public Integer getId() {

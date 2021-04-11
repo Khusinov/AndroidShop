@@ -122,6 +122,18 @@ public class ProductAdd extends AppCompatActivity {
         sTovar.setBank(tryParseDouble(type6.getText().toString()) );
         sTovar.setShtrixkod(1);
         sTovar.setSena(tryParseDouble(incomingprice.getText().toString()));
+        if (for_count.getText().toString().isEmpty()){
+            sTovar.setTkol(0);
+        }else {
+            sTovar.setTkol(Integer.parseInt(for_count.getText().toString()));
+        }
+        if (in_count.getText().toString().isEmpty()){
+            sTovar.setTkol_in(0);
+        }else {
+            sTovar.setTkol_in(Integer.parseInt(in_count.getText().toString()));
+        }
+
+
     }
     private void copyPraporty(STovar tovar) {
         update=1;

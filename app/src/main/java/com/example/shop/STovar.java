@@ -35,9 +35,18 @@ public class STovar  implements Serializable {
     Double sena_in_d;
     Integer tkol;
     Integer tkol_in;
+    Integer seriya;
 
 
     public STovar() {
+    }
+
+    public Integer getSeriya() {
+        return seriya;
+    }
+
+    public void setSeriya(Integer seriya) {
+        this.seriya = seriya;
     }
 
     public Integer getTkol() {

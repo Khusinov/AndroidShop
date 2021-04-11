@@ -296,7 +296,7 @@ public class IncomingAdd extends AppCompatActivity {
 
 
     private class AddProduct extends AsyncTask<Void,Void,Void>{
-        String urlRequest="http://"+ip+":8080/application/json/asosslave2/asosid="+asosId+"/userid="+thisuUser.getId();
+        String urlRequest="http://"+ip+":8080/application/json/asosslave2/"+asosId+"/"+thisuUser.getId();
         Integer i=0;
         @Override
         protected void onPreExecute() {
@@ -331,8 +331,8 @@ public class IncomingAdd extends AppCompatActivity {
 
     private class GetProducts extends AsyncTask<Void, Void, Void> {
         //        http://localhost:8080/application/json/clientid=4/4/products
-        private String urlProducts="http://"+ip+":8080/application/json/getproduct/clientid="+thisuUser.getClient_id();
-        private String urlAddProducts="http://"+ip+":8080/application/json/asosid="+ asosId +"/products";
+        private String urlProducts="http://"+ip+":8080/application/json/getproduct/"+thisuUser.getClient_id();
+        private String urlAddProducts="http://"+ip+":8080/application/json/"+ asosId +"/products";
         @Override
         protected void onPreExecute() {
             super.onPreExecute();

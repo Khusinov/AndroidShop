@@ -177,8 +177,8 @@ public class ProductsList extends AppCompatActivity {
     }
     private class GetProducts extends AsyncTask<Void, Void, Void> {
         //        http://localhost:8080/application/json/clientid=4/4/products
-        private String urlProducts="http://"+ip+":8080/application/json/getproduct/clientid="+thisuUser.getClient_id();
-
+        private String urlProducts="http://"+ip+":8080/application/json/getproduct/"+thisuUser.getClient_id();
+// ishladi))
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -203,14 +203,16 @@ public class ProductsList extends AppCompatActivity {
                         STovar tovar = new STovar();
                         JSONObject object = jsonArray.getJSONObject(i);
                         Log.v("MyLog1",object.toString());
-                        tovar.setId(object.getInt("id"));
+                        Log.d("object", object.getString("nom"));
+                        tovar.setId(Integer.parseInt(String.valueOf(object.getInt("id"))));
                         tovar.setNom(object.getString("nom"));
+                        Log.d("nom",tovar.getNom());
                         tovar.setNom_ru(object.getString("nom_ru"));
                         tovar.setNom_sh(object.getString("nom_sh"));
                         tovar.setShtrix(object.getString("shtrix"));
                         tovar.setShtrix_in(object.getString("shtrix_in"));
-                        tovar.setTz_id(object.getInt("tz_id"));
-                        tovar.setKg(object.getInt("kg"));
+//                        tovar.setTz_id(object.getInt("tz_id"));
+//                        tovar.setKg(object.getInt("kg"));
                         tovar.setShtrix_full(object.getString("shtrix_full"));
                         tovar.setShtrix1(object.getString("shtrix1"));
                         tovar.setShtrix2(object.getString("shtrix2"));
@@ -231,12 +233,22 @@ public class ProductsList extends AppCompatActivity {
                         tovar.setBank(object.getDouble("bank"));
                         tovar.setSena(object.getDouble("sena"));
                         tovar.setKol_in(object.getInt("kol_in"));
-                        tovar.setSena_d(object.getDouble("sena_d"));
-                        tovar.setSena_in_d(object.getDouble("sena_in_d"));
-                        tovar.setTkol(object.getInt("tkol"));
-                        tovar.setTkol_in(object.getInt("tkol_in"));
-                        list.add(tovar);
+                        if (null == (object.get("sena_d"))){
+                            tovar.setSena_d(object.getDouble("sena_d"));
+                        }else {
+                            tovar.setSena_d(0.0);
+                        }
+                        if (null == (object.get("sena_in_d"))){
+                            tovar.setSena_in_d(object.getDouble("sena_in_d"));
+                        }else {
+                            tovar.setSena_in_d(0.0);
+                        }
 
+                       // tovar.setSena_in_d(object.getDouble("sena_in_d"));
+//                        tovar.setTkol(object.getInt("tkol"));
+//                        tovar.setTkol_in(object.getInt("tkol_in"));
+                        list.add(tovar);
+                        Log.d("testt" , tovar.getNom());
                         Log.d("tovar",list.toString());
                         Log.d("maeee",ip);
                     }

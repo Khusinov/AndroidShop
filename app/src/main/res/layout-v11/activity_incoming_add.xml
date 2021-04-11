@@ -70,7 +70,8 @@
             android:text="@string/product"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:gravity="center_horizontal" />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/linerLayout2"
