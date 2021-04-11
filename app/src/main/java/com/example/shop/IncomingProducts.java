@@ -79,7 +79,7 @@ public class IncomingProducts extends AppCompatActivity {
 
         asos=new AsosModell();
         asos.setClient_id(thisUser.getClient_id());
-        asos.setUserId(thisUser.getId());
+        asos.setUser_id(thisUser.getId());
         asos.setDel_flag(1);
         asos.setTurOper(1);
         asos.setXodimId(thisUser.getId());
@@ -190,7 +190,7 @@ public class IncomingProducts extends AppCompatActivity {
         if (newAsosCheck==0){
             asosBefore.setId(asosLast.getId());
         }
-        asosBefore.setUserId(asosLast.getUserId());
+        asosBefore.setUser_id(asosLast.getUser_id());
         asosBefore.setDollar(asosLast.getDollar());
         asosBefore.setClient_id(asosLast.getClient_id());
         asosBefore.setDel_flag(1);
@@ -206,7 +206,6 @@ public class IncomingProducts extends AppCompatActivity {
         asosBefore.setKurs(asosLast.getKurs());
         asosBefore.setSum_d(0.0);
         asosBefore.setKol(1);
-
     }
 
     @Override
@@ -318,7 +317,7 @@ public class IncomingProducts extends AppCompatActivity {
                 String jsonDillersStr=httpHandler.makeServiceCall(urlGetDillers);
                 String jsonAsosStr;
                 AsosModell asosModell=new AsosModell();
-                asosModell.setUserId(asos.getUserId());
+                asosModell.setUser_id(asos.getUser_id());
                 asosModell.setClient_id(asos.getClient_id());
                 asosModell.setDollar(asos.getDollar());
                 asosModell.setDilerId(asos.getDilerId());
@@ -390,6 +389,10 @@ public class IncomingProducts extends AppCompatActivity {
                             modell.setKurs(tryParseDouble(object.getString("kurs")));
                             modell.setSum_d(tryParseDouble(object.getString("sum_d")));
                             modell.setKol(object.getInt("kol"));
+                            modell.setSena_d(0.0);
+                            modell.setSena_d(0.0);
+                            modell.setUser_id(thisUser.getUser_id());
+
                             Log.v("MyTag2",modell.getId()+"");
                             /*{
                                 "id": 1782,

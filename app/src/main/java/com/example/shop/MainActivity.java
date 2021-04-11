@@ -543,8 +543,8 @@ public class MainActivity extends AppCompatActivity {
 
     private class GetProducts extends AsyncTask<Void, Void, Void> {
 //        http://localhost:8080/application/json/clientid=4/4/products
-        private String urlProducts="http://"+ip+":8080/application/json/clientid="+thisuUser.getClient_id()+"/"+ type +"/products";
-        private String urlAddProducts="http://"+ip+":8080/application/json/asosid="+ asosId +"/products";
+        private String urlProducts="http://"+ip+":8080/application/json/"+thisuUser.getClient_id()+"/"+ type +"/products";
+        private String urlAddProducts="http://"+ip+":8080/application/json/"+ asosId +"/products";
 
         @Override
         protected void onPreExecute() {

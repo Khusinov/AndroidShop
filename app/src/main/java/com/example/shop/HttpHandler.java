@@ -72,10 +72,10 @@ public class HttpHandler {
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
 
-            Log.v("Http", asosModell.getUserId() + "");
+            Log.v("Http", asosModell.getUser_id() + "");
             JSONObject jsonParam = new JSONObject();
             jsonParam.put("client_id", asosModell.getClient_id());
-            jsonParam.put("userId", asosModell.getUserId());
+            jsonParam.put("userId", asosModell.getUser_id());
             jsonParam.put("xodimId", asosModell.getXodimId());
             jsonParam.put("haridorId", asosModell.getHaridorId());
             jsonParam.put("sana", asosModell.getSana());
