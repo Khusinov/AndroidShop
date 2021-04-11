@@ -383,13 +383,13 @@ public class IncomingAdd extends AppCompatActivity {
                         tovar.setBank(object.getDouble("bank"));
                         tovar.setSena(object.getDouble("sena"));
                         tovar.setKol_in(object.getInt("kol_in"));
-                        tovar.setSena_d(object.getDouble("sena_d"));
-                        tovar.setSena_in_d(object.getDouble("sena_in_d"));
+                        tovar.setSena_d(0.0);
+                        tovar.setSena_in_d(0.0);
                         list.add(tovar);
 
                     }
                 } catch (final JSONException e) {
-                    Log.v("MyTag2", e.getMessage());
+                    Log.v("MyTag3", e.getMessage());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -400,7 +400,7 @@ public class IncomingAdd extends AppCompatActivity {
 
             }
             else{
-                Log.v("MyTag2", "serverdan galmadi");
+                Log.v("MyTag4", "serverdan galmadi");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -443,7 +443,7 @@ public class IncomingAdd extends AppCompatActivity {
 
             }
             else{
-                Log.v("MyTag2", "serverdan galmadi");
+                Log.v("MyTag5", "serverdan galmadi");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
