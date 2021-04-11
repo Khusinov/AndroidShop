@@ -35,7 +35,8 @@ public class STovar  implements Serializable {
     Double sena_in_d;
     Integer tkol;
     Integer tkol_in;
-    Integer seriya;
+    Integer seriya = 0;
+
 
 
     public STovar() {

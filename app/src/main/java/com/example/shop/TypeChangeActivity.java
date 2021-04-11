@@ -48,10 +48,6 @@ public class TypeChangeActivity extends AppCompatActivity {
     private RadioButton type5;
     private RadioButton type6;
     private Integer selectionIndex=-1;
-    private Intent intent;
-
-
-
 
 
     @Override
@@ -121,8 +117,8 @@ public class TypeChangeActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-        if (id == R.id.item4){
-            Intent intent=new Intent(this,IncomingProducts.class);
+        if (id == R.id.item3){
+            Intent intent=new Intent(this,ProductsList.class);
             setDownIntent(intent);
             startActivity(intent);
             finish();
@@ -133,12 +129,12 @@ public class TypeChangeActivity extends AppCompatActivity {
     }
 
     public void setDownIntent(Intent nextIntent) {
-        nextIntent.putExtra("user",intent.getSerializableExtra("user"));
-        nextIntent.putExtra("ip",intent.getStringExtra("ip"));
-        nextIntent.putExtra("asosId",intent.getIntExtra("asosId",0));
-        nextIntent.putExtra("type",intent.getIntExtra("type",0));
-        nextIntent.putExtra("sumprice",intent.getStringExtra("sumprice"));
-        nextIntent.putExtra("stovar",intent.getSerializableExtra("stovar"));
+        nextIntent.putExtra("user",mainIntent.getSerializableExtra("user"));
+        nextIntent.putExtra("ip",mainIntent.getStringExtra("ip"));
+        nextIntent.putExtra("asosId",mainIntent.getIntExtra("asosId",0));
+        nextIntent.putExtra("type",mainIntent.getIntExtra("type",0));
+        nextIntent.putExtra("sumprice",mainIntent.getStringExtra("sumprice"));
+        nextIntent.putExtra("stovar",mainIntent.getSerializableExtra("stovar"));
     }
 
 

@@ -176,6 +176,7 @@ public class HttpHandler {
             object.put("kol_in", newProducts.getKol_in());
             object.put("sena_d", newProducts.getSena_d());
             object.put("sena_in_d", newProducts.getSena_in_d());
+            object.put("seriya",newProducts.getSeriya());
 
 
             String jsonInputString = object.toString();
@@ -211,19 +212,8 @@ public class HttpHandler {
             JSONObject object = new JSONObject();
             object.put("id", newProducts.getId());
             object.put("user_id",user.getUser_id());
-            object.put("brend", 0);
-            object.put("papka", 0);
-            object.put("tz_id", 0);
-            object.put("shtrix_full", 0);
-            object.put("qr", 0);
-            object.put("kg", 0);
-            object.put("shtrix_in", 0);
-            object.put("nom_ru", "");
-            object.put("shtrixkod", 1);
-            object.put("qrkod", 0);
-            object.put("izm_id", 1);
-            object.put("del_flag", 0);
             object.put("client_id", user.getClient_id());
+            object.put("seriya",newProducts.getSeriya());
 
 
             String jsonInputString = object.toString();
@@ -441,6 +431,26 @@ public class HttpHandler {
 
 
     public String makeServiceCall(String reqUrl) {
+
+        String response = null;
+        try {
+            URL url = new URL(reqUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            InputStream in = new BufferedInputStream(conn.getInputStream());
+            response = convertStreamToString(in);
+            conn.disconnect();
+        } catch (ProtocolException e) {
+            Log.v("asasa", "ProtocolExceptio: " + e.getMessage());
+        } catch (MalformedURLException e) {
+            Log.v("sasa", "MalformedURLException: " + e.getMessage());
+        } catch (IOException e) {
+            Log.v("uiuiu", "IOException: " + e.getMessage());
+        }
+        return response;
+    }
+
+    public String getSeriesService(String reqUrl) {
 
         String response = null;
         try {

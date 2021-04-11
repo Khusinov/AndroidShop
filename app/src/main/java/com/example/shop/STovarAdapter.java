@@ -52,6 +52,7 @@ public class STovarAdapter  extends ArrayAdapter<STovar> {
         }
 
 
+
         ((TextView)convertView.findViewById(R.id.stovar_name)).setText(STovar.getNom());
 
         convertView.setTag(STovar);

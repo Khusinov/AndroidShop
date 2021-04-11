@@ -9,11 +9,18 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import me.sudar.zxingorient.ZxingOrient;
 import me.sudar.zxingorient.ZxingOrientResult;
@@ -36,14 +43,19 @@ public class ProductAdd extends AppCompatActivity {
     EditText type5;
     EditText type6;
     EditText for_count;
+  //  AutoCompleteTextView incomingdiller;
     EditText for_incount;
     EditText incomingprice;
+    Spinner spinner;
     ImageView barcodescan;
+    ArrayAdapter adapterdillers;
     STovar sTovar;
+    List<String> dillerList;
     User thisUser;
     String ip="192.168.1.100";
     Integer barcode=0;
     Integer update=0;
+    Integer series = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,12 +76,18 @@ public class ProductAdd extends AppCompatActivity {
         type4=findViewById(R.id.product_add_type4);
         type5=findViewById(R.id.product_add_type5);
         type6=findViewById(R.id.product_add_type6);
+        spinner = findViewById(R.id.spinner);
         for_count=findViewById(R.id.product_add_for_count);
         for_incount=findViewById(R.id.product_add_for_incount);
         incomingprice=findViewById(R.id.product_add_incomingprice);
         ip=intent.getStringExtra("ip");
         thisUser=(User) intent.getSerializableExtra("user");
         sTovar=(STovar) intent.getSerializableExtra("stovar");
+
+        dillerList = new ArrayList<>();
+        dillerList.add("neobizatilni");
+        dillerList.add("50/50");
+        dillerList.add("obizatilni");
 
         if(sTovar != null){
             Log.v("MyTag$",sTovar.toString());
@@ -100,6 +118,33 @@ public class ProductAdd extends AppCompatActivity {
                 finish();
             }
         });
+
+        adapterdillers = new ArrayAdapter(this,android.R.layout.simple_dropdown_item_1line, dillerList);
+        spinner.setAdapter(adapterdillers);
+        if (sTovar != null){
+            spinner.setSelection(sTovar.getSeriya());
+        }
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == 0){
+                    series = 0;
+                }
+                else if (i == 1){
+                    series = 1;
+                }
+                else{
+                    series = 2;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
     }
 
     private void copyPraporty() {
@@ -122,6 +167,7 @@ public class ProductAdd extends AppCompatActivity {
         sTovar.setBank(tryParseDouble(type6.getText().toString()) );
         sTovar.setShtrixkod(1);
         sTovar.setSena(tryParseDouble(incomingprice.getText().toString()));
+        sTovar.setSeriya(series);
         if (for_count.getText().toString().isEmpty()){
             sTovar.setTkol(0);
         }else {
@@ -159,6 +205,8 @@ public class ProductAdd extends AppCompatActivity {
         type5.setText(tovar.getUlg2_pl().toString());
         type6.setText(tovar.getBank().toString() );
         incomingprice.setText(tovar.getSena().toString());
+        Log.d("seriya",tovar.getSeriya().toString());
+        spinner.setSelection(tovar.getSeriya());
     }
 
 
@@ -268,10 +316,17 @@ public class ProductAdd extends AppCompatActivity {
             super.onPostExecute(aVoid);
             if(progressDialog.isShowing())
                 progressDialog.dismiss();
-            Intent nextIntent = new Intent(ProductAdd.this, ProductsList.class);
-            setDownIntent(nextIntent);
-            startActivity(nextIntent);
-            finish();
+            if (!for_count.getText().toString().isEmpty()){
+                Intent nextIntent = new Intent(ProductAdd.this, IncomingWork.class);
+                setDownIntent(nextIntent);
+                startActivity(nextIntent);
+            }else {
+                Intent nextIntent = new Intent(ProductAdd.this, ProductsList.class);
+                setDownIntent(nextIntent);
+                startActivity(nextIntent);
+                finish();
+            }
+
         }
     }
 

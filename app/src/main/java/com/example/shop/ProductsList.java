@@ -233,6 +233,7 @@ public class ProductsList extends AppCompatActivity {
                         tovar.setBank(object.getDouble("bank"));
                         tovar.setSena(object.getDouble("sena"));
                         tovar.setKol_in(object.getInt("kol_in"));
+                        tovar.setSeriya(object.getInt("seriya"));
                         if (null == (object.get("sena_d"))){
                             tovar.setSena_d(object.getDouble("sena_d"));
                         }else {

@@ -6,7 +6,7 @@ public class SeriesModel implements Serializable {
     private Integer id;
     private Integer client_id;
     private Integer userId;
-    private String series;
+    private String seriya;
 
     public SeriesModel() {
     }
@@ -35,11 +35,11 @@ public class SeriesModel implements Serializable {
         this.userId = userId;
     }
 
-    public String getSeries() {
-        return series;
+    public String getSeriya() {
+        return seriya;
     }
 
-    public void setSeries(String series) {
-        this.series = series;
+    public void setSeriya(String seriya) {
+        this.seriya = seriya;
     }
 }

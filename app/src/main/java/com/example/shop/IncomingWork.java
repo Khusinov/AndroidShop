@@ -10,9 +10,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -26,13 +29,14 @@ public class IncomingWork extends AppCompatActivity {
     private ImageView add;
 
     private ListView listView;
-    private SearchView searchView;
+    private TextView searchView;
     private ArrayList<SeriesModel> list;
-    private STovarAdapter adapter;
+    private SeriesAdapter adapter;
     private ProgressDialog progressDialog;
     private String ip;
     private User thisuUser;
     private String barcode;
+   // private STovar sTovar;
     private SeriesModel seriesModel;
 
 
@@ -54,6 +58,7 @@ public class IncomingWork extends AppCompatActivity {
         ip = intent.getStringExtra("ip");
         thisuUser = (User) intent.getSerializableExtra("user");
         seriesModel = (SeriesModel) intent.getSerializableExtra("stovar");
+        new GetSeries().execute();
         list = new ArrayList<>();
 
         barcodescan.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +87,10 @@ public class IncomingWork extends AppCompatActivity {
 
     public void setText(CharSequence sequence){
 
-       //     barcode1.setText(sequence, TextView.BufferType.EDITABLE); // list add
+        searchView.setText(sequence, TextView.BufferType.EDITABLE); // list add
+        seriesModel.setSeriya(String.valueOf(sequence));
+        new AddSeries().execute();
+
 
     }
 
@@ -95,7 +103,78 @@ public class IncomingWork extends AppCompatActivity {
         nextIntent.putExtra("stovar",intent.getSerializableExtra("stovar"));
     }
 
-    private  class AddNewProduct extends AsyncTask<Void,Void,Void> {
+    private class GetSeries extends AsyncTask<Void, Void, Void> {
+        //        http://localhost:8080/application/json//4/products
+        private String urlProducts="http://"+ip+":8080/application/json/getproduct/"+thisuUser.getClient_id();
+        // ishladi))
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog=new ProgressDialog(IncomingWork.this);
+            progressDialog.setMessage("Малумот юкланяпти");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            HttpHandler httpHandler=new HttpHandler();
+            String jsonStr=httpHandler.makeServiceCall(urlProducts);
+            Log.d("ipmaa",urlProducts);
+            // Log.d("jsons",jsonStr);
+
+            if(jsonStr != null) {
+
+                try {
+                    JSONArray jsonArray = new JSONArray(jsonStr);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        SeriesModel tovar = new SeriesModel();
+                        JSONObject object = jsonArray.getJSONObject(i);
+                        Log.v("MyLog1",object.toString());
+                        Log.d("object", object.getString("nom"));
+                        tovar.setId(object.getInt("id"));
+                        Log.d("nom",tovar.getSeriya().toString());
+                        tovar.setClient_id(object.getInt("client_id"));
+
+                        list.add(tovar);
+
+                    }
+                } catch (final JSONException e) {
+                    Log.v("MyTag2", e.getMessage());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(IncomingWork.this, "Хатолик юз берди", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+
+            }
+            else{
+                Log.v("MyTag2", "serverdan galmadi");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(IncomingWork.this,"Сервер билан муамо бор",Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if(progressDialog.isShowing()){
+                progressDialog.dismiss();
+            }
+            adapter = new SeriesAdapter(IncomingWork.this,R.layout.stovar_item, list);
+            listView.setAdapter(adapter);
+        }
+    }
+
+    private  class AddSeries extends AsyncTask<Void,Void,Void> {
 
         ProgressDialog progressDialog;
         @Override
