@@ -1,8 +1,11 @@
 package com.example.shop;
 
 import android.app.ProgressDialog;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -19,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.sudar.zxingorient.ZxingOrient;
 import me.sudar.zxingorient.ZxingOrientResult;
@@ -43,6 +47,9 @@ public class IncomingWork extends AppCompatActivity {
     private Integer slaveId;
     private String name;
     private TextView soni;
+    private MutableLiveData<ArrayList<SeriesModel>> liveData;
+    private Integer count = 0;
+    private Integer mainSlaveId = 0;
 
 
     @Override
@@ -63,15 +70,22 @@ public class IncomingWork extends AppCompatActivity {
         thisuUser = (User) intent.getSerializableExtra("user");
         sTovar = (STovar) intent.getSerializableExtra("stovar");
         slaveId = intent.getIntExtra("slave_id",0);
+        name = intent.getStringExtra("name");
+        liveData = new MutableLiveData<>();
+        if (count == 0){
+            new GetSeries().execute();
+            Log.d("anotherone","no");
+        }
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(name);
         setSupportActionBar(toolbar);
-        new GetSeries().execute();
+        Log.d("names",name);
         list = new ArrayList<>();
         seriesModel = new SeriesModel();
         soni.setText(String.valueOf(slaveId));
+
 
         barcodescan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +93,20 @@ public class IncomingWork extends AppCompatActivity {
                 new ZxingOrient(IncomingWork.this).setIcon(R.mipmap.ic_launcher).initiateScan();
             }
         });
+
+        Log.d("lists",list.toString());
+
+        if (mainSlaveId < 0){
+            Log.d("oss","ssa");
+        }else {
+            liveData.observe(this, new Observer<ArrayList<SeriesModel>>() {
+                @Override
+                public void onChanged(@Nullable ArrayList<SeriesModel> seriesModels) {
+                    adapter = new SeriesAdapter(IncomingWork.this,R.layout.stovar_item, seriesModels);
+                    listView.setAdapter(adapter);
+                }
+            });
+        }
 
     }
 
@@ -98,10 +126,22 @@ public class IncomingWork extends AppCompatActivity {
     }
 
     public void setText(CharSequence sequence){
-
+        count= 1;
         searchView.setText(sequence, TextView.BufferType.EDITABLE); // list add
+
         seriesModel.setSerial(String.valueOf(sequence));
+        seriesModel.setMain_id(mainSlaveId);
+        list.add(seriesModel);
+
         new AddSeries().execute();
+        if (mainSlaveId < 0){
+            Toast.makeText(this,"Bu malumtlar bazasida bor",Toast.LENGTH_LONG).show();
+        }else{
+            liveData.postValue(list);
+            Log.d("liveda","ta");
+        }
+
+
 
 
     }
@@ -138,6 +178,7 @@ public class IncomingWork extends AppCompatActivity {
 
             if(jsonStr != null) {
 
+
                 try {
                     JSONArray jsonArray = new JSONArray(jsonStr);
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -151,7 +192,17 @@ public class IncomingWork extends AppCompatActivity {
                         tovar.setSerial(object.getString("serial"));
                         Log.d("nom",tovar.getSerial());
 
+
                         list.add(tovar);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                liveData.setValue(list);
+                            }
+                        });
+
+                        Log.d("newlist",list.toString());
+
 
                     }
                 } catch (final JSONException e) {
@@ -184,8 +235,8 @@ public class IncomingWork extends AppCompatActivity {
             if(progressDialog.isShowing()){
                 progressDialog.dismiss();
             }
-            adapter = new SeriesAdapter(IncomingWork.this,R.layout.stovar_item, list);
-            listView.setAdapter(adapter);
+
+
         }
     }
 
@@ -208,9 +259,9 @@ public class IncomingWork extends AppCompatActivity {
             String reqUrl="http://"+ip+":8080/application/json/addSerial/"+seriesModel.getSerial();
             String reqUrl2="http://"+ip+":8080/application/json/addMainSlave";
             Integer x=httpHandler.makeServicePostSeries(reqUrl,seriesModel,slaveId);
-            Integer x2=httpHandler.makeServicePostSeriesWithSlave(reqUrl2,seriesModel,slaveId);
+            mainSlaveId = httpHandler.makeServicePostSeriesWithSlave(reqUrl2,seriesModel,slaveId);
             Log.v("MyTag2:",x+" sTovar:"+seriesModel.toString());
-            Log.v("Myssla:",x2+" sTovar:"+seriesModel.toString());
+            Log.v("Myssla:",mainSlaveId+" sTovar:"+seriesModel.toString());
             return null;
         }
         @Override
@@ -218,6 +269,7 @@ public class IncomingWork extends AppCompatActivity {
             super.onPostExecute(aVoid);
             if (progressDialog.isShowing())
                 progressDialog.dismiss();
+          //  new GetSeries().execute();
         }
     }
 
