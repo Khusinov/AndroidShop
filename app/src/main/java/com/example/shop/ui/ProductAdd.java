@@ -162,7 +162,7 @@ public class ProductAdd extends AppCompatActivity {
                 if (name.getText().toString().isEmpty()){
                     name.setError("kiriting");
                 }
-                else if (!in_count.getText().toString().isEmpty() && for_count.getText().toString().isEmpty()){
+                else if (!for_incount.getText().toString().isEmpty() && for_count.getText().toString().isEmpty()){
                         for_count.setError("kiriting");
                 }else {
                     copyPraporty();
@@ -383,7 +383,7 @@ public class ProductAdd extends AppCompatActivity {
             super.onPostExecute(aVoid);
             if(progressDialog.isShowing())
                 progressDialog.dismiss();
-            if (!for_count.getText().toString().isEmpty() && series > 0){
+            if (series > 0 && !for_count.getText().toString().isEmpty()){
                 Intent nextIntent = new Intent(ProductAdd.this, IncomingWork.class);
                 setDownIntent(nextIntent);
                 startActivity(nextIntent);

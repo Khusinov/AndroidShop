@@ -88,8 +88,9 @@ public class IncomingWork extends AppCompatActivity {
         liveData = new MutableLiveData<>();
         if (idForGetList > 0){
             slaveId = idForGetList;
+            new GetSeries().execute();
         }
-        new GetSeries().execute();
+
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -120,17 +121,11 @@ public class IncomingWork extends AppCompatActivity {
 
         Log.d("lists",list.toString());
 
-        if (mainSlaveId < 0){
+      /*  if (mainSlaveId < 0){
             Log.d("oss","ssa");
         }else {
-            liveData.observe(this, new Observer<ArrayList<SeriesModel>>() {
-                @Override
-                public void onChanged(@Nullable ArrayList<SeriesModel> seriesModels) {
-                    adapter = new SeriesAdapter(IncomingWork.this,R.layout.stovar_item, seriesModels);
-                    listView.setAdapter(adapter);
-                }
-            });
-        }
+
+        }*/
 
     }
 
@@ -165,8 +160,13 @@ public class IncomingWork extends AppCompatActivity {
             Toast.makeText(this,"Bu malumtlar bazasida bor",Toast.LENGTH_LONG).show();
         }else{
             counts++;
-            liveData.postValue(list);
-            Log.d("liveda","ta");
+            liveData.observe(this, new Observer<ArrayList<SeriesModel>>() {
+                @Override
+                public void onChanged(@Nullable ArrayList<SeriesModel> seriesModels) {
+                    adapter = new SeriesAdapter(IncomingWork.this,R.layout.stovar_item, seriesModels);
+                    listView.setAdapter(adapter);
+                }
+            });
         }
 
         soni.setText(allNumber +" dan "+ counts);
@@ -208,6 +208,7 @@ public class IncomingWork extends AppCompatActivity {
 
 
                 try {
+                    list.clear();
                     JSONArray jsonArray = new JSONArray(jsonStr);
                     for (int i = 0; i < jsonArray.length(); i++) {
                         SeriesModel tovar = new SeriesModel();
@@ -225,7 +226,7 @@ public class IncomingWork extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                liveData.setValue(list);
+                                liveData.postValue(list);
                             }
                         });
 
