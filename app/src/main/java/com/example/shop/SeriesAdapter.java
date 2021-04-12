@@ -30,18 +30,13 @@ public class SeriesAdapter  extends ArrayAdapter<SeriesModel> {
         return this.position;
     }
 
-    private String getModny(Double DoubleValue){
-        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
-        String formattedValue = decimalFormat.format(DoubleValue);
-        return formattedValue;
-    }
-
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         SeriesModel STovar=getItem(position);
         LayoutInflater inflater =LayoutInflater.from(getContext());
         convertView=inflater.inflate(R.layout.stovar_item, parent, false);
+
 
         if(this.position.equals(position) ){
             convertView.setBackgroundResource(R.drawable.backgroun4ch);
@@ -52,7 +47,7 @@ public class SeriesAdapter  extends ArrayAdapter<SeriesModel> {
 
 
 
-       // ((TextView)convertView.findViewById(R.id.stovar_name)).setText(STovar.getNom());
+       ((TextView)convertView.findViewById(R.id.stovar_name)).setText(STovar.getSerial());
 
         convertView.setTag(STovar);
         return convertView;

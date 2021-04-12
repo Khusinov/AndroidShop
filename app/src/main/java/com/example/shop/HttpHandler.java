@@ -200,7 +200,7 @@ public class HttpHandler {
         return 0;
     }
 
-    public Integer makeServicePostSeries(String reqUrl, SeriesModel newProducts, User user) {
+    public Integer makeServicePostSeries(String reqUrl, SeriesModel serial,Integer slaveId) {
         HttpURLConnection conn = null;
         try {
             URL url = new URL(reqUrl);
@@ -210,10 +210,9 @@ public class HttpHandler {
             conn.setRequestProperty("Accept", "application/json");
             conn.setDoOutput(true);
             JSONObject object = new JSONObject();
-            object.put("id", newProducts.getId());
-            object.put("user_id",user.getUser_id());
-            object.put("client_id", user.getClient_id());
-            object.put("seriya",newProducts.getSeriya());
+           /* object.put("slave_id", slaveId);
+            object.put("serial",serial.getSerial());*/
+            Log.d("errros", slaveId + serial.getSerial());
 
 
             String jsonInputString = object.toString();
@@ -231,7 +230,39 @@ public class HttpHandler {
 
         } catch (IOException e) {
             Log.v("MyTag", e.getMessage());
-        } catch (JSONException e) {
+        }
+        return 0;
+    }
+
+    public Integer makeServicePostSeriesWithSlave(String reqUrl, SeriesModel serial,Integer slaveId) {
+        HttpURLConnection conn = null;
+        try {
+            URL url = new URL(reqUrl);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json; utf-8");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setDoOutput(true);
+            JSONObject object = new JSONObject();
+            object.put("slave_id", slaveId);
+            object.put("serial",serial.getSerial());
+            Log.d("errros", slaveId + serial.getSerial());
+
+
+            String jsonInputString = object.toString();
+            OutputStream os = conn.getOutputStream();
+            byte[] input = jsonInputString.getBytes("utf-8");
+            os.write(input, 0, input.length);
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+            StringBuilder response = new StringBuilder();
+            String responseLine = null;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+            return Integer.parseInt(response.toString());
+
+
+        } catch (IOException | JSONException e) {
             Log.v("MyTag", e.getMessage());
         }
         return 0;

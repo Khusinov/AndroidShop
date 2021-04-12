@@ -105,8 +105,8 @@ public class TypeChangeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.item1) {
-            Intent intent=new Intent(this,TypeChangeActivity.class);
+        if (id == R.id.item3) {
+            Intent intent=new Intent(this,ProductsList.class);
             setDownIntent(intent);
             startActivity(intent);
             finish();
@@ -117,8 +117,8 @@ public class TypeChangeActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-        if (id == R.id.item3){
-            Intent intent=new Intent(this,ProductsList.class);
+        if (id == R.id.item4){
+            Intent intent=new Intent(this,IncomingProducts.class);
             setDownIntent(intent);
             startActivity(intent);
             finish();

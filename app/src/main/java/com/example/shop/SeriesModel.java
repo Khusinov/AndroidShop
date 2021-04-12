@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 public class SeriesModel implements Serializable {
     private Integer id;
-    private Integer client_id;
-    private Integer userId;
-    private String seriya;
+    private Integer main_id;
+    private Integer slave_id;
+    private String serial;
 
     public SeriesModel() {
     }
@@ -19,27 +19,27 @@ public class SeriesModel implements Serializable {
         this.id = id;
     }
 
-    public Integer getClient_id() {
-        return client_id;
+    public Integer getMain_id() {
+        return main_id;
     }
 
-    public void setClient_id(Integer client_id) {
-        this.client_id = client_id;
+    public void setMain_id(Integer main_id) {
+        this.main_id = main_id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getSlave_id() {
+        return slave_id;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setSlave_id(Integer slave_id) {
+        this.slave_id = slave_id;
     }
 
-    public String getSeriya() {
-        return seriya;
+    public String getSerial() {
+        return serial;
     }
 
-    public void setSeriya(String seriya) {
-        this.seriya = seriya;
+    public void setSerial(String serial) {
+        this.serial = serial;
     }
 }

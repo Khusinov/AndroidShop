@@ -56,6 +56,7 @@ public class ProductAdd extends AppCompatActivity {
     Integer barcode=0;
     Integer update=0;
     Integer series = 0;
+    Integer x;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,8 +106,13 @@ public class ProductAdd extends AppCompatActivity {
         saveProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                copyPraporty();
-                new AddNewProduct().execute();
+                if (for_count.getText().toString().isEmpty() && !in_count.getText().toString().isEmpty()){
+                    for_count.setError("kiriting");
+                }else {
+                    copyPraporty();
+                    new AddNewProduct().execute();
+                }
+
             }
         });
         back.setOnClickListener(new View.OnClickListener() {
@@ -288,6 +294,10 @@ public class ProductAdd extends AppCompatActivity {
         nextIntent.putExtra("type",intent.getIntExtra("type",0));
         nextIntent.putExtra("sumprice",intent.getStringExtra("sumprice"));
         nextIntent.putExtra("stovar",intent.getSerializableExtra("stovar"));
+        nextIntent.putExtra("name",name.getText().toString());
+        if (!for_count.getText().toString().isEmpty()){
+            nextIntent.putExtra("slave_id",x);
+        }
     }
 
     private  class AddNewProduct extends AsyncTask<Void,Void,Void>{
@@ -307,7 +317,7 @@ public class ProductAdd extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             HttpHandler httpHandler=new HttpHandler();
             String reqUrl="http://"+ip+":8080/application/json/addproduct";
-            Integer x=httpHandler.makeServiceAddNewProducts(reqUrl,sTovar,thisUser);
+            x = httpHandler.makeServiceAddNewProducts(reqUrl,sTovar,thisUser);
             Log.v("MyTag:",x+" sTovar:"+sTovar.toString());
             return null;
         }

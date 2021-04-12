@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,9 +36,13 @@ public class IncomingWork extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private String ip;
     private User thisuUser;
+    private STovar sTovar;
     private String barcode;
    // private STovar sTovar;
     private SeriesModel seriesModel;
+    private Integer slaveId;
+    private String name;
+    private TextView soni;
 
 
     @Override
@@ -45,21 +50,28 @@ public class IncomingWork extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_incoming_work);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Seriya Raqam");
-        setSupportActionBar(toolbar);
+
 
         add = findViewById(R.id.products_list_input_add);
         barcodescan = findViewById(R.id.products_list_barcodescan);
         listView = findViewById(R.id.products_list_list_view);
         searchView = findViewById(R.id.searchView);
+        soni = findViewById(R.id.soni);
 
         intent = getIntent();
         ip = intent.getStringExtra("ip");
         thisuUser = (User) intent.getSerializableExtra("user");
-        seriesModel = (SeriesModel) intent.getSerializableExtra("stovar");
+        sTovar = (STovar) intent.getSerializableExtra("stovar");
+        slaveId = intent.getIntExtra("slave_id",0);
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(name);
+        setSupportActionBar(toolbar);
         new GetSeries().execute();
         list = new ArrayList<>();
+        seriesModel = new SeriesModel();
+        soni.setText(String.valueOf(slaveId));
 
         barcodescan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +100,7 @@ public class IncomingWork extends AppCompatActivity {
     public void setText(CharSequence sequence){
 
         searchView.setText(sequence, TextView.BufferType.EDITABLE); // list add
-        seriesModel.setSeriya(String.valueOf(sequence));
+        seriesModel.setSerial(String.valueOf(sequence));
         new AddSeries().execute();
 
 
@@ -105,7 +117,7 @@ public class IncomingWork extends AppCompatActivity {
 
     private class GetSeries extends AsyncTask<Void, Void, Void> {
         //        http://localhost:8080/application/json//4/products
-        private String urlProducts="http://"+ip+":8080/application/json/getproduct/"+thisuUser.getClient_id();
+        private String urlProducts="http://"+ip+":8080/application/json/getMainSlave/"+slaveId;
         // ishladi))
         @Override
         protected void onPreExecute() {
@@ -120,6 +132,7 @@ public class IncomingWork extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             HttpHandler httpHandler=new HttpHandler();
             String jsonStr=httpHandler.makeServiceCall(urlProducts);
+
             Log.d("ipmaa",urlProducts);
             // Log.d("jsons",jsonStr);
 
@@ -131,10 +144,12 @@ public class IncomingWork extends AppCompatActivity {
                         SeriesModel tovar = new SeriesModel();
                         JSONObject object = jsonArray.getJSONObject(i);
                         Log.v("MyLog1",object.toString());
-                        Log.d("object", object.getString("nom"));
+                       // Log.d("object", object.getString("nom"));
                         tovar.setId(object.getInt("id"));
-                        Log.d("nom",tovar.getSeriya().toString());
-                        tovar.setClient_id(object.getInt("client_id"));
+                        tovar.setMain_id(object.getInt("main_id"));
+                        tovar.setSlave_id(object.getInt("slave_id"));
+                        tovar.setSerial(object.getString("serial"));
+                        Log.d("nom",tovar.getSerial());
 
                         list.add(tovar);
 
@@ -190,20 +205,19 @@ public class IncomingWork extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             HttpHandler httpHandler=new HttpHandler();
-            String reqUrl="http://"+ip+":8080/application/json/addproduct";
-            Integer x=httpHandler.makeServicePostSeries(reqUrl,seriesModel,thisuUser);
-            Log.v("MyTag:",x+" sTovar:"+seriesModel.toString());
+            String reqUrl="http://"+ip+":8080/application/json/addSerial/"+seriesModel.getSerial();
+            String reqUrl2="http://"+ip+":8080/application/json/addMainSlave";
+            Integer x=httpHandler.makeServicePostSeries(reqUrl,seriesModel,slaveId);
+            Integer x2=httpHandler.makeServicePostSeriesWithSlave(reqUrl2,seriesModel,slaveId);
+            Log.v("MyTag2:",x+" sTovar:"+seriesModel.toString());
+            Log.v("Myssla:",x2+" sTovar:"+seriesModel.toString());
             return null;
         }
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            if(progressDialog.isShowing())
+            if (progressDialog.isShowing())
                 progressDialog.dismiss();
-            Intent nextIntent = new Intent(IncomingWork.this, ProductsList.class);
-            setDownIntent(nextIntent);
-            startActivity(nextIntent);
-            finish();
         }
     }
 

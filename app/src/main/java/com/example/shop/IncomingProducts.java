@@ -43,6 +43,7 @@ public class IncomingProducts extends AppCompatActivity {
     List<CharSequence> list;
     List<String> dillerList;
     List<Integer> dillerListId;
+    List<AsosModell> modelAsos;
     List<AsosModell> modellList;
     List<String> listAsos;
     ArrayAdapter<String> adapterdillers;
@@ -348,7 +349,8 @@ public class IncomingProducts extends AppCompatActivity {
                         }
                         adapterdillers.notifyDataSetChanged();
                     } catch (final JSONException e) {
-                        Log.v("MyTag2", e.getMessage());
+                        Log.v("new erorr", e.getMessage());
+                        Log.d("ipsa",urlGetDillers);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -359,7 +361,8 @@ public class IncomingProducts extends AppCompatActivity {
 
                 }
                 else{
-                    Log.v("MyTag2", "serverdan galmadi");
+                    Log.v("ntre", "serverdan galmadi");
+                    Log.d("ipsa",urlGetDillers);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -367,11 +370,12 @@ public class IncomingProducts extends AppCompatActivity {
                         }
                     });
                 }
-
+                Log.d("json",jsonAsosStr);
                 if (jsonAsosStr != null){
                     try {
                         JSONArray jsonArray = new JSONArray(jsonAsosStr);
                         for (int i = 0; i < jsonArray.length(); i++) {
+                            Log.d("array",jsonArray.toString());
                             JSONObject object = jsonArray.getJSONObject(i);
                             AsosModell modell=new AsosModell();
                             modell.setId(object.getInt("id"));
@@ -381,19 +385,19 @@ public class IncomingProducts extends AppCompatActivity {
                             modell.setSana(object.getString("sana"));
                             modell.setDilerId(object.getInt("dilerId"));
                             modell.setTurOper(object.getInt("turOper"));
-                            modell.setSumma(tryParseDouble(object.getString("summa")));
+                            modell.setSumma(0.0);
                             modell.setSotuv_turi(object.getInt("sotuvTuri"));
                             modell.setNomer(object.getString("nomer"));
                             modell.setDel_flag(object.getInt("del_flag"));
                             modell.setDollar(object.getInt("dollar"));
-                            modell.setKurs(tryParseDouble(object.getString("kurs")));
-                            modell.setSum_d(tryParseDouble(object.getString("sum_d")));
+                            modell.setKurs(object.getDouble("kurs"));
+                            modell.setSum_d(object.getDouble("sum_d"));
                             modell.setKol(object.getInt("kol"));
+                           /* modell.setSena_d(0.0);
                             modell.setSena_d(0.0);
-                            modell.setSena_d(0.0);
-                            modell.setUser_id(thisUser.getUser_id());
+                            modell.setUser_id(thisUser.getUser_id());*/
 
-                            Log.v("MyTag2",modell.getId()+"");
+                            Log.v("MyTiddd",modell.getId()+"");
                             /*{
                                 "id": 1782,
                                     "clientId": 4,
@@ -416,7 +420,7 @@ public class IncomingProducts extends AppCompatActivity {
                         }
 
                     } catch (final JSONException e) {
-                        Log.v("MyTag2", e.getMessage());
+                        Log.v("Msdad", e.getMessage());
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
