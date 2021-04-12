@@ -245,7 +245,8 @@
                 android:textColor="@color/colorAccent"
                 android:textAlignment="center"
                 android:layout_margin="4dp"
-                android:text="Дастлапки қолдиқ учун" />
+                android:text="Дастлапки қолдиқ учун"
+                android:gravity="center_horizontal" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -301,7 +302,7 @@
         <Button
             android:id="@+id/product_add_back"
             android:layout_margin="10dp"
-            android:background="@drawable/backgroun2"
+            android:background="@drawable/orqa_rounded"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
@@ -311,7 +312,7 @@
         <Button
             android:id="@+id/product_add_save_product_for_add"
             android:layout_margin="10dp"
-            android:background="@drawable/backgroun2"
+            android:background="@drawable/button_rounded"
             android:layout_weight="5"
             android:textColor="@color/white"
             android:layout_width="wrap_content"

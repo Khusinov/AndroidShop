@@ -25,7 +25,8 @@
             android:ems="4"
             android:text="Номер: "
             android:textAlignment="center"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/colorAccent"
+            android:gravity="center_horizontal" />
 
         <EditText
             android:id="@+id/incoming_num"
@@ -113,7 +114,8 @@
             android:layout_weight="7"
             android:ems="10"
             android:text="4800 $"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:gravity="center_horizontal" />
 
     </LinearLayout>
 
@@ -123,7 +125,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:background="@drawable/backgroun2"
+        android:background="@drawable/button_rounded"
         android:text="Товар қўшиш"
         android:textColor="@color/accent" />
 

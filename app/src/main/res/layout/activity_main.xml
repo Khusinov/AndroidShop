@@ -23,7 +23,7 @@
       android:layout_marginBottom="4dp"
       android:queryHint="Qidirish"
       android:textColor="@color/colorAccent"
-      />
+      android:gravity="center_horizontal" />
 
 
 

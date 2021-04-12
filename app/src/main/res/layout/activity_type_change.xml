@@ -18,7 +18,8 @@
 
         android:text="Ҳаридор номи"
         android:textAlignment="center"
-        android:textColor="@color/colorAccent" />
+        android:textColor="@color/colorAccent"
+        android:gravity="center_horizontal" />
 
     <AutoCompleteTextView
         android:id="@+id/client"
@@ -27,8 +28,9 @@
         android:layout_marginLeft="50dp"
         android:layout_marginRight="30dp"
         android:layout_marginEnd="30dp"
+        android:layout_marginTop="8dp"
         android:layout_marginStart="50dp"
-        android:background="@drawable/backgroun"
+        android:background="@drawable/with_stroke"
         android:ems="10"
         android:padding="10dp"
         tools:targetApi="o"
@@ -38,7 +40,7 @@
         android:id="@+id/choices"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="20dp">
 
         <TextView
@@ -51,7 +53,8 @@
             android:layout_marginStart="80dp"
             android:text="Савдо режими"
             android:textAlignment="center"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/colorAccent"
+            android:gravity="center_horizontal" />
 
         <RadioButton
             android:id="@+id/type1"
@@ -124,7 +127,7 @@
         android:layout_height="40dp"
         android:layout_marginEnd="50dp"
         android:layout_marginStart="80dp"
-        android:background="@drawable/backgroun2"
+        android:background="@drawable/button_rounded"
         android:layout_marginLeft="80dp"
         android:layout_marginRight="50dp"
         android:textColor="@color/white"
