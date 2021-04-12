@@ -4,12 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProductAdd"
+    tools:context=".ui.ProductAdd"
     android:orientation="vertical"
     android:background="@color/white"
-
     >
-
 
     <EditText
         android:id="@+id/product_add_name"
@@ -321,6 +319,17 @@
             android:text="Сақлаш" />
 
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/list_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:id="@+id/slaveList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
 </LinearLayout>

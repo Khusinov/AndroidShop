@@ -2,6 +2,9 @@
 package com.example.shop;
 import android.widget.Filter;
 
+import com.example.shop.adapter.ProductAdapter;
+import com.example.shop.model.Product;
+
 import java.util.ArrayList;
 
 @SuppressWarnings("unchecked")

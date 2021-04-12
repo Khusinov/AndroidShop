@@ -1,4 +1,4 @@
-package com.example.shop;
+package com.example.shop.ui;
 
 import android.app.ProgressDialog;
 import android.arch.lifecycle.MutableLiveData;
@@ -11,18 +11,24 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.shop.HttpHandler;
+import com.example.shop.R;
+import com.example.shop.adapter.SeriesAdapter;
+import com.example.shop.model.STovar;
+import com.example.shop.model.SeriesModel;
+import com.example.shop.model.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import me.sudar.zxingorient.ZxingOrient;
 import me.sudar.zxingorient.ZxingOrientResult;
@@ -32,6 +38,7 @@ public class IncomingWork extends AppCompatActivity {
     private Intent intent;
     private ImageView barcodescan;
     private ImageView add;
+    private Button next;
 
     private ListView listView;
     private TextView searchView;
@@ -50,6 +57,9 @@ public class IncomingWork extends AppCompatActivity {
     private MutableLiveData<ArrayList<SeriesModel>> liveData;
     private Integer count = 0;
     private Integer mainSlaveId = 0;
+    private Integer counts = 0;
+    private String allNumber = "";
+    private Integer idForGetList;
 
 
     @Override
@@ -71,11 +81,15 @@ public class IncomingWork extends AppCompatActivity {
         sTovar = (STovar) intent.getSerializableExtra("stovar");
         slaveId = intent.getIntExtra("slave_id",0);
         name = intent.getStringExtra("name");
+        allNumber = intent.getStringExtra("soni");
+        idForGetList = intent.getIntExtra("id",0);
+        Log.d("getid",idForGetList.toString());
+        next = findViewById(R.id.next);
         liveData = new MutableLiveData<>();
-        if (count == 0){
-            new GetSeries().execute();
-            Log.d("anotherone","no");
+        if (idForGetList > 0){
+            slaveId = idForGetList;
         }
+        new GetSeries().execute();
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -84,8 +98,18 @@ public class IncomingWork extends AppCompatActivity {
         Log.d("names",name);
         list = new ArrayList<>();
         seriesModel = new SeriesModel();
-        soni.setText(String.valueOf(slaveId));
 
+        Log.d("newgeet",slaveId.toString());
+
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               Intent intent = new Intent(IncomingWork.this, ProductsList.class);
+                setDownIntent(intent);
+               startActivity(intent);
+               finish();
+            }
+        });
 
         barcodescan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +133,7 @@ public class IncomingWork extends AppCompatActivity {
         }
 
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent){
@@ -134,25 +159,28 @@ public class IncomingWork extends AppCompatActivity {
         list.add(seriesModel);
 
         new AddSeries().execute();
+        new GetSeries().execute();
+        Log.d("anotherone","no");
         if (mainSlaveId < 0){
             Toast.makeText(this,"Bu malumtlar bazasida bor",Toast.LENGTH_LONG).show();
         }else{
+            counts++;
             liveData.postValue(list);
             Log.d("liveda","ta");
         }
 
-
+        soni.setText(allNumber +" dan "+ counts);
 
 
     }
 
     public void setDownIntent(Intent nextIntent) {
-        nextIntent.putExtra("user",intent.getSerializableExtra("user"));
-        nextIntent.putExtra("ip",intent.getStringExtra("ip"));
-        nextIntent.putExtra("asosId",intent.getIntExtra("asosId",0));
+        nextIntent.putExtra("user",thisuUser);
+        nextIntent.putExtra("ip",ip);
+      /*  nextIntent.putExtra("asosId",intent.getIntExtra("asosId",0));
         nextIntent.putExtra("type",intent.getIntExtra("type",0));
-        nextIntent.putExtra("sumprice",intent.getStringExtra("sumprice"));
-        nextIntent.putExtra("stovar",intent.getSerializableExtra("stovar"));
+        nextIntent.putExtra("sumprice",intent.getStringExtra("sumprice"));*/
+        nextIntent.putExtra("stovar",sTovar);
     }
 
     private class GetSeries extends AsyncTask<Void, Void, Void> {

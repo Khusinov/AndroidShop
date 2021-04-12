@@ -1,4 +1,4 @@
-package com.example.shop;
+package com.example.shop.ui;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -23,6 +23,14 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.shop.HttpHandler;
+import com.example.shop.R;
+import com.example.shop.SMSsender;
+import com.example.shop.adapter.ItemAdapter;
+import com.example.shop.adapter.ProductAdapter;
+import com.example.shop.model.Product;
+import com.example.shop.model.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -309,19 +317,19 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.item1) {
 //           new Finish().execute();
-            Intent intent=new Intent(MainActivity.this,TypeChangeActivity.class);
+            Intent intent=new Intent(MainActivity.this, TypeChangeActivity.class);
             setDownIntent(intent);
             startActivity(intent);
             finish();
         }
         if (id == R.id.item3){
-            Intent intent=new Intent(MainActivity.this,ProductsList.class);
+            Intent intent=new Intent(MainActivity.this, ProductsList.class);
             setDownIntent(intent);
             startActivity(intent);
             finish();
         }
         if (id == R.id.item4){
-            Intent intent=new Intent(MainActivity.this,IncomingProducts.class);
+            Intent intent=new Intent(MainActivity.this, IncomingProducts.class);
             setDownIntent(intent);
             startActivity(intent);
             finish();

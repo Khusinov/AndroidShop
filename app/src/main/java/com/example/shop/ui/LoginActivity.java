@@ -1,4 +1,4 @@
-package com.example.shop;
+package com.example.shop.ui;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -17,6 +17,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.example.shop.HttpHandler;
+import com.example.shop.R;
+import com.example.shop.SharedPreferences;
+import com.example.shop.model.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;

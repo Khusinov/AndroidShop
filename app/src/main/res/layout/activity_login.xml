@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/backgroun"
     android:orientation="vertical"
-    tools:context=".LoginActivity">
+    tools:context=".ui.LoginActivity">
 
 
     <EditText

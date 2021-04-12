@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/accent"
     android:orientation="vertical"
-    tools:context=".IncomingProducts">
+    tools:context=".ui.IncomingProducts">
     <include
         layout="@layout/toolbar"
         android:layout_width="match_parent"

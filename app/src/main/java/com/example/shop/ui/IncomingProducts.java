@@ -1,4 +1,4 @@
-package com.example.shop;
+package com.example.shop.ui;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -23,6 +23,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.example.shop.HttpHandler;
+import com.example.shop.R;
+import com.example.shop.model.AsosModell;
+import com.example.shop.model.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -145,7 +150,7 @@ public class IncomingProducts extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent nextIntent=new Intent(IncomingProducts.this,IncomingAdd.class);
+                Intent nextIntent=new Intent(IncomingProducts.this, IncomingAdd.class);
                 setDownIntent(nextIntent);
                 startActivity(nextIntent);
             }
@@ -220,19 +225,19 @@ public class IncomingProducts extends AppCompatActivity {
 
         if (id == R.id.item1) {
 //           new Finish().execute();
-            Intent intent=new Intent(IncomingProducts.this,TypeChangeActivity.class);
+            Intent intent=new Intent(IncomingProducts.this, TypeChangeActivity.class);
             setDownIntent(intent);
             startActivity(intent);
             finish();
         }
         if (id == R.id.item2){
-            Intent intent=new Intent(IncomingProducts.this,MainActivity.class);
+            Intent intent=new Intent(IncomingProducts.this, MainActivity.class);
             setDownIntent(intent);
             startActivity(intent);
             finish();
         }
         if (id == R.id.item3){
-            Intent intent=new Intent(IncomingProducts.this,ProductsList.class);
+            Intent intent=new Intent(IncomingProducts.this, ProductsList.class);
             setDownIntent(intent);
             startActivity(intent);
             finish();

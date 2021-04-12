@@ -2,6 +2,12 @@ package com.example.shop;
 
 import android.util.Log;
 
+import com.example.shop.model.AsosModell;
+import com.example.shop.model.Product;
+import com.example.shop.model.STovar;
+import com.example.shop.model.SeriesModel;
+import com.example.shop.model.User;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -200,7 +206,7 @@ public class HttpHandler {
         return 0;
     }
 
-    public Integer makeServicePostSeries(String reqUrl, SeriesModel serial,Integer slaveId) {
+    public Integer makeServicePostSeries(String reqUrl, SeriesModel serial, Integer slaveId) {
         HttpURLConnection conn = null;
         try {
             URL url = new URL(reqUrl);

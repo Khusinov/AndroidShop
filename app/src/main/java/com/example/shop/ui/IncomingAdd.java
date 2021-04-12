@@ -1,4 +1,4 @@
-package com.example.shop;
+package com.example.shop.ui;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -22,6 +22,14 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.shop.HttpHandler;
+import com.example.shop.R;
+import com.example.shop.adapter.ItemAdapter;
+import com.example.shop.adapter.STovarAdapter;
+import com.example.shop.model.Product;
+import com.example.shop.model.STovar;
+import com.example.shop.model.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -172,19 +180,19 @@ public class IncomingAdd extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.item1) {
-            Intent intent=new Intent(IncomingAdd.this,TypeChangeActivity.class);
+            Intent intent=new Intent(IncomingAdd.this, TypeChangeActivity.class);
             setDownIntent(intent);
             startActivity(intent);
             finish();
         }
         if (id == R.id.item2){
-            Intent intent=new Intent(IncomingAdd.this,MainActivity.class);
+            Intent intent=new Intent(IncomingAdd.this, MainActivity.class);
             setDownIntent(intent);
             startActivity(intent);
             finish();
         }
         if (id == R.id.item4){
-            Intent intent=new Intent(IncomingAdd.this,IncomingProducts.class);
+            Intent intent=new Intent(IncomingAdd.this, IncomingProducts.class);
             setDownIntent(intent);
             startActivity(intent);
             finish();

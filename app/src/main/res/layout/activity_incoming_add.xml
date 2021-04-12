@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/accent"
     android:orientation="vertical"
-    tools:context=".IncomingAdd">
+    tools:context=".ui.IncomingAdd">
 
     <include
         layout="@layout/toolbar"

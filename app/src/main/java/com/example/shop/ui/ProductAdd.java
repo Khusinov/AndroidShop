@@ -1,23 +1,38 @@
-package com.example.shop;
+package com.example.shop.ui;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.shop.HttpHandler;
+import com.example.shop.R;
+import com.example.shop.adapter.GetListAdapter;
+import com.example.shop.model.GetList;
+import com.example.shop.model.Product;
+import com.example.shop.model.STovar;
+import com.example.shop.model.User;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +58,9 @@ public class ProductAdd extends AppCompatActivity {
     EditText type5;
     EditText type6;
     EditText for_count;
+    ListView listView;
+    private ProgressDialog progressDialog;
+    private MutableLiveData<ArrayList<GetList>> liveData;
   //  AutoCompleteTextView incomingdiller;
     EditText for_incount;
     EditText incomingprice;
@@ -57,7 +75,12 @@ public class ProductAdd extends AppCompatActivity {
     Integer update=0;
     Integer series = 0;
     Integer x;
+    GetListAdapter adapter; // ozgartrsh garak
+    Integer slaveId = 0; // intentdan alish garak
+    private ArrayList<GetList> list; /// modelni ozgartirish garak
+    private GetList getList;
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_add);
@@ -78,12 +101,15 @@ public class ProductAdd extends AppCompatActivity {
         type5=findViewById(R.id.product_add_type5);
         type6=findViewById(R.id.product_add_type6);
         spinner = findViewById(R.id.spinner);
+        listView = findViewById(R.id.slaveList);
         for_count=findViewById(R.id.product_add_for_count);
         for_incount=findViewById(R.id.product_add_for_incount);
         incomingprice=findViewById(R.id.product_add_incomingprice);
         ip=intent.getStringExtra("ip");
         thisUser=(User) intent.getSerializableExtra("user");
         sTovar=(STovar) intent.getSerializableExtra("stovar");
+        liveData = new MutableLiveData<>();
+        list = new ArrayList<>();
 
         dillerList = new ArrayList<>();
         dillerList.add("neobizatilni");
@@ -93,6 +119,33 @@ public class ProductAdd extends AppCompatActivity {
         if(sTovar != null){
             Log.v("MyTag$",sTovar.toString());
             copyPraporty(sTovar);
+          //  listView.setAdapter();
+            new  GetListNew().execute();
+
+                liveData.observe(this, new Observer<ArrayList<GetList>>() {
+                    @Override
+                    public void onChanged(@Nullable ArrayList<GetList> seriesModels) {
+                        adapter = new GetListAdapter(ProductAdd.this,R.layout.get_list_item, seriesModels);
+                        listView.setAdapter(adapter);
+                    }
+                });
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Intent intent = new Intent(ProductAdd.this,IncomingWork.class);
+                        GetList list1 = list.get(i);
+                        Log.d("clickId",list1.getId().toString());
+                        setDownIntent(intent);
+                        intent.putExtra("name",name.getText().toString());
+                        intent.putExtra("id",list1.getId());
+                        intent.putExtra("kol",list1.getKol());
+                        intent.putExtra("kolin",list1.getKolIn());
+                        intent.putExtra("kolost",list1.getKolOst());
+                        intent.putExtra("kolnost",list1.getKolInOst());
+                        startActivity(intent);
+                    }
+                });
         }
         else {
             sTovar=new STovar();
@@ -106,8 +159,11 @@ public class ProductAdd extends AppCompatActivity {
         saveProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (for_count.getText().toString().isEmpty() && !in_count.getText().toString().isEmpty()){
-                    for_count.setError("kiriting");
+                if (name.getText().toString().isEmpty()){
+                    name.setError("kiriting");
+                }
+                else if (!in_count.getText().toString().isEmpty() && for_count.getText().toString().isEmpty()){
+                        for_count.setError("kiriting");
                 }else {
                     copyPraporty();
                     new AddNewProduct().execute();
@@ -118,7 +174,7 @@ public class ProductAdd extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(ProductAdd.this,ProductsList.class);
+                Intent intent=new Intent(ProductAdd.this, ProductsList.class);
                 setDownIntent(intent);
                 startActivity(intent);
                 finish();
@@ -297,6 +353,7 @@ public class ProductAdd extends AppCompatActivity {
         nextIntent.putExtra("name",name.getText().toString());
         if (!for_count.getText().toString().isEmpty()){
             nextIntent.putExtra("slave_id",x);
+            nextIntent.putExtra("soni",for_count.getText().toString());
         }
     }
 
@@ -326,7 +383,7 @@ public class ProductAdd extends AppCompatActivity {
             super.onPostExecute(aVoid);
             if(progressDialog.isShowing())
                 progressDialog.dismiss();
-            if (!for_count.getText().toString().isEmpty()){
+            if (!for_count.getText().toString().isEmpty() && series > 0){
                 Intent nextIntent = new Intent(ProductAdd.this, IncomingWork.class);
                 setDownIntent(nextIntent);
                 startActivity(nextIntent);
@@ -340,4 +397,85 @@ public class ProductAdd extends AppCompatActivity {
         }
     }
 
+    private class GetListNew extends AsyncTask<Void, Void, Void> {
+        //        http://localhost:8080/application/json//4/products
+        private String urlProducts="http://"+ip+":8080/application/json/getAsosSlave/"+sTovar.getId();
+        // ishladi))
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog=new ProgressDialog(ProductAdd.this);
+            progressDialog.setMessage("Малумот юкланяпти");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            HttpHandler httpHandler=new HttpHandler();
+            String jsonStr=httpHandler.makeServiceCall(urlProducts);
+
+            Log.d("ipmaa",urlProducts);
+            // Log.d("jsons",jsonStr);
+
+            if(jsonStr!=null){
+                try {
+                    list.clear();
+                    JSONArray jsonArray2=new JSONArray(jsonStr);
+                    for (int i=0;i<jsonArray2.length();i++){
+                        GetList getList = new GetList();
+                        JSONObject object2 = jsonArray2.getJSONObject(i);
+
+                                /*
+                                "id": 1,
+                                "productId": 2,
+                                "nameShort": "anvar",
+                                "count": 4,
+                                "incount": 5,
+                                "price": 6,
+                                "inprice": 7
+                                */
+                        getList.setId(object2.getInt("id"));
+                        getList.setKol(object2.getInt("kol"));
+                        getList.setKolIn(object2.getInt("kolIn"));
+                        getList.setKolOst(object2.getInt("kolOst"));
+                        getList.setKolInOst(object2.getInt("kolInOst"));
+
+                        Product pr=new Product();
+                     //   copyProperties(pr,item);
+                        list.add(getList);
+                        if (!list.isEmpty()){
+                            liveData.postValue(list);
+                        }
+
+                        Log.v("TAG","item:"+getList.toString());
+                    }
+                } catch (JSONException e) {
+                    Log.v("TAG",e.getMessage());
+                }
+
+            }
+            else{
+                Log.v("MyTag2", "serverdan galmadi");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(ProductAdd.this,"Сервер билан муамо бор",Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if(progressDialog.isShowing()){
+                progressDialog.dismiss();
+            }
+
+
+        }
+    }
 }

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/backgroun"
-    tools:context=".TypeChangeActivity">
+    tools:context=".ui.TypeChangeActivity">
     <TextView
         android:id="@+id/textView4"
         android:layout_width="match_parent"

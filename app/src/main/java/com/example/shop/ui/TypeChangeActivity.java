@@ -1,4 +1,4 @@
-package com.example.shop;
+package com.example.shop.ui;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -19,6 +19,12 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import com.example.shop.HttpHandler;
+import com.example.shop.R;
+import com.example.shop.SharedPreferences;
+import com.example.shop.model.Product;
+import com.example.shop.model.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -106,19 +112,19 @@ public class TypeChangeActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.item3) {
-            Intent intent=new Intent(this,ProductsList.class);
+            Intent intent=new Intent(this, ProductsList.class);
             setDownIntent(intent);
             startActivity(intent);
             finish();
         }
         if (id == R.id.item2){
-            Intent intent=new Intent(this,MainActivity.class);
+            Intent intent=new Intent(this, MainActivity.class);
             setDownIntent(intent);
             startActivity(intent);
             finish();
         }
         if (id == R.id.item4){
-            Intent intent=new Intent(this,IncomingProducts.class);
+            Intent intent=new Intent(this, IncomingProducts.class);
             setDownIntent(intent);
             startActivity(intent);
             finish();

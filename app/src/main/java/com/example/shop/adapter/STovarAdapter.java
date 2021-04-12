@@ -1,4 +1,4 @@
-package com.example.shop;
+package com.example.shop.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.TextView;
+
+import com.example.shop.R;
+import com.example.shop.model.STovar;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
