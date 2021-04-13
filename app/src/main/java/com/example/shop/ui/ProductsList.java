@@ -213,33 +213,109 @@ public class ProductsList extends AppCompatActivity {
                         tovar.setId(Integer.parseInt(String.valueOf(object.getInt("id"))));
                         tovar.setNom(object.getString("nom"));
                         Log.d("nom",tovar.getNom());
-                        tovar.setNom_ru(object.getString("nom_ru"));
-                        tovar.setNom_sh(object.getString("nom_sh"));
-                        tovar.setShtrix(object.getString("shtrix"));
-                        tovar.setShtrix_in(object.getString("shtrix_in"));
+                        if (object.getString("nom_ru") == null){
+                            tovar.setNom_ru("");
+                        } else {
+                            tovar.setNom_ru(object.getString("nom_ru"));
+                        }
+                        if (object.getString("nom_sh") == null){
+                            tovar.setNom_ru("");
+                        } else {
+                            tovar.setNom_ru(object.getString("nom_sh"));
+                        }
+                        if (object.getString("shtrix") == null){
+                            tovar.setShtrix("");
+                        } else {
+                            tovar.setShtrix_in(object.getString("shtrix_in"));
+                        }
+                        if (object.getString("shtrix_full") == null){
+                            tovar.setShtrix_full("");
+                        }else {
+                            tovar.setShtrix_full(object.getString("shtrix_full"));
+                        }
 //                        tovar.setTz_id(object.getInt("tz_id"));
 //                        tovar.setKg(object.getInt("kg"));
-                        tovar.setShtrix_full(object.getString("shtrix_full"));
-                        tovar.setShtrix1(object.getString("shtrix1"));
-                        tovar.setShtrix2(object.getString("shtrix2"));
-                        tovar.setKat(object.getInt("kat"));
-                        tovar.setBrend(object.getInt("brend"));
-                        tovar.setPapka(object.getInt("papka"));
-                        tovar.setQr(object.getString("qr"));
-                        tovar.setShtrixkod(object.getInt("shtrixkod"));
-                        tovar.setQrkod(object.getString("qrkod"));
-                        tovar.setIzm_id(object.getInt("izm_id"));
+                        if (object.getString("shtrix1") == null){
+                            tovar.setShtrix1("");
+                        } else {
+                            tovar.setShtrix1(object.getString("shtrix1"));
+                        }
+                        if (object.getString("shtrix2") == null){
+                            tovar.setShtrix2("");
+                        } else {
+                            tovar.setShtrix2(object.getString("shtrix2"));
+                        }
+                         if (object.get("kat") == null){
+                             tovar.setKat(0);
+                         } else {
+                             tovar.setKat(object.getInt("kat"));
+                         }
+                         if (object.get("brend") == null){
+                             tovar.setBrend(0);
+                         } else {
+                             tovar.setBrend(object.getInt("brend"));
+                         }
+                         if ( object.get("papka") == null){
+                             tovar.setPapka(0);
+                         } else {
+                             tovar.setPapka(object.getInt("papka"));
+                         }
+                       // tovar.setQr(object.getString("qr"));
+                       // tovar.setShtrixkod(object.getInt("shtrixkod"));
+                       // tovar.setQrkod(object.getString("qrkod"));
+                       // tovar.setIzm_id(object.getInt("izm_id"));
                         tovar.setDel_flag(object.getInt("del_flag"));
                         tovar.setClient_id(object.getInt("client_id"));
-                        tovar.setSotish(object.getDouble("sotish"));
-                        tovar.setUlg1(object.getDouble("ulg1"));
-                        tovar.setUlg2(object.getDouble("ulg2"));
-                        tovar.setUlg1_pl(object.getDouble("ulg1_pl"));
-                        tovar.setUlg2_pl(object.getDouble("ulg2_pl"));
-                        tovar.setBank(object.getDouble("bank"));
-                        tovar.setSena(object.getDouble("sena"));
-                        tovar.setKol_in(object.getInt("kol_in"));
-                        tovar.setSeriya(object.getInt("seriya"));
+                        Log.d("Sotish//" , object.get("sotish").toString());
+                        if (object.get("sotish").toString().equals("null")){
+                            tovar.setSotish(0.0);
+                        } else {
+                            Log.d("Else " , "  ");
+                            tovar.setSotish(object.getDouble("sotish"));
+                        }
+                        if (object.get("ulg1").toString().equals("null")){
+                            tovar.setUlg1(0.0);
+                        } else {
+                            tovar.setUlg1(object.getDouble("ulg1"));
+                        }
+                        if (object.get("ulg2").toString().equals("null")){
+                            tovar.setUlg2(0.0);
+                        } else {
+                            tovar.setUlg2(object.getDouble("ulg2"));
+                        }
+                        if (object.get("ulg1_pl").toString().equals("null")){
+                            tovar.setUlg1_pl(0.0);
+                        } else {
+                            tovar.setUlg1_pl(object.getDouble("ulg1_pl"));
+                        }
+                        if (object.get("ulg2_pl").toString().equals("null")){
+                            tovar.setUlg2_pl(0.0);
+                        } else {
+                            tovar.setUlg2_pl(object.getDouble("ulg2_pl"));
+                        }
+                        if (object.get("bank").toString().equals("null")){
+                            tovar.setBank(0.0);
+                        } else {
+                            tovar.setBank(object.getDouble("bank"));
+                        }
+                        //tovar.setUlg2(object.getDouble("ulg2"));
+                        // tovar.setUlg1_pl(object.getDouble("ulg1_pl"));
+                        if (object.get("sena").toString().equals("null")){
+                            tovar.setSena(0.0);
+                        } else {
+                            tovar.setSena(object.getDouble("sena"));
+                        }
+                        if (object.get("kol_in").toString() == null){
+                            tovar.setKol_in(0);
+                        } else {
+                            tovar.setKol_in(object.getInt("kol_in"));
+                        }
+                        if (object.get("seriya").toString().equals("null")){
+                            tovar.setSeriya(0);
+                        } else {
+                            tovar.setSeriya(object.getInt("seriya"));
+                        }
+
                         if (null == (object.get("sena_d"))){
                             tovar.setSena_d(object.getDouble("sena_d"));
                         }else {

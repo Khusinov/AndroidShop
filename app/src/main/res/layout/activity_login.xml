@@ -14,7 +14,7 @@
         android:layout_height="125dp"
         android:layout_gravity="center"
         android:layout_marginTop="64dp"
-        app:srcCompat="@drawable/icon"/>
+        app:srcCompat="@drawable/ic_success_green_check_mark"/>
 
   <LinearLayout
       android:layout_marginTop="64dp"

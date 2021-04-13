@@ -248,7 +248,8 @@ public class ProductAdd extends AppCompatActivity {
         name.setText(tovar.getNom());
         name_short.setText(tovar.getNom_sh());
         in_count.setText(tovar.getKol_in().toString());
-        if(!tovar.getShtrix().equals("")){
+      //  Log.d("Logdddd" , tovar.getShtrix());
+        if(!tovar.getShtrix().equals("null")){
             barcode=1;
         }
         if(!tovar.getShtrix1().equals("")){
