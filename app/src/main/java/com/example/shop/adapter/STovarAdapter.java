@@ -116,7 +116,7 @@ public class STovarAdapter  extends ArrayAdapter<STovar> {
                         if (filterList.get(i).getNom().toUpperCase().contains(charSequence)) {
                             filteredMovies.add(filterList.get(i));
                         }
-                        if(filterList.get(i).getShtrix().equals(charSequence)){
+                    /*    if(filterList.get(i).getShtrix().equals(charSequence)){
                             filteredMovies.add(filterList.get(i));
                         }
                         if(filterList.get(i).getShtrix1().equals(charSequence)){
@@ -127,7 +127,7 @@ public class STovarAdapter  extends ArrayAdapter<STovar> {
                         }
                         if(filterList.get(i).getShtrix_full().equals(charSequence)){
                             filteredMovies.add(filterList.get(i));
-                        }
+                        }*/
 
 
                     }

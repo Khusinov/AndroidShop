@@ -60,8 +60,10 @@ public class ProductsList extends AppCompatActivity {
         intent=getIntent();
         ip=intent.getStringExtra("ip");
         thisuUser=(User) intent.getSerializableExtra("user");
-        list=new ArrayList<>();
         new GetProducts().execute();
+        list=new ArrayList<>();
+
+
         barcodescan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,9 +102,10 @@ public class ProductsList extends AppCompatActivity {
                     Log.v("MyTag",tovar.toString());
                 Intent nextintent=new Intent(ProductsList.this,ProductAdd.class);
                 intent.putExtra("stovar",tovar);
+                intent.putExtra("edit",1);
                 setDownIntent(nextintent);
                 startActivity(nextintent);
-                finish();
+              //  finish();
             }
         });
 
@@ -255,7 +258,7 @@ public class ProductsList extends AppCompatActivity {
                          } else {
                              tovar.setBrend(object.getInt("brend"));
                          }
-                         if ( object.get("papka") == null){
+                         if ( object.get("papka").toString().equals("null")){
                              tovar.setPapka(0);
                          } else {
                              tovar.setPapka(object.getInt("papka"));
@@ -266,7 +269,6 @@ public class ProductsList extends AppCompatActivity {
                        // tovar.setIzm_id(object.getInt("izm_id"));
                         tovar.setDel_flag(object.getInt("del_flag"));
                         tovar.setClient_id(object.getInt("client_id"));
-                        Log.d("Sotish//" , object.get("sotish").toString());
                         if (object.get("sotish").toString().equals("null")){
                             tovar.setSotish(0.0);
                         } else {
@@ -331,9 +333,6 @@ public class ProductsList extends AppCompatActivity {
 //                        tovar.setTkol(object.getInt("tkol"));
 //                        tovar.setTkol_in(object.getInt("tkol_in"));
                         list.add(tovar);
-                        Log.d("testt" , tovar.getNom());
-                        Log.d("tovar",list.toString());
-                        Log.d("maeee",ip);
                     }
                 } catch (final JSONException e) {
                     Log.v("MyTag2", e.getMessage());

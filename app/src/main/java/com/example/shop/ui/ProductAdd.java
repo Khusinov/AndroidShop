@@ -218,6 +218,7 @@ public class ProductAdd extends AppCompatActivity {
             kol_in++;
 
         sTovar.setKol_in(kol_in);
+
         sTovar.setShtrix(barcode1.getText().toString());
         sTovar.setShtrix1(barcode2.getText().toString());
         sTovar.setShtrix2(barcode3.getText().toString());
@@ -243,19 +244,21 @@ public class ProductAdd extends AppCompatActivity {
 
 
     }
+
+
     private void copyPraporty(STovar tovar) {
         update=1;
         name.setText(tovar.getNom());
         name_short.setText(tovar.getNom_sh());
         in_count.setText(tovar.getKol_in().toString());
       //  Log.d("Logdddd" , tovar.getShtrix());
-        if(!tovar.getShtrix().equals("null")){
+        if(tovar.getShtrix() != null){
             barcode=1;
         }
-        if(!tovar.getShtrix1().equals("")){
+        if(tovar.getShtrix1() != null){
             barcode=2;
         }
-        if(!tovar.getShtrix2().equals("")){
+        if(tovar.getShtrix2() != null){
             barcode=3;
         }
         barcode1.setText(tovar.getShtrix());
