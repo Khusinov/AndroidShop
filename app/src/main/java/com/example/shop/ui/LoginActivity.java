@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
 
         ipadress.setText(loadIP());
         loginEdt.setText(loadLogin());
-
+        passwordEdt.setText(loadPassword());
         thisUser=new User();
         checkAndRequestPermissions();
 
@@ -244,6 +244,22 @@ public class LoginActivity extends AppCompatActivity {
         ed.apply();
     }
 
+    String loadPassword(){
+        android.content.SharedPreferences sPref = getPreferences(MODE_PRIVATE);
+        return sPref.getString(SharedPreferences.PASSWORD_SHARED_PREF , "");
+    }
+    void savePassword(String password){
+        android.content.SharedPreferences sPref = getPreferences(MODE_PRIVATE);
+        android.content.SharedPreferences.Editor ed = sPref.edit();
+        ed.putString(SharedPreferences.PASSWORD_SHARED_PREF , password);
+        ed.apply();
+    }
+//    boolean isOus(){
+//        android.content.SharedPreferences sPref = getPreferences(MODE_PRIVATE);
+//        return sPref.getBoolean(SharedPreferences.IS_OUS , false);
+//    }
+
+
 
     public static String convertPassMd5(String pass) {
         String password = null;
@@ -343,9 +359,11 @@ public class LoginActivity extends AppCompatActivity {
                 intent = new Intent(LoginActivity.this, TypeChangeActivity.class);
                 intent.putExtra("user", thisUser);
                 intent.putExtra("ip", ipadress.getText().toString());
+                intent.putExtra("password" , passwordEdt.getText().toString());
 //                intent.putExtra("asosId",asosId);
                 saveIP(ipadress.getText().toString());
                 saveLogin(loginEdt.getText().toString());
+                savePassword(passwordEdt.getText().toString());
                 startActivity(intent);
                 finish();
             }
