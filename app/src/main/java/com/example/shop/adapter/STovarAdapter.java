@@ -1,6 +1,7 @@
 package com.example.shop.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -116,7 +117,7 @@ public class STovarAdapter  extends ArrayAdapter<STovar> {
                         if (filterList.get(i).getNom().toUpperCase().contains(charSequence)) {
                             filteredMovies.add(filterList.get(i));
                         }
-                    /*    if(filterList.get(i).getShtrix().equals(charSequence)){
+                        if(filterList.get(i).getShtrix().equals(charSequence)){
                             filteredMovies.add(filterList.get(i));
                         }
                         if(filterList.get(i).getShtrix1().equals(charSequence)){
@@ -127,7 +128,7 @@ public class STovarAdapter  extends ArrayAdapter<STovar> {
                         }
                         if(filterList.get(i).getShtrix_full().equals(charSequence)){
                             filteredMovies.add(filterList.get(i));
-                        }*/
+                        }
 
 
                     }

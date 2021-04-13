@@ -229,7 +229,7 @@ public class ProductsList extends AppCompatActivity {
                         if (object.getString("shtrix") == null){
                             tovar.setShtrix("");
                         } else {
-                            tovar.setShtrix_in(object.getString("shtrix_in"));
+                            tovar.setShtrix(object.getString("shtrix"));
                         }
                         if (object.getString("shtrix_full") == null){
                             tovar.setShtrix_full("");

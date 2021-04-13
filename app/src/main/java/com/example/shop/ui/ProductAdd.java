@@ -117,7 +117,6 @@ public class ProductAdd extends AppCompatActivity {
         dillerList.add("obizatilni");
 
         if(sTovar != null){
-            Log.v("MyTag$",sTovar.toString());
             copyPraporty(sTovar);
           //  listView.setAdapter();
             new  GetListNew().execute();
@@ -135,7 +134,6 @@ public class ProductAdd extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         Intent intent = new Intent(ProductAdd.this,IncomingWork.class);
                         GetList list1 = list.get(i);
-                        Log.d("clickId",list1.getId().toString());
                         setDownIntent(intent);
                         intent.putExtra("name",name.getText().toString());
                         intent.putExtra("id",list1.getId());
@@ -236,10 +234,10 @@ public class ProductAdd extends AppCompatActivity {
         }else {
             sTovar.setTkol(Integer.parseInt(for_count.getText().toString()));
         }
-        if (in_count.getText().toString().isEmpty()){
+        if (for_incount.getText().toString().isEmpty()){
             sTovar.setTkol_in(0);
         }else {
-            sTovar.setTkol_in(Integer.parseInt(in_count.getText().toString()));
+            sTovar.setTkol_in(Integer.parseInt(for_incount.getText().toString()));
         }
 
 
@@ -252,18 +250,33 @@ public class ProductAdd extends AppCompatActivity {
         name_short.setText(tovar.getNom_sh());
         in_count.setText(tovar.getKol_in().toString());
       //  Log.d("Logdddd" , tovar.getShtrix());
-        if(tovar.getShtrix() != null){
+        if(!tovar.getShtrix().equals("null")){
             barcode=1;
         }
-        if(tovar.getShtrix1() != null){
+        if(!tovar.getShtrix1().equals("null")){
             barcode=2;
         }
-        if(tovar.getShtrix2() != null){
+        if(!tovar.getShtrix2().equals("null")){
             barcode=3;
         }
-        barcode1.setText(tovar.getShtrix());
-        barcode2.setText(tovar.getShtrix1());
-        barcode3.setText(tovar.getShtrix2());
+
+        if (tovar.getShtrix() == null)
+        {
+            barcode1.setText("");
+        }else {
+            barcode1.setText(tovar.getShtrix());
+        }
+        if (tovar.getShtrix1().equals("null")){
+            barcode2.setText("");
+        }else {
+            barcode2.setText(tovar.getShtrix1());
+        }
+        if (tovar.getShtrix2().equals("null")){
+           barcode3.setText("");
+        }else {
+            barcode3.setText(tovar.getShtrix2());
+        }
+
         type1.setText(tovar.getSotish().toString());
         type2.setText(tovar.getUlg1().toString());
         type3.setText(tovar.getUlg2().toString());
@@ -271,8 +284,8 @@ public class ProductAdd extends AppCompatActivity {
         type5.setText(tovar.getUlg2_pl().toString());
         type6.setText(tovar.getBank().toString() );
         incomingprice.setText(tovar.getSena().toString());
-        Log.d("seriya",tovar.getSeriya().toString());
         spinner.setSelection(tovar.getSeriya());
+
     }
 
 
@@ -285,7 +298,6 @@ public class ProductAdd extends AppCompatActivity {
         if (scanResult != null) {
             // handle the result
             CharSequence c=scanResult.getContents();
-            Log.v("MyTag",""+c);
             setText(c);
         }
 
@@ -379,7 +391,6 @@ public class ProductAdd extends AppCompatActivity {
             HttpHandler httpHandler=new HttpHandler();
             String reqUrl="http://"+ip+":8080/application/json/addproduct";
             x = httpHandler.makeServiceAddNewProducts(reqUrl,sTovar,thisUser);
-            Log.v("MyTag:",x+" sTovar:"+sTovar.toString());
             return null;
         }
         @Override
@@ -418,10 +429,8 @@ public class ProductAdd extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             HttpHandler httpHandler=new HttpHandler();
             String jsonStr=httpHandler.makeServiceCall(urlProducts);
-
-            Log.d("ipmaa",urlProducts);
-            // Log.d("jsons",jsonStr);
-
+            Log.d("urlsss",urlProducts);
+            Log.d("ssssa",jsonStr);
             if(jsonStr!=null){
                 try {
                     list.clear();
@@ -448,19 +457,15 @@ public class ProductAdd extends AppCompatActivity {
                         Product pr=new Product();
                      //   copyProperties(pr,item);
                         list.add(getList);
-                        if (!list.isEmpty()){
-                            liveData.postValue(list);
-                        }
 
-                        Log.v("TAG","item:"+getList.toString());
+                            liveData.postValue(list);
+
                     }
                 } catch (JSONException e) {
-                    Log.v("TAG",e.getMessage());
                 }
 
             }
             else{
-                Log.v("MyTag2", "serverdan galmadi");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
