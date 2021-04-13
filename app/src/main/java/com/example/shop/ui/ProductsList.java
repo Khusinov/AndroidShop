@@ -106,6 +106,7 @@ public class ProductsList extends AppCompatActivity {
                 nextintent.putExtra("tovarKol",tovar.getKat());
                 nextintent.putExtra("brend",tovar.getBrend());
                 nextintent.putExtra("edit",1);
+                nextintent.putExtra("papka" , tovar.getPapka());
                 setDownIntent(nextintent);
                 startActivity(nextintent);
               //  finish();
@@ -338,7 +339,7 @@ public class ProductsList extends AppCompatActivity {
                         list.add(tovar);
                     }
                 } catch (final JSONException e) {
-                    Log.v("MyTag2", e.getMessage());
+                    Log.v("MyTagChatch", e.getMessage());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

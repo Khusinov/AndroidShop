@@ -79,6 +79,8 @@ public class ProductAdd extends AppCompatActivity {
     Integer isEdit = 0;
     Integer kat;
     Integer brend;
+    Integer papka ;
+    String nom_sh;
     GetListAdapter adapter; // ozgartrsh garak
     Integer slaveId = 0; // intentdan alish garak
     private ArrayList<GetList> list; /// modelni ozgartirish garak
@@ -115,7 +117,8 @@ public class ProductAdd extends AppCompatActivity {
         sTovar=(STovar) intent.getSerializableExtra("stovar");
         kat = intent.getIntExtra("tovarKol",0);
         brend = intent.getIntExtra("brend",0);
-
+        papka = intent.getIntExtra("papka" , 0);
+        nom_sh = intent.getStringExtra("nom_sh");
         Log.d("brend",brend.toString());
 
         isEdit = intent.getIntExtra("edit",0);
@@ -425,7 +428,7 @@ public class ProductAdd extends AppCompatActivity {
             HttpHandler httpHandler=new HttpHandler();
             String reqUrl="http://"+ip+":8080/application/json/addproduct";
             Log.d("latss",kat.toString());
-            x = httpHandler.makeServiceChangeProducts(reqUrl,sTovar,thisUser,kat,brend);
+            x = httpHandler.makeServiceChangeProducts(reqUrl,sTovar,thisUser,kat,brend , papka , nom_sh);
             return null;
         }
         @Override

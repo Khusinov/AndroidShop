@@ -207,7 +207,7 @@ public class HttpHandler {
         return 0;
     }
 
-    public Integer makeServiceChangeProducts(String reqUrl, STovar newProducts, User user, Integer kat, Integer brend) {
+    public Integer makeServiceChangeProducts(String reqUrl, STovar newProducts, User user, Integer kat, Integer brend , Integer papka , String nom_sh) {
         HttpURLConnection conn = null;
         try {
             URL url = new URL(reqUrl);
@@ -220,12 +220,13 @@ public class HttpHandler {
             object.put("id", newProducts.getId());
             object.put("user_id",user.getUser_id());
             object.put("nom", newProducts.getNom());
-            object.put("nom_sh", newProducts.getNom_sh());
+            object.put("nom_sh", nom_sh);
+           // Log.d("nomsh" , newProducts.getNom_sh());
             object.put("shtrix", newProducts.getShtrix());
             object.put("shtrix1", newProducts.getShtrix1());
             object.put("shtrix2", newProducts.getShtrix2());
             object.put("brend", brend);
-            object.put("papka", 0);
+            object.put("papka", papka);
             object.put("tz_id", 0);
             object.put("shtrix_full", 0);
             object.put("qr", 0);
