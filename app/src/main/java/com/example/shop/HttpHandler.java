@@ -172,6 +172,7 @@ public class HttpHandler {
             object.put("del_flag", 0);
             object.put("client_id", user.getClient_id());
             object.put("brend", 0);
+          //  object.put("kat",newProducts.getKat());
             object.put("sotish", newProducts.getSotish());
             object.put("ulg1", newProducts.getUlg1());
             object.put("ulg2", newProducts.getUlg2());
@@ -205,6 +206,76 @@ public class HttpHandler {
         }
         return 0;
     }
+
+    public Integer makeServiceChangeProducts(String reqUrl, STovar newProducts, User user, Integer kat, Integer brend) {
+        HttpURLConnection conn = null;
+        try {
+            URL url = new URL(reqUrl);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json; utf-8");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setDoOutput(true);
+            JSONObject object = new JSONObject();
+            object.put("id", newProducts.getId());
+            object.put("user_id",user.getUser_id());
+            object.put("nom", newProducts.getNom());
+            object.put("nom_sh", newProducts.getNom_sh());
+            object.put("shtrix", newProducts.getShtrix());
+            object.put("shtrix1", newProducts.getShtrix1());
+            object.put("shtrix2", newProducts.getShtrix2());
+            object.put("brend", brend);
+            object.put("papka", 0);
+            object.put("tz_id", 0);
+            object.put("shtrix_full", 0);
+            object.put("qr", 0);
+            object.put("kg", 0);
+            object.put("tkol", newProducts.getTkol());
+            object.put("tkol_in", newProducts.getTkol_in());
+            object.put("shtrix_in", 0);
+            object.put("nom_ru", "");
+            object.put("shtrixkod", 1);
+            object.put("qrkod", 0);
+            object.put("izm_id", 1);
+            object.put("del_flag", 0);
+            object.put("client_id", user.getClient_id());
+            object.put("brend", brend);
+            Log.d("katofs",brend.toString());
+            object.put("kat",kat);
+            object.put("sotish", newProducts.getSotish());
+            object.put("ulg1", newProducts.getUlg1());
+            object.put("ulg2", newProducts.getUlg2());
+            object.put("ulg1_pl", newProducts.getUlg1_pl());
+            object.put("ulg2_pl", newProducts.getUlg2_pl());
+            object.put("bank", newProducts.getBank());
+            object.put("sena", newProducts.getSena());
+            object.put("kol_in", newProducts.getKol_in());
+            object.put("sena_d", newProducts.getSena_d());
+            object.put("sena_in_d", newProducts.getSena_in_d());
+            object.put("seriya",newProducts.getSeriya());
+
+
+            String jsonInputString = object.toString();
+            OutputStream os = conn.getOutputStream();
+            byte[] input = jsonInputString.getBytes("utf-8");
+            os.write(input, 0, input.length);
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+            StringBuilder response = new StringBuilder();
+            String responseLine = null;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+            return Integer.parseInt(response.toString());
+
+
+        } catch (IOException e) {
+            Log.v("MyTag", e.getMessage());
+        } catch (JSONException e) {
+            Log.v("MyTag", e.getMessage());
+        }
+        return 0;
+    }
+
 
     public Integer makeServicePostSeries(String reqUrl, SeriesModel serial, Integer slaveId) {
         HttpURLConnection conn = null;

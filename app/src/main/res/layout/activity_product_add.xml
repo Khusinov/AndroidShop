@@ -319,6 +319,19 @@
             android:layout_height="wrap_content"
             android:text="Сақлаш" />
 
+        <Button
+            android:id="@+id/product_change_product_for_add"
+            android:layout_margin="10dp"
+            android:background="@drawable/button_rounded"
+            android:layout_weight="5"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="O'zgartirish" />
+
+
+
 
     </LinearLayout>
 

@@ -101,8 +101,11 @@ public class ProductsList extends AppCompatActivity {
                 if (tovar != null)
                     Log.v("MyTag",tovar.toString());
                 Intent nextintent=new Intent(ProductsList.this,ProductAdd.class);
+                Log.d("katyt",tovar.getKat().toString());
                 intent.putExtra("stovar",tovar);
-                intent.putExtra("edit",1);
+                nextintent.putExtra("tovarKol",tovar.getKat());
+                nextintent.putExtra("brend",tovar.getBrend());
+                nextintent.putExtra("edit",1);
                 setDownIntent(nextintent);
                 startActivity(nextintent);
               //  finish();

@@ -44,6 +44,7 @@ public class ProductAdd extends AppCompatActivity {
 
     Intent intent;
     Button saveProduct;
+    Button editProduct;
     Button back;
     EditText name;
     EditText name_short;
@@ -75,6 +76,9 @@ public class ProductAdd extends AppCompatActivity {
     Integer update=0;
     Integer series = 0;
     Integer x;
+    Integer isEdit = 0;
+    Integer kat;
+    Integer brend;
     GetListAdapter adapter; // ozgartrsh garak
     Integer slaveId = 0; // intentdan alish garak
     private ArrayList<GetList> list; /// modelni ozgartirish garak
@@ -87,6 +91,7 @@ public class ProductAdd extends AppCompatActivity {
         intent=getIntent();
         back=findViewById(R.id.product_add_back);
         saveProduct=findViewById(R.id.product_add_save_product_for_add);
+        editProduct=findViewById(R.id.product_change_product_for_add);
         barcodescan=findViewById(R.id.product_add_barcodescan);
         name=findViewById(R.id.product_add_name);
         name_short=findViewById(R.id.product_add_name_short);
@@ -108,6 +113,13 @@ public class ProductAdd extends AppCompatActivity {
         ip=intent.getStringExtra("ip");
         thisUser=(User) intent.getSerializableExtra("user");
         sTovar=(STovar) intent.getSerializableExtra("stovar");
+        kat = intent.getIntExtra("tovarKol",0);
+        brend = intent.getIntExtra("brend",0);
+
+        Log.d("brend",brend.toString());
+
+        isEdit = intent.getIntExtra("edit",0);
+
         liveData = new MutableLiveData<>();
         list = new ArrayList<>();
 
@@ -140,7 +152,7 @@ public class ProductAdd extends AppCompatActivity {
                         intent.putExtra("kol",list1.getKol());
                         intent.putExtra("kolin",list1.getKolIn());
                         intent.putExtra("kolost",list1.getKolOst());
-                        intent.putExtra("kolnost",list1.getKolInOst());
+                        intent.putExtra("kolinost",list1.getKolInOst());
                         startActivity(intent);
                     }
                 });
@@ -154,6 +166,28 @@ public class ProductAdd extends AppCompatActivity {
                 new ZxingOrient(ProductAdd.this).setIcon(R.mipmap.ic_launcher).initiateScan();
             }
         });
+        Log.d("iseds",isEdit.toString());
+        if (isEdit != 0){
+            saveProduct.setVisibility(View.GONE);
+            editProduct.setVisibility(View.VISIBLE);
+        }
+
+        editProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (name.getText().toString().isEmpty()){
+                    name.setError("kiriting");
+                }
+                else if (!for_incount.getText().toString().isEmpty() && for_count.getText().toString().isEmpty()){
+                    for_count.setError("kiriting");
+                }else {
+                    copyPraporty();
+                    new EditProduct().execute();
+                }
+
+            }
+        });
+
         saveProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -373,6 +407,46 @@ public class ProductAdd extends AppCompatActivity {
         }
     }
 
+    private  class EditProduct extends AsyncTask<Void,Void,Void>{
+
+        ProgressDialog progressDialog;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog=new ProgressDialog(ProductAdd.this);
+            progressDialog.setMessage("Сақлаyмоқда !!!");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            HttpHandler httpHandler=new HttpHandler();
+            String reqUrl="http://"+ip+":8080/application/json/addproduct";
+            Log.d("latss",kat.toString());
+            x = httpHandler.makeServiceChangeProducts(reqUrl,sTovar,thisUser,kat,brend);
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if(progressDialog.isShowing())
+                progressDialog.dismiss();
+            if (series > 0 && !for_count.getText().toString().isEmpty()){
+                Intent nextIntent = new Intent(ProductAdd.this, IncomingWork.class);
+                setDownIntent(nextIntent);
+                startActivity(nextIntent);
+            }else {
+                Intent nextIntent = new Intent(ProductAdd.this, ProductsList.class);
+                setDownIntent(nextIntent);
+                startActivity(nextIntent);
+                finish();
+            }
+
+        }
+    }
+
     private  class AddNewProduct extends AsyncTask<Void,Void,Void>{
 
         ProgressDialog progressDialog;
@@ -439,29 +513,42 @@ public class ProductAdd extends AppCompatActivity {
                         GetList getList = new GetList();
                         JSONObject object2 = jsonArray2.getJSONObject(i);
 
-                                /*
-                                "id": 1,
-                                "productId": 2,
-                                "nameShort": "anvar",
-                                "count": 4,
-                                "incount": 5,
-                                "price": 6,
-                                "inprice": 7
-                                */
                         getList.setId(object2.getInt("id"));
-                        getList.setKol(object2.getInt("kol"));
-                        getList.setKolIn(object2.getInt("kolIn"));
-                        getList.setKolOst(object2.getInt("kolOst"));
-                        getList.setKolInOst(object2.getInt("kolInOst"));
+                   //     Log.d("zzzz0",String.valueOf(object2.getInt("kolIn")));
+                        if (String.valueOf(object2.getInt("kol")).equals("null")){
+                            getList.setKol(null);
+                        }else {
+                            getList.setKol(object2.getInt("kol"));
+                        }
+                    /*    if (String.valueOf(object2.getInt("kolIn")).equals("null")){
+                            getList.setKolIn(null);
+                        }else {
+                            getList.setKolIn(object2.getInt("kolIn"));
+                        }
+                        if (String.valueOf(object2.getInt("kolOst")).equals("null")){
+                            getList.setKolOst(null);
+                        }else {
+                            getList.setKolOst(object2.getInt("kolOst"));
+                        }
+                        if (String.valueOf(object2.getInt("kolInOst")).equals("null")){
+                            getList.setKolOst(null);
+                        }else {
+                            getList.setKolInOst(object2.getInt("kolInOst"));
+                        }*/
 
-                        Product pr=new Product();
-                     //   copyProperties(pr,item);
                         list.add(getList);
-
+                        if (!list.isEmpty()){
                             liveData.postValue(list);
-
+                        }
                     }
                 } catch (JSONException e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(ProductAdd.this,"serverdan galmadi",Toast.LENGTH_LONG).show();
+                        }
+                    });
+
                 }
 
             }
