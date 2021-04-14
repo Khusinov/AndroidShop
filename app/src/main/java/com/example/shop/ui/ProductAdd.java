@@ -286,7 +286,7 @@ public class ProductAdd extends AppCompatActivity {
         name.setText(tovar.getNom());
         name_short.setText(tovar.getNom_sh());
         in_count.setText(tovar.getKol_in().toString());
-      //  Log.d("Logdddd" , tovar.getShtrix());
+    //   Log.d("nomsh" , tovar.getNom_sh());
         if(!tovar.getShtrix().equals("null")){
             barcode=1;
         }
@@ -573,7 +573,6 @@ public class ProductAdd extends AppCompatActivity {
             if(progressDialog.isShowing()){
                 progressDialog.dismiss();
             }
-
 
         }
     }

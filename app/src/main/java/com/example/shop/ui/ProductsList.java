@@ -107,6 +107,7 @@ public class ProductsList extends AppCompatActivity {
                 nextintent.putExtra("brend",tovar.getBrend());
                 nextintent.putExtra("edit",1);
                 nextintent.putExtra("papka" , tovar.getPapka());
+                nextintent.putExtra("nom_sh" ,tovar.getNom_sh() );
                 setDownIntent(nextintent);
                 startActivity(nextintent);
               //  finish();
@@ -226,9 +227,9 @@ public class ProductsList extends AppCompatActivity {
                             tovar.setNom_ru(object.getString("nom_ru"));
                         }
                         if (object.getString("nom_sh") == null){
-                            tovar.setNom_ru("");
+                            tovar.setNom_sh("");
                         } else {
-                            tovar.setNom_ru(object.getString("nom_sh"));
+                            tovar.setNom_sh(object.getString("nom_sh"));
                         }
                         if (object.getString("shtrix") == null){
                             tovar.setShtrix("");

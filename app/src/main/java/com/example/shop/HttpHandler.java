@@ -152,6 +152,7 @@ public class HttpHandler {
             object.put("id", newProducts.getId());
             object.put("user_id",user.getUser_id());
             object.put("nom", newProducts.getNom());
+            Log.d("nom_shshs" , newProducts.getNom_sh());
             object.put("nom_sh", newProducts.getNom_sh());
             object.put("shtrix", newProducts.getShtrix());
             object.put("shtrix1", newProducts.getShtrix1());
