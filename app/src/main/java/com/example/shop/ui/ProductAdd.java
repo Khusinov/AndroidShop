@@ -4,8 +4,10 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -235,6 +237,7 @@ public class ProductAdd extends AppCompatActivity {
                     series = 2;
                 }
             }
+
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {

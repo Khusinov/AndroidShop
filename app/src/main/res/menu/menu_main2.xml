@@ -26,5 +26,10 @@
         android:orderInCategory="100"
         android:title="Сотув"
         />
+    <item
+        android:id="@+id/item5"
+        android:orderInCategory="100"
+        android:title="Чикиш"
+        />
 
 </menu>

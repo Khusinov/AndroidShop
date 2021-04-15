@@ -2,7 +2,9 @@ package com.example.shop.ui;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -85,7 +87,7 @@ public class IncomingProducts extends AppCompatActivity {
 
         asos=new AsosModell();
         asos.setClient_id(thisUser.getClient_id());
-        asos.setUser_id(thisUser.getId());
+        asos.setUserId(thisUser.getId());
         asos.setDel_flag(1);
         asos.setTurOper(1);
         asos.setXodimId(thisUser.getId());
@@ -196,7 +198,7 @@ public class IncomingProducts extends AppCompatActivity {
         if (newAsosCheck==0){
             asosBefore.setId(asosLast.getId());
         }
-        asosBefore.setUser_id(asosLast.getUser_id());
+        asosBefore.setUserId(asosLast.getUserId());
         asosBefore.setDollar(asosLast.getDollar());
         asosBefore.setClient_id(asosLast.getClient_id());
         asosBefore.setDel_flag(1);
@@ -240,6 +242,14 @@ public class IncomingProducts extends AppCompatActivity {
             Intent intent=new Intent(IncomingProducts.this, ProductsList.class);
             setDownIntent(intent);
             startActivity(intent);
+            finish();
+        }
+        if (id == R.id.item5){
+            SharedPreferences preferences =getSharedPreferences("LoginPref", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+
+            editor.clear();
+            editor.apply();
             finish();
         }
 
@@ -295,7 +305,6 @@ public class IncomingProducts extends AppCompatActivity {
 
         Log.v("MyTag2",list.size()+"size");
 
-
     }
 
     class getDiller extends AsyncTask<Void,Void,Void> {
@@ -314,7 +323,7 @@ public class IncomingProducts extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             if (thisUser.getId()!=null) {
 //                http://localhost:8080/application/json/dillerid=4/harodors
-                String urlGetDillers = "http://" + ip + ":8080/application/json/clientid="+thisUser.getClient_id()+"/dillers";
+                String urlGetDillers = "http://" + ip + ":8080/application/json/"+thisUser.getClient_id()+"/dillers";
 //                String urlGetAsoss = "http://" + ip + ":8080/application/json/clientid="+thisUser.getClientId()+"/asoss";
                 String urlGetAsoss = "http://" + ip + ":8080/application/json/asoss";
                 String urlNewAsos = "http://" + ip + ":8080/application/json/newasos";
@@ -323,7 +332,7 @@ public class IncomingProducts extends AppCompatActivity {
                 String jsonDillersStr=httpHandler.makeServiceCall(urlGetDillers);
                 String jsonAsosStr;
                 AsosModell asosModell=new AsosModell();
-                asosModell.setUser_id(asos.getUser_id());
+                asosModell.setUserId(asos.getUserId());
                 asosModell.setClient_id(asos.getClient_id());
                 asosModell.setDollar(asos.getDollar());
                 asosModell.setDilerId(asos.getDilerId());
@@ -338,12 +347,15 @@ public class IncomingProducts extends AppCompatActivity {
                 }
 
                 if(jsonDillersStr != null) {
+                    Log.d("Dillers" , jsonDillersStr);
                     try {
                         JSONArray jsonArray = new JSONArray(jsonDillersStr);
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject object = jsonArray.getJSONObject(i);
                             dillerListId.add(object.getInt("id"));
                             dillerList.add(object.getString("nom"));
+                            Log.d("DillerId" , dillerListId.toString());
+                            Log.d("DillerList" , dillerList.toString());
                             /* {
                            "id": 1,
                            "nom": "01.Artel dileri",
@@ -367,11 +379,11 @@ public class IncomingProducts extends AppCompatActivity {
                 }
                 else{
                     Log.v("ntre", "serverdan galmadi");
-                    Log.d("ipsa",urlGetDillers);
+                 //   Log.d("ipsa",urlGetDillers);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(IncomingProducts.this,"Сервер билан муамо бор",Toast.LENGTH_LONG).show();
+                            Toast.makeText(IncomingProducts.this,"Сервер билан муамо бор 1",Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -382,15 +394,17 @@ public class IncomingProducts extends AppCompatActivity {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             Log.d("array",jsonArray.toString());
                             JSONObject object = jsonArray.getJSONObject(i);
+                            Log.d("Object " , object.toString());
                             AsosModell modell=new AsosModell();
                             modell.setId(object.getInt("id"));
-                            modell.setClient_id(4);//object.getInt("client_id")
+                            modell.setClient_id(object.getInt("client_id"));
+                            modell.setUserId(object.getInt("userId"));
                             modell.setXodimId(object.getInt("xodimId"));
                             modell.setHaridorId(object.getInt("haridorId"));
                             modell.setSana(object.getString("sana"));
                             modell.setDilerId(object.getInt("dilerId"));
                             modell.setTurOper(object.getInt("turOper"));
-                            modell.setSumma(0.0);
+                            modell.setSumma(object.getDouble("summa"));
                             modell.setSotuv_turi(object.getInt("sotuvTuri"));
                             modell.setNomer(object.getString("nomer"));
                             modell.setDel_flag(object.getInt("del_flag"));
@@ -398,11 +412,13 @@ public class IncomingProducts extends AppCompatActivity {
                             modell.setKurs(object.getDouble("kurs"));
                             modell.setSum_d(object.getDouble("sum_d"));
                             modell.setKol(object.getInt("kol"));
+                            //modell.setUserId(thisUser.getUser_id());
                            /* modell.setSena_d(0.0);
                             modell.setSena_d(0.0);
                             modell.setUser_id(thisUser.getUser_id());*/
 
                             Log.v("MyTiddd",modell.getId()+"");
+                            Log.v("Asumma" , modell.getSumma().toString());
                             /*{
                                 "id": 1782,
                                     "clientId": 4,
@@ -424,18 +440,16 @@ public class IncomingProducts extends AppCompatActivity {
                             modellList.add(modell);
                         }
 
-                    } catch (final JSONException e) {
-                        Log.v("Msdad", e.getMessage());
+                    } catch ( JSONException e) {
+                        Log.v("CatchError", e.getMessage());
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(IncomingProducts.this, "Хатолик юз берди", Toast.LENGTH_LONG).show();
+                                Toast.makeText(IncomingProducts.this, "Хатолик юз берди 2", Toast.LENGTH_LONG).show();
                             }
                         });
                     }
                 }
-
-
 
             }
 

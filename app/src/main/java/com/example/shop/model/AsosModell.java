@@ -5,43 +5,43 @@ import java.io.Serializable;
 public class AsosModell implements Serializable {
     private Integer id;
     private Integer client_id;
-    private Integer user_id;
+    private Integer userId;
     private Integer xodimId;
     private Integer haridorId;
+    private String sana;
     private Integer dilerId;
     private Integer turOper;
-    private String sana;
+    private Double summa;
+    private Integer sotuv_turi;
     private String nomer;
     private Integer del_flag;
     private Integer dollar;
     private Double kurs;
     private Double sum_d;
-    private Double summa;
     private Integer kol;
-    private Integer sotuv_turi;
-    private Double sena_d ;
-    private Double sena_in_d ;
 
+    //  private Double sena_d ;
+    //  private Double sena_in_d ;
 
 
     public AsosModell() {
     }
 
-    public Double getSena_d() {
-        return sena_d;
-    }
+    // public Double getSena_d() {
+    //     return sena_d;
+    // }
 
-    public void setSena_d(Double sena_d) {
-        this.sena_d = sena_d;
-    }
+    // public void setSena_d(Double sena_d) {
+    //  this.sena_d = sena_d;
+    // }
 
-    public Double getSena_in_d() {
-        return sena_in_d;
-    }
-
-    public void setSena_in_d(Double sena_in_d) {
-        this.sena_in_d = sena_in_d;
-    }
+//    public Double getSena_in_d() {
+//        return sena_in_d;
+//    }
+//
+//    public void setSena_in_d(Double sena_in_d) {
+//        this.sena_in_d = sena_in_d;
+//    }
 
     public String getNomer() {
         return nomer;
@@ -83,12 +83,12 @@ public class AsosModell implements Serializable {
         this.client_id = client_id;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getXodimId() {
@@ -132,7 +132,6 @@ public class AsosModell implements Serializable {
     }
 
 
-
     public Integer getDel_flag() {
         return del_flag;
     }
@@ -173,25 +172,5 @@ public class AsosModell implements Serializable {
         this.kol = kol;
     }
 
-    @Override
-    public String toString() {
-        return "AsosModell{" +
-                "id=" + id +
-                ", client_id=" + client_id +
-                ", userId=" + user_id +
-                ", xodimId=" + xodimId +
-                ", haridorId=" + haridorId +
-                ", dilerId=" + dilerId +
-                ", turOper=" + turOper +
-                ", sana='" + sana + '\'' +
-                ", nomer='" + nomer + '\'' +
-                ", del_flag=" + del_flag +
-                ", dollar=" + dollar +
-                ", kurs=" + kurs +
-                ", sum_d=" + sum_d +
-                ", summa=" + summa +
-                ", kol=" + kol +
-                ", sotuv_turi=" + sotuv_turi +
-                '}';
-    }
+
 }

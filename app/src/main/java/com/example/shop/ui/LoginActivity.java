@@ -38,34 +38,34 @@ public class LoginActivity extends AppCompatActivity {
     private EditText ipadress;
     private EditText loginEdt;
     private EditText passwordEdt;
-    private Button   logInBtn;
+    private Button logInBtn;
+    private Button logOutBtn;
     private TextView message;
     private TextView ipmessage;
-    private Intent   intent;
+    private Intent intent;
     private User thisUser;
     private ProgressDialog progressDialog;
-    private final int  PERMISSION_REQUEST_CODE = 1001;
+    private final int PERMISSION_REQUEST_CODE = 1001;
 
 
-    private static String urlLogin="http://192.168.1.1:8080/application/json/user";
-
+    private static String urlLogin = "http://192.168.1.1:8080/application/json/user";
 
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        ipadress=(EditText) findViewById(R.id.ipadress);
-        loginEdt=(EditText)findViewById(R.id.loginEdt);
-        passwordEdt=(EditText)findViewById(R.id.passwordEdt);
-        logInBtn=(Button)findViewById(R.id.logInBtn);
-        message=(TextView)findViewById(R.id.message);
-        ipmessage=(TextView)findViewById(R.id.ipmessage);
+        ipadress = (EditText) findViewById(R.id.ipadress);
+        loginEdt = (EditText) findViewById(R.id.loginEdt);
+        passwordEdt = (EditText) findViewById(R.id.passwordEdt);
+        logInBtn = (Button) findViewById(R.id.logInBtn);
+        message = (TextView) findViewById(R.id.message);
+        ipmessage = (TextView) findViewById(R.id.ipmessage);
 
         ipadress.setText(loadIP());
         loginEdt.setText(loadLogin());
         passwordEdt.setText(loadPassword());
-        thisUser=new User();
+        thisUser = new User();
         checkAndRequestPermissions();
 
         InputFilter[] filters = new InputFilter[1];
@@ -100,26 +100,24 @@ public class LoginActivity extends AppCompatActivity {
         logInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(errorIpCheck(ipadress.getText().toString())) {
-                    if(!loginEdt.getText().toString().matches("")) {
+                if (errorIpCheck(ipadress.getText().toString())) {
+                    if (!loginEdt.getText().toString().matches("")) {
                         ipmessage.setText(R.string.invalid_ip);
                         message.setText(R.string.invalid_password);
                         ipmessage.setVisibility(View.INVISIBLE);
                         message.setVisibility(View.INVISIBLE);
                         new getUserCheck().execute();
-                    }
-                    else{
+                    } else {
                         message.setText(R.string.username_error);
                     }
-                }
-                else{
+                } else {
                     ipmessage.setText(R.string.ip_input_error);
                     ipmessage.setVisibility(View.VISIBLE);
                 }
             }
         });
-
     }
+
     private boolean checkAndRequestPermissions() {
         int camera = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA);
@@ -208,57 +206,52 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
-    Boolean errorIpCheck(String ip){
-        Integer cnt=0;
-        for (int i=0;i<ip.length();i++){
-            if(ip.charAt(i)=='.')
+    Boolean errorIpCheck(String ip) {
+        Integer cnt = 0;
+        for (int i = 0; i < ip.length(); i++) {
+            if (ip.charAt(i) == '.')
                 cnt++;
         }
-        if(cnt==3)
+        if (cnt == 3)
             return true;
         return false;
     }
 
-    String  loadIP() {
+    String loadIP() {
         android.content.SharedPreferences sPref = getPreferences(MODE_PRIVATE);
-        return sPref.getString(SharedPreferences.IP_ADRES_SHARED_PREF, "");
+        return sPref.getString(SharedPreferences.IP_ADRES_SHARED_PREF, "LoginPref");
     }
-    void saveIP(String ip) {
-        android.content.SharedPreferences sPref = getPreferences(MODE_PRIVATE);
+
+   public void saveIP(String ip) {
+        android.content.SharedPreferences sPref = getPreferences( MODE_PRIVATE);
         android.content.SharedPreferences.Editor ed = sPref.edit();
-        ed.putString(SharedPreferences.IP_ADRES_SHARED_PREF,ip);
+        ed.putString(SharedPreferences.IP_ADRES_SHARED_PREF, ip);
         ed.apply();
     }
 
-
-    String  loadLogin() {
+    String loadLogin() {
         android.content.SharedPreferences sPref = getPreferences(MODE_PRIVATE);
-        return sPref.getString(SharedPreferences.LOGIN_SHARED_PREF, "");
+        return sPref.getString(SharedPreferences.LOGIN_SHARED_PREF, "LoginPref");
     }
 
     void saveLogin(String login) {
         android.content.SharedPreferences sPref = getPreferences(MODE_PRIVATE);
         android.content.SharedPreferences.Editor ed = sPref.edit();
-        ed.putString(SharedPreferences.LOGIN_SHARED_PREF,login);
+        ed.putString(SharedPreferences.LOGIN_SHARED_PREF, login);
         ed.apply();
     }
 
-    String loadPassword(){
+    String loadPassword() {
         android.content.SharedPreferences sPref = getPreferences(MODE_PRIVATE);
-        return sPref.getString(SharedPreferences.PASSWORD_SHARED_PREF , "");
+        return sPref.getString(SharedPreferences.PASSWORD_SHARED_PREF, "LoginPref");
     }
-    void savePassword(String password){
+
+    void savePassword(String password) {
         android.content.SharedPreferences sPref = getPreferences(MODE_PRIVATE);
         android.content.SharedPreferences.Editor ed = sPref.edit();
-        ed.putString(SharedPreferences.PASSWORD_SHARED_PREF , password);
+        ed.putString(SharedPreferences.PASSWORD_SHARED_PREF, password);
         ed.apply();
     }
-//    boolean isOus(){
-//        android.content.SharedPreferences sPref = getPreferences(MODE_PRIVATE);
-//        return sPref.getBoolean(SharedPreferences.IS_OUS , false);
-//    }
-
 
 
     public static String convertPassMd5(String pass) {
@@ -279,13 +272,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
     private class getUserCheck extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog=new ProgressDialog(LoginActivity.this);
+            progressDialog = new ProgressDialog(LoginActivity.this);
             progressDialog.setMessage("Тизимга кириш учун текширилйапти");
             progressDialog.setCancelable(false);
             progressDialog.show();
@@ -294,17 +286,17 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             thisUser.setUsername(loginEdt.getText().toString());
-            Log.v("MyLog",convertPassMd5(passwordEdt.getText().toString()));
-            thisUser.setUserpass( convertPassMd5(passwordEdt.getText().toString()) );
-            urlLogin="http://"+ipadress.getText().toString()+":8080/application/json/user";
-            Log.v("MyLog",urlLogin);
-            HttpHandler httpHandler=new HttpHandler();
-            Log.v("MyLog","ha ina qu");
-            String jsonStr=httpHandler.makeServiceCallPost(urlLogin,thisUser);
-            Log.v("MyLog","ha beda akan");
+            Log.v("MyLog", convertPassMd5(passwordEdt.getText().toString()));
+            thisUser.setUserpass(convertPassMd5(passwordEdt.getText().toString()));
+            urlLogin = "http://" + ipadress.getText().toString() + ":8080/application/json/user";
+            Log.v("MyLog", urlLogin);
+            HttpHandler httpHandler = new HttpHandler();
+            Log.v("MyLog", "ha ina qu");
+            String jsonStr = httpHandler.makeServiceCallPost(urlLogin, thisUser);
+            Log.v("MyLog", "ha beda akan");
 
 //            Log.v("MyLog",jsonStr);
-            if(jsonStr != null) {
+            if (jsonStr != null) {
                 try {
 //                    JSONArray jsonArray = new JSONArray(jsonStr);
                        /*
@@ -315,7 +307,6 @@ public class LoginActivity extends AppCompatActivity {
                             "fio": "Bobur",
                             "delFlag": 1*/
 
-
                     JSONObject jsonObject = new JSONObject(jsonStr);
                     thisUser.setId(jsonObject.getInt("id"));
                     thisUser.setClient_id(jsonObject.getInt("clientId"));
@@ -323,16 +314,12 @@ public class LoginActivity extends AppCompatActivity {
                     thisUser.setUserpass(jsonObject.getString("userpass"));
                     thisUser.setFio(jsonObject.getString("fio"));
                     thisUser.setDelFlag(jsonObject.getInt("delFlag"));
-                    Log.v("MyLog","Ah sani");
-
+                    Log.v("MyLog", "Ah sani");
 
                 } catch (final JSONException e) {
                     Log.v("MyTag2", e.getMessage());
                 }
-            }
-
-
-            else{
+            } else {
                 Log.v("MyTag2", "serverdan galmadi");
                 runOnUiThread(new Runnable() {
                     @Override
@@ -342,43 +329,32 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
             }
-
             return null;
-
         }
-
-
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            if(progressDialog.isShowing()){
+            if (progressDialog.isShowing()) {
                 progressDialog.dismiss();
             }
-            if (thisUser.getId()!=null) {
+            if (thisUser.getId() != null) {
                 intent = new Intent(LoginActivity.this, TypeChangeActivity.class);
                 intent.putExtra("user", thisUser);
                 intent.putExtra("ip", ipadress.getText().toString());
-                intent.putExtra("password" , passwordEdt.getText().toString());
+                intent.putExtra("password", passwordEdt.getText().toString());
 //                intent.putExtra("asosId",asosId);
                 saveIP(ipadress.getText().toString());
                 saveLogin(loginEdt.getText().toString());
                 savePassword(passwordEdt.getText().toString());
                 startActivity(intent);
                 finish();
-            }
-            else{
-                Log.v("MyLog","else Hato");
-                if(ipmessage.getVisibility()==View.INVISIBLE){
+            } else {
+                Log.v("MyLog", "else Hato");
+                if (ipmessage.getVisibility() == View.INVISIBLE) {
                     message.setVisibility(View.VISIBLE);
                 }
             }
-
-
         }
-
-
     }
-
-
 }

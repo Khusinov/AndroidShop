@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -197,7 +198,13 @@ public class IncomingAdd extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-
+        if (id == R.id.item5){
+            SharedPreferences preferences =getSharedPreferences("LoginPref", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear();
+            editor.apply();
+            finish();
+        }
 
         return super.onOptionsItemSelected(item);
     }

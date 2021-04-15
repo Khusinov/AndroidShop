@@ -2,9 +2,12 @@ package com.example.shop.ui;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -37,7 +40,6 @@ public class ProductsList extends AppCompatActivity {
     Intent intent;
     ImageView barcodescan;
     ImageView add;
-
     ListView listView;
     SearchView searchView;
     ArrayList<STovar> list;
@@ -113,8 +115,6 @@ public class ProductsList extends AppCompatActivity {
               //  finish();
             }
         });
-
-
     }
 
     @Override
@@ -142,6 +142,15 @@ public class ProductsList extends AppCompatActivity {
             Intent intent=new Intent(ProductsList.this, IncomingProducts.class);
             setDownIntent(intent);
             startActivity(intent);
+            finish();
+        }
+        if (id == R.id.item5){
+            SharedPreferences preferences =getSharedPreferences("LoginPref", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+
+            Log.d("Chikish","Selected Chiqishh");
+            editor.clear();
+            editor.apply();
             finish();
         }
 

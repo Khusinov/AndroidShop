@@ -24,4 +24,9 @@
         android:orderInCategory="100"
         android:title="Кирим"
         />
+    <item
+        android:id="@+id/item5"
+        android:orderInCategory="100"
+        android:title="Чикиш"
+        />
 </menu>

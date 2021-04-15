@@ -2,6 +2,7 @@ package com.example.shop.ui;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -127,6 +128,12 @@ public class TypeChangeActivity extends AppCompatActivity {
             Intent intent=new Intent(this, IncomingProducts.class);
             setDownIntent(intent);
             startActivity(intent);
+            finish();
+        }  if (id == R.id.item5){
+            android.content.SharedPreferences preferences =getSharedPreferences("LoginPref", Context.MODE_PRIVATE);
+            android.content.SharedPreferences.Editor editor = preferences.edit();
+            editor.clear();
+            editor.apply();
             finish();
         }
 
