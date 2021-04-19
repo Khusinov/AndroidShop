@@ -72,7 +72,6 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         {
             filter=new CustomFilter(originalList,this);
         }
-
         return filter;
     }
 }

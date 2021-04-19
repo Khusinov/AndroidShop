@@ -162,12 +162,12 @@ public class HttpHandler {
             object.put("brend", 0);
             object.put("papka", 0);
             object.put("tz_id", 0);
-            object.put("shtrix_full", 0);
+            object.put("shtrix_full", newProducts.getShtrix_full());
             object.put("qr", 0);
             object.put("kg", 0);
             object.put("tkol", newProducts.getTkol());
             object.put("tkol_in", newProducts.getTkol_in());
-            object.put("shtrix_in", 0);
+         //   object.put("shtrix_in", 0);
             object.put("nom_ru", "");
             object.put("shtrixkod", 1);
             object.put("qrkod", 0);
@@ -608,11 +608,12 @@ public class HttpHandler {
             jsonParam.put("userId", user.getId());
             jsonParam.put("xodimId", user.getId());
             jsonParam.put("haridorId", haridorId);
-            jsonParam.put("dilerId", 0);
+            jsonParam.put("dilerId",1 ); // zatish garak
             jsonParam.put("turOper", 2);
             jsonParam.put("sotuvTuri", type);
 
 
+            conn.setConnectTimeout(15000);
             conn.setConnectTimeout(15000);
             conn.setRequestProperty("Content-Type", "application/json");
             conn.connect();

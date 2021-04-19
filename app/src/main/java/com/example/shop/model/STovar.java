@@ -7,6 +7,8 @@ public class STovar  implements Serializable {
     String nom;
     String nom_ru;
     String nom_sh;
+
+
     String shtrix;
     String shtrix_in;
     Integer tz_id;

@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     private final int PERMISSION_REQUEST_CODE = 1001;
 
 
-    private static String urlLogin = "http://192.168.1.1:8080/application/json/user";
+    private static String urlLogin = "http://192.168.1.10:8080/application/json/user";
 
 
     @Override

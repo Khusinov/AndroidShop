@@ -38,7 +38,7 @@ public class IncomingWork extends AppCompatActivity {
     private Intent intent;
     private ImageView barcodescan;
     private ImageView add;
-    private Button next;
+    private ImageView next;
 
     private ListView listView;
     private TextView searchView;
@@ -102,7 +102,8 @@ public class IncomingWork extends AppCompatActivity {
 
         Log.d("newgeet",slaveId.toString());
 
-        next.setOnClickListener(new View.OnClickListener() {
+        next.setOnClickListener(
+                new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                Intent intent = new Intent(IncomingWork.this, ProductsList.class);
@@ -163,15 +164,13 @@ public class IncomingWork extends AppCompatActivity {
             liveData.observe(this, new Observer<ArrayList<SeriesModel>>() {
                 @Override
                 public void onChanged(@Nullable ArrayList<SeriesModel> seriesModels) {
-                    adapter = new SeriesAdapter(IncomingWork.this,R.layout.stovar_item, seriesModels);
+                    adapter = new SeriesAdapter(IncomingWork.this,R.layout.activity_incoming__item, seriesModels);
                     listView.setAdapter(adapter);
                 }
             });
         }
 
         soni.setText(allNumber +" dan "+ counts);
-
-
     }
 
     public void setDownIntent(Intent nextIntent) {
@@ -206,7 +205,6 @@ public class IncomingWork extends AppCompatActivity {
 
             if(jsonStr != null) {
 
-
                 try {
                     list.clear();
                     JSONArray jsonArray = new JSONArray(jsonStr);
@@ -215,12 +213,11 @@ public class IncomingWork extends AppCompatActivity {
                         JSONObject object = jsonArray.getJSONObject(i);
                         Log.v("MyLog1",object.toString());
                        // Log.d("object", object.getString("nom"));
-                        tovar.setId(object.getInt("id"));
-                        tovar.setMain_id(object.getInt("main_id"));
-                        tovar.setSlave_id(object.getInt("slave_id"));
+//                        tovar.setId(object.getInt("id"));
+//                        tovar.setMain_id(object.getInt("main_id"));
+//                        tovar.setSlave_id(object.getInt("slave_id"));
                         tovar.setSerial(object.getString("serial"));
                         Log.d("nom",tovar.getSerial());
-
 
                         list.add(tovar);
                         runOnUiThread(new Runnable() {
@@ -232,7 +229,6 @@ public class IncomingWork extends AppCompatActivity {
 
                         Log.d("newlist",list.toString());
 
-
                     }
                 } catch (final JSONException e) {
                     Log.v("MyTag2", e.getMessage());
@@ -243,7 +239,6 @@ public class IncomingWork extends AppCompatActivity {
                         }
                     });
                 }
-
             }
             else{
                 Log.v("MyTag2", "serverdan galmadi");
@@ -264,8 +259,6 @@ public class IncomingWork extends AppCompatActivity {
             if(progressDialog.isShowing()){
                 progressDialog.dismiss();
             }
-
-
         }
     }
 
@@ -276,10 +269,9 @@ public class IncomingWork extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog=new ProgressDialog(IncomingWork.this);
-            progressDialog.setMessage("Сақлаyмоқда !!!");
+            progressDialog.setMessage("Сақланмоқда !!!");
             progressDialog.setCancelable(false);
             progressDialog.show();
-
         }
 
         @Override

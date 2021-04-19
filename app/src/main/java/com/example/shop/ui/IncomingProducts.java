@@ -66,6 +66,7 @@ public class IncomingProducts extends AppCompatActivity {
     private AsosModell inserAsos;
     private Integer dillerId;
     private ImageView save;
+    private ImageView imageView4 ;
     private Integer newAsosCheck;
     private Button next;
 
@@ -82,6 +83,7 @@ public class IncomingProducts extends AppCompatActivity {
         incomingDollar = findViewById(R.id.incoming_dollar);
         listView = findViewById(R.id.incoming_ac_list);
         save = findViewById(R.id.incoming_save);
+        imageView4 = findViewById(R.id.imageView4);
         next = findViewById(R.id.incoming_add_product_next);
         intent = getIntent();
         thisUser = (User) intent.getSerializableExtra("user");
@@ -90,6 +92,7 @@ public class IncomingProducts extends AppCompatActivity {
         newAsosCheck = 0;
 
         asos = new AsosModell();
+      //  asos.setId(1); //  modellList.get().getId()
         asos.setClient_id(thisUser.getClient_id());
         asos.setUserId(thisUser.getId());
         asos.setDel_flag(1);
@@ -114,6 +117,7 @@ public class IncomingProducts extends AppCompatActivity {
                 asos.setNomer(incomingNum.getText().toString());
                 asos.setSana(incomingDate.getText().toString());
                 asos.setDilerId(dillerId);
+                asos.setId(1);
                 Integer check = 0;
                 if (incomingDollar.isChecked()) {
                     check = 1;
@@ -121,6 +125,7 @@ public class IncomingProducts extends AppCompatActivity {
                 asos.setDollar(check);
                 newAsosCheck = 1;
                 copyProperties(inserAsos, asos);
+                Log.d("Getgani" , inserAsos.getSumma().toString());
                 new getDiller().execute();
 
             }
@@ -138,19 +143,21 @@ public class IncomingProducts extends AppCompatActivity {
                 public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                     asos = modellList.get(position);
                     Integer index = dillerListId.indexOf(asos.getDilerId());
-                    if (index.equals(null) || index.equals(-1)) {
+                    if ((index.equals(null) &&  index.equals(-1))) {
                         try {
                             incomingdiller.setSelection(index);
                         }catch (Exception e){
                             Log.d("CatchError1" , e.toString());
-                            Toast.makeText(IncomingProducts.this, "Taminotchi yo'q", LENGTH_SHORT).show();
+                            Toast.makeText(IncomingProducts.this, "Taminotchi yo'q 1", LENGTH_SHORT).show();
                         }
 
                         dillerId = dillerListId.get(index);
                         incomingdiller.setText(incomingdiller.getAdapter().getItem(index).toString(), false);
                     }
                    // incomingdiller.setText(incomingdiller.getAdapter().getItem(index).toString(), false);
-                    incomingdiller.setText(asos.getDilerId().toString());
+                    Log.d("dillerID" , dillerList.get(asos.getDilerId()));
+                      incomingdiller.setText(dillerList.get(asos.getDilerId() -1 ));
+                    // incomingdiller.setText(asos.getDilerId().toString());
                     incomingNum.setText(asos.getNomer());
                     incomingDate.setText(asos.getSana());
                     if (asos.getDollar() == 1){
@@ -167,7 +174,8 @@ public class IncomingProducts extends AppCompatActivity {
 
             });
         } catch (Exception e){
-            Toast.makeText(IncomingProducts.this, "Taminotchi yo'q", LENGTH_SHORT).show();
+            Log.d("ErrCatch" , e.toString());
+            Toast.makeText(IncomingProducts.this, "Taminotchi yo'q 2", LENGTH_SHORT).show();
         }
 
         next.setOnClickListener(new View.OnClickListener() {
@@ -353,6 +361,7 @@ public class IncomingProducts extends AppCompatActivity {
                 String urlGetDillers = "http://" + ip + ":8080/application/json/" + thisUser.getClient_id() + "/dillers";
 //                String urlGetAsoss = "http://" + ip + ":8080/application/json/clientid="+thisUser.getClientId()+"/asoss";
                 String urlGetAsoss = "http://" + ip + ":8080/application/json/asoss";
+
                 String urlNewAsos = "http://" + ip + ":8080/application/json/newasos";
 
                 Log.v("MyTag", asos.toString());
@@ -452,6 +461,9 @@ public class IncomingProducts extends AppCompatActivity {
                             } else {
                                 modell.setTurOper(object.getInt("turOper"));
                             }
+                            if (object.get("summa").toString().equals("null")){
+                                modell.setSumma(0.0);
+                            } else
                             modell.setSumma(object.getDouble("summa"));
                             if (object.get("sotuvTuri").toString().equals("null")){
                                 modell.setSotuv_turi(0);

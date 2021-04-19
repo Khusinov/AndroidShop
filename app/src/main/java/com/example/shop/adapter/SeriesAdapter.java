@@ -36,7 +36,7 @@ public class SeriesAdapter  extends ArrayAdapter<SeriesModel> {
     public View getView(int position, View convertView, ViewGroup parent) {
         SeriesModel STovar=getItem(position);
         LayoutInflater inflater =LayoutInflater.from(getContext());
-        convertView=inflater.inflate(R.layout.stovar_item, parent, false);
+        convertView=inflater.inflate(R.layout.activity_incoming__item, parent, false);
 
 
         if(this.position.equals(position) ){
@@ -48,7 +48,7 @@ public class SeriesAdapter  extends ArrayAdapter<SeriesModel> {
 
 
 
-       ((TextView)convertView.findViewById(R.id.stovar_name)).setText(STovar.getSerial());
+       ((TextView)convertView.findViewById(R.id.Incoming_name)).setText(STovar.getSerial());
 
         convertView.setTag(STovar);
         return convertView;

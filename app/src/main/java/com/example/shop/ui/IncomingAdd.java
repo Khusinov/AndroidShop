@@ -26,7 +26,6 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.shop.HttpHandler;
 import com.example.shop.R;
 import com.example.shop.adapter.ItemAdapter;
@@ -34,15 +33,13 @@ import com.example.shop.adapter.STovarAdapter;
 import com.example.shop.model.Product;
 import com.example.shop.model.STovar;
 import com.example.shop.model.User;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-
 import me.sudar.zxingorient.ZxingOrient;
 import me.sudar.zxingorient.ZxingOrientResult;
+
 
 public class IncomingAdd extends AppCompatActivity {
 
@@ -90,15 +87,8 @@ public class IncomingAdd extends AppCompatActivity {
         main_changed1 = findViewById(R.id.linerLayout1);
         main_changed2 = findViewById(R.id.linerLayout2);
         selectProductView = findViewById(R.id.select_product);
-        /*intent.putExtra("ip","192.168.43.52");
-        User user=new User();
-        user.setId(30);
-        user.setUsername("K.Begiev");
-        user.setClientId(3);
-        user.setDelFlag(0);
-        intent.putExtra("user",user);
-        intent.putExtra("asosId",1821);
-*/
+
+
         ip = intent.getStringExtra("ip");
         asosId = intent.getIntExtra("asosId", 0);
         thisuUser = (User) intent.getSerializableExtra("user");
@@ -133,7 +123,6 @@ public class IncomingAdd extends AppCompatActivity {
                     tovar = stovar;
                     selectedProduct = 1;
                     Log.v("MyTag", tovar.toString());
-                   // selectProduct();
                 }
                 for (int j = 0; j < listView.getChildCount(); j++) {
                     if(i == j ){
@@ -167,8 +156,6 @@ public class IncomingAdd extends AppCompatActivity {
                 selectProduct = product;
                 new AddProduct().execute();
                 list2.add(product);
-                Log.v("MyTag", product.toString());
-                Log.v("MyTag", list2.size() + "");
                 adapter2.notifyDataSetChanged();
                 selectedProduct = 0;
             }
@@ -352,7 +339,6 @@ public class IncomingAdd extends AppCompatActivity {
             }
             if (i != 0)
                 selectProduct.setPutId(i);
-
         }
 
     }
@@ -378,13 +364,12 @@ public class IncomingAdd extends AppCompatActivity {
             String jsonStr = httpHandler.makeServiceCall(urlProducts);
             String jsonStr2 = httpHandler.makeServiceCall(urlAddProducts);
             if (jsonStr != null) {
-
                 try {
                     JSONArray jsonArray = new JSONArray(jsonStr);
                     for (int i = 0; i < jsonArray.length(); i++) {
                         STovar tovar = new STovar();
                         JSONObject object = jsonArray.getJSONObject(i);
-                        Log.v("MyLog", object.toString());
+                        Log.v("incoming Jsonstr", object.toString());
                         if (object.get("id").toString().equals("null")) {
                             tovar.setId(0);
                         } else
@@ -415,12 +400,31 @@ public class IncomingAdd extends AppCompatActivity {
                         } else {
                             tovar.setTz_id(object.getInt("tz_id"));
                         }
+                        if (object.get("kg").toString().equals("null")){
+                            tovar.setKg(0);
+                        } else
                         tovar.setKg(object.getInt("kg"));
+                        if ( object.get("shtrix_full").toString().equals("null")){
+                            tovar.setShtrix_full("");
+                        } else
                         tovar.setShtrix_full(object.getString("shtrix_full"));
+                        if (object.get("shtrix1").toString().equals("null")){
+                            tovar.setShtrix1("");
+                        } else
                         tovar.setShtrix1(object.getString("shtrix1"));
+                        if (object.get("shtrix2").toString().equals("null")){
+                            tovar.setShtrix2("");
+                        } else
                         tovar.setShtrix2(object.getString("shtrix2"));
+                        if (object.get("kat").toString().equals("null")){
+                            tovar.setKat(0);
+                        } else
                         tovar.setKat(object.getInt("kat"));
+                        if (object.get("brend").toString().equals("null")){
+                            tovar.setBrend(0);
+                        } else
                         tovar.setBrend(object.getInt("brend"));
+
                         if (object.get("papka").toString().equals("null")) {
                             tovar.setPapka(0);
                         } else
@@ -497,7 +501,7 @@ public class IncomingAdd extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(IncomingAdd.this, "Хатолик юз берди", Toast.LENGTH_LONG).show();
+                            Toast.makeText(IncomingAdd.this, "Хатолик юз берди 1", Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -537,7 +541,6 @@ public class IncomingAdd extends AppCompatActivity {
                         Product pr = new Product();
                         copyProperties(pr, item);
                         list2.add(pr);
-
                     }
                 } catch (JSONException e) {
                     e.getMessage();

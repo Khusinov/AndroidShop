@@ -559,7 +559,7 @@ public class MainActivity extends AppCompatActivity {
     private class GetProducts extends AsyncTask<Void, Void, Void> {
 //        http://localhost:8080/application/json/clientid=4/4/products
         private String urlProducts="http://"+ip+":8080/application/json/"+thisuUser.getClient_id()+"/"+ type +"/products";
-        private String urlAddProducts="http://"+ip+":8080/application/json/"+ asosId +"/products";
+        private String urlAddProducts="http://"+ip+":8080/application/json/products/"+ asosId ;
 
         @Override
         protected void onPreExecute() {
@@ -574,10 +574,14 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             HttpHandler httpHandler=new HttpHandler();
             String jsonStr=httpHandler.makeServiceCall(urlProducts);
+            Log.d("jsonStr" , jsonStr);
+
             String jsonStr2=httpHandler.makeServiceCall(urlAddProducts);
+
             Log.v(TAG,"URL:"+urlProducts);
             Log.v(TAG,"URL:"+urlAddProducts);
             if(jsonStr2!=null){
+                Log.d("jsonStr2" , jsonStr2);
                 try {
                     JSONArray jsonArray2=new JSONArray(jsonStr2);
                     for (int i=0;i<jsonArray2.length();i++){
