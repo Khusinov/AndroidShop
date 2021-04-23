@@ -95,10 +95,9 @@ public class HttpHandler {
             jsonParam.put("kurs", asosModell.getKurs());
             jsonParam.put("sum_d", asosModell.getSum_d());
             jsonParam.put("kol", asosModell.getKol());
-          //  jsonParam.put("summa" , 0.0);
+
             Log.d("err", jsonParam.toString());
              /*{
-
                     "client_id": 4,
                     "userId": 30,
                     "xodimId": 10,
@@ -291,9 +290,9 @@ public class HttpHandler {
             conn.setRequestProperty("Accept", "application/json");
             conn.setDoOutput(true);
             JSONObject object = new JSONObject();
-           /* object.put("slave_id", slaveId);
-            object.put("serial",serial.getSerial());*/
-            Log.d("errros", slaveId + serial.getSerial());
+           // object.put("slave_id", slaveId);
+           // object.put("serial",serial.getSerial());
+            Log.d("errros", slaveId + "  "+serial.getSerial());
 
 
             String jsonInputString = object.toString();
@@ -340,6 +339,7 @@ public class HttpHandler {
             while ((responseLine = br.readLine()) != null) {
                 response.append(responseLine.trim());
             }
+            Log.d("HttpID" , response.toString());
             return Integer.parseInt(response.toString());
 
 
@@ -350,7 +350,76 @@ public class HttpHandler {
     }
 
 
-    public Integer makeServiceAddNewProduct(String reqUrl, Product selectedItem) {
+    // delete qilish makeservice
+    public Integer makeServiceDelete(String reqUrl) {
+        HttpURLConnection conn = null;
+        try {
+            URL url = new URL(reqUrl);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("DELETE");
+            conn.setRequestProperty("Content-Type", "application/json; utf-8");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setDoOutput(true);
+            JSONObject object = new JSONObject();
+         //   object.put("id", id);
+           // Log.d("ERRORinMakeService", id.toString() + object.toString());
+
+            String jsonInputString = object.toString();
+            OutputStream os = conn.getOutputStream();
+            byte[] input = jsonInputString.getBytes("utf-8");
+            os.write(input, 0, input.length);
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+            StringBuilder response = new StringBuilder();
+            String responseLine = null;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+            return Integer.parseInt(response.toString());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    // edit qilish
+    public Integer makeServiceEdit(String reqUrl) {
+        HttpURLConnection conn = null;
+        try {
+            URL url = new URL(reqUrl);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("PUT"); // aniqmi shu
+            conn.setRequestProperty("Content-Type", "application/json; utf-8");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setDoOutput(true);
+            JSONObject object = new JSONObject();
+//            object.put("id" , id);
+//            object.put("tkol" , tkol);
+//            object.put("tkol_in" , tkol_in);
+            //object.put("value" , value);
+            //   object.put("id", id);
+            // Log.d("ERRORinMakeService", id.toString() + object.toString());
+
+            String jsonInputString = object.toString();
+            OutputStream os = conn.getOutputStream();
+            byte[] input = jsonInputString.getBytes("utf-8");
+            os.write(input, 0, input.length);
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+            StringBuilder response = new StringBuilder();
+            String responseLine = null;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+            return Integer.parseInt(response.toString());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
+        public Integer makeServiceAddNewProduct(String reqUrl, Product selectedItem) {
         HttpURLConnection conn = null;
         try {
             URL url = new URL(reqUrl);

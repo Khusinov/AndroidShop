@@ -129,9 +129,9 @@ public class ProductAdd extends AppCompatActivity {
         list = new ArrayList<>();
 
         dillerList = new ArrayList<>();
-        dillerList.add("neobizatilni");
-        dillerList.add("50/50");
         dillerList.add("obizatilni");
+        dillerList.add("50/50");
+        dillerList.add("neobizatilni");
 
         if(sTovar != null){
             copyPraporty(sTovar);
@@ -171,7 +171,6 @@ public class ProductAdd extends AppCompatActivity {
                 new ZxingOrient(ProductAdd.this).setIcon(R.mipmap.ic_launcher).initiateScan();
             }
         });
-        Log.d("iseds",isEdit.toString());
         if (isEdit != 0){
             saveProduct.setVisibility(View.GONE);
             editProduct.setVisibility(View.VISIBLE);
@@ -228,13 +227,13 @@ public class ProductAdd extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i == 0){
-                    series = 0;
+                    series = 2;
                 }
                 else if (i == 1){
                     series = 1;
                 }
                 else{
-                    series = 2;
+                    series = 0;
                 }
             }
 
@@ -430,7 +429,6 @@ public class ProductAdd extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             HttpHandler httpHandler=new HttpHandler();
             String reqUrl="http://"+ip+":8080/application/json/addproduct";
-            Log.d("latss",kat.toString());
             x = httpHandler.makeServiceChangeProducts(reqUrl,sTovar,thisUser,kat,brend , papka , nom_sh);
             return null;
         }
@@ -509,8 +507,6 @@ public class ProductAdd extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             HttpHandler httpHandler=new HttpHandler();
             String jsonStr=httpHandler.makeServiceCall(urlProducts);
-            Log.d("urlsss",urlProducts);
-            Log.d("ssssa",jsonStr);
             if(jsonStr!=null){
                 try {
                     list.clear();
@@ -520,7 +516,6 @@ public class ProductAdd extends AppCompatActivity {
                         JSONObject object2 = jsonArray2.getJSONObject(i);
 
                         getList.setId(object2.getInt("id"));
-                   //     Log.d("zzzz0",String.valueOf(object2.getInt("kolIn")));
                         if (String.valueOf(object2.getInt("kol")).equals("null")){
                             getList.setKol(null);
                         }else {

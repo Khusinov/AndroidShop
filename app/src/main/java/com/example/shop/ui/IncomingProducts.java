@@ -110,7 +110,8 @@ public class IncomingProducts extends AppCompatActivity {
         asos.setSum_d(0.0);
         asos.setKol(1);
 
-        save.setOnClickListener(new View.OnClickListener() {
+        //This is plus button | Add new Document | Save edi.
+        imageView4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 inserAsos = new AsosModell();
@@ -130,6 +131,7 @@ public class IncomingProducts extends AppCompatActivity {
 
             }
         });
+
         incomingdiller.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -154,9 +156,9 @@ public class IncomingProducts extends AppCompatActivity {
                         dillerId = dillerListId.get(index);
                         incomingdiller.setText(incomingdiller.getAdapter().getItem(index).toString(), false);
                     }
-                   // incomingdiller.setText(incomingdiller.getAdapter().getItem(index).toString(), false);
+                    incomingdiller.setText(incomingdiller.getAdapter().getItem(index).toString(), false);
                     Log.d("dillerID" , dillerList.get(asos.getDilerId()));
-                      incomingdiller.setText(dillerList.get(asos.getDilerId() -1 ));
+                     // incomingdiller.setText(dillerList.get(asos.getDilerId() -1 ));
                     // incomingdiller.setText(asos.getDilerId().toString());
                     incomingNum.setText(asos.getNomer());
                     incomingDate.setText(asos.getSana());
@@ -357,11 +359,9 @@ public class IncomingProducts extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             if (thisUser.getId() != null) {
-//                http://localhost:8080/application/json/dillerid=4/harodors
                 String urlGetDillers = "http://" + ip + ":8080/application/json/" + thisUser.getClient_id() + "/dillers";
-//                String urlGetAsoss = "http://" + ip + ":8080/application/json/clientid="+thisUser.getClientId()+"/asoss";
+//              String urlGetAsoss = "http://" + ip + ":8080/application/json/clientid="+thisUser.getClientId()+"/asoss";
                 String urlGetAsoss = "http://" + ip + ":8080/application/json/asoss";
-
                 String urlNewAsos = "http://" + ip + ":8080/application/json/newasos";
 
                 Log.v("MyTag", asos.toString());
@@ -454,7 +454,7 @@ public class IncomingProducts extends AppCompatActivity {
                             if (object.get("dilerId").toString().equals("null")){
                                 modell.setDilerId(0);
                             } else
-                            modell.setDilerId(object.getInt("dilerId"));
+                               modell.setDilerId(object.getInt("dilerId"));
 
                             if (object.get("turOper").toString().equals("null")) {
                                 modell.setTurOper(0);
@@ -540,6 +540,5 @@ public class IncomingProducts extends AppCompatActivity {
             loadData();
         }
     }
-
 
 }

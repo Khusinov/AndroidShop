@@ -22,7 +22,7 @@
         android:textSize="14sp" />
 
     <ImageView
-        android:id="@+id/item_delete"
+        android:id="@+id/item_deleteW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"

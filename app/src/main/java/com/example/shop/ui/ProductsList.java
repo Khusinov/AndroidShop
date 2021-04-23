@@ -100,10 +100,10 @@ public class ProductsList extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 STovar tovar=(STovar) view.getTag();
-                if (tovar != null)
-                    Log.v("MyTag",tovar.toString());
+              //  if (tovar != null)
+                 //  Log.v("MyTag",tovar.toString());
                 Intent nextintent=new Intent(ProductsList.this,ProductAdd.class);
-                Log.d("katyt",tovar.getKat().toString());
+              //  Log.d("katyt",tovar.getKat().toString());
                 intent.putExtra("stovar",tovar);
                 nextintent.putExtra("tovarKol",tovar.getKat());
                 nextintent.putExtra("brend",tovar.getBrend());
@@ -147,8 +147,6 @@ public class ProductsList extends AppCompatActivity {
         if (id == R.id.item5){
             SharedPreferences preferences =getSharedPreferences("LoginPref", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
-
-            Log.d("Chikish","Selected Chiqishh");
             editor.clear();
             editor.apply();
             finish();
@@ -225,11 +223,11 @@ public class ProductsList extends AppCompatActivity {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         STovar tovar = new STovar();
                         JSONObject object = jsonArray.getJSONObject(i);
-                        Log.v("MyLog1",object.toString());
-                        Log.d("object", object.getString("nom"));
+                      //  Log.v("MyLog1",object.toString());
+                      //  Log.d("object", object.getString("nom"));
                         tovar.setId(Integer.parseInt(String.valueOf(object.getInt("id"))));
                         tovar.setNom(object.getString("nom"));
-                        Log.d("nom",tovar.getNom());
+                       // Log.d("nom",tovar.getNom());
                         if (object.getString("nom_ru") == null){
                             tovar.setNom_ru("");
                         } else {
@@ -286,7 +284,7 @@ public class ProductsList extends AppCompatActivity {
                         if (object.get("sotish").toString().equals("null")){
                             tovar.setSotish(0.0);
                         } else {
-                            Log.d("Else " , "  ");
+                          //  Log.d("Else " , "  ");
                             tovar.setSotish(object.getDouble("sotish"));
                         }
                         if (object.get("ulg1").toString().equals("null")){

@@ -322,7 +322,7 @@ public class TypeChangeActivity extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             if (thisUser.getId()!=null) {
 //                http://localhost:8080/application/json/clientid=4/harodors
-                String urlGetHaridor = "http://" + ip + ":8080/application/json/clientid="+thisUser.getClient_id()+"/harodors";
+                String urlGetHaridor = "http://" + ip + ":8080/application/json/"+thisUser.getClient_id()+"/haridors";
 
                 String jsonHaridorsStr=httpHandler.makeServiceCall(urlGetHaridor);
                 if(jsonHaridorsStr != null) {

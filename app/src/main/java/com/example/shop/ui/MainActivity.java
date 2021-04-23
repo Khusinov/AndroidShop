@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView barcodeImageView;
     private SMSsender smSsender;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
