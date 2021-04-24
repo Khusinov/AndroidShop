@@ -85,10 +85,10 @@ public class HttpHandler {
             jsonParam.put("xodimId", asosModell.getXodimId());
             jsonParam.put("haridorId", asosModell.getHaridorId());
             jsonParam.put("sana", asosModell.getSana());
-            jsonParam.put("dilerId", asosModell.getDilerId());
-            jsonParam.put("turOper", asosModell.getTurOper());
-            jsonParam.put("summa" , 0.0);
-            jsonParam.put("sotuvTuri", asosModell.getSotuv_turi());
+            jsonParam.put("diler_id", asosModell.getDiler_id());
+            jsonParam.put("tur_oper", asosModell.getTur_oper());
+            jsonParam.put("summa" , asosModell.getSumma());
+            jsonParam.put("sotuv_turi", asosModell.getSotuv_turi());
             jsonParam.put("nomer", asosModell.getNomer());
             jsonParam.put("del_flag", asosModell.getDel_flag());
             jsonParam.put("dollar", asosModell.getDollar());
@@ -166,7 +166,6 @@ public class HttpHandler {
             object.put("kg", 0);
             object.put("tkol", newProducts.getTkol());
             object.put("tkol_in", newProducts.getTkol_in());
-         //   object.put("shtrix_in", 0);
             object.put("nom_ru", "");
             object.put("shtrixkod", 1);
             object.put("qrkod", 0);
@@ -174,7 +173,6 @@ public class HttpHandler {
             object.put("del_flag", 0);
             object.put("client_id", user.getClient_id());
             object.put("brend", 0);
-          //  object.put("kat",newProducts.getKat());
             object.put("sotish", newProducts.getSotish());
             object.put("ulg1", newProducts.getUlg1());
             object.put("ulg2", newProducts.getUlg2());
@@ -223,7 +221,6 @@ public class HttpHandler {
             object.put("user_id",user.getUser_id());
             object.put("nom", newProducts.getNom());
             object.put("nom_sh", nom_sh);
-           // Log.d("nomsh" , newProducts.getNom_sh());
             object.put("shtrix", newProducts.getShtrix());
             object.put("shtrix1", newProducts.getShtrix1());
             object.put("shtrix2", newProducts.getShtrix2());
@@ -290,8 +287,6 @@ public class HttpHandler {
             conn.setRequestProperty("Accept", "application/json");
             conn.setDoOutput(true);
             JSONObject object = new JSONObject();
-           // object.put("slave_id", slaveId);
-           // object.put("serial",serial.getSerial());
             Log.d("errros", slaveId + "  "+serial.getSerial());
 
 
@@ -348,7 +343,6 @@ public class HttpHandler {
         }
         return 0;
     }
-
 
     // delete qilish makeservice
     public Integer makeServiceDelete(String reqUrl) {
@@ -677,9 +671,9 @@ public class HttpHandler {
             jsonParam.put("userId", user.getId());
             jsonParam.put("xodimId", user.getId());
             jsonParam.put("haridorId", haridorId);
-            jsonParam.put("dilerId",1 ); // zatish garak
-            jsonParam.put("turOper", 2);
-            jsonParam.put("sotuvTuri", type);
+            jsonParam.put("diler_id",11 ); // zatish garak
+            jsonParam.put("tur_oper", 2);
+            jsonParam.put("sotuv_turi", type);
 
 
             conn.setConnectTimeout(15000);

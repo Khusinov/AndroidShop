@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -39,7 +38,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
@@ -53,7 +51,7 @@ public class IncomingProducts extends AppCompatActivity {
     List<CharSequence> list;
     List<String> dillerList;
     List<Integer> dillerListId;
-    List<AsosModell> modelAsos;
+    //List<AsosModell> modelAsos;
     List<AsosModell> modellList;
     List<String> listAsos;
     ArrayAdapter<String> adapterdillers;
@@ -66,9 +64,7 @@ public class IncomingProducts extends AppCompatActivity {
     private AsosModell inserAsos;
     private Integer dillerId;
     private ImageView save;
-    private ImageView imageView4 ;
     private Integer newAsosCheck;
-    private Button next;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +79,8 @@ public class IncomingProducts extends AppCompatActivity {
         incomingDollar = findViewById(R.id.incoming_dollar);
         listView = findViewById(R.id.incoming_ac_list);
         save = findViewById(R.id.incoming_save);
-        imageView4 = findViewById(R.id.imageView4);
-        next = findViewById(R.id.incoming_add_product_next);
+        ImageView imageView4 = findViewById(R.id.imageView4);
+        Button next = findViewById(R.id.incoming_add_product_next);
         intent = getIntent();
         thisUser = (User) intent.getSerializableExtra("user");
         ip = intent.getStringExtra("ip");
@@ -92,19 +88,19 @@ public class IncomingProducts extends AppCompatActivity {
         newAsosCheck = 0;
 
         asos = new AsosModell();
-      //  asos.setId(1); //  modellList.get().getId()
+        //  asos.setId(1); //  modellList.get().getId()
         asos.setClient_id(thisUser.getClient_id());
         asos.setUserId(thisUser.getId());
         asos.setDel_flag(1);
-        asos.setTurOper(1);
+        asos.setTur_oper(1);
         asos.setXodimId(thisUser.getId());
         asos.setHaridorId(0);
         asos.setSana("");
-        asos.setDilerId(1);
-        asos.setTurOper(1);
+        asos.setDiler_id(1); // test uchun
+        asos.setTur_oper(1);
         asos.setSumma(0.0);
         asos.setSotuv_turi(1);
-        asos.setNomer("0");
+        asos.setNomer("");
         asos.setDollar(1);
         asos.setKurs(0.0);
         asos.setSum_d(0.0);
@@ -117,18 +113,18 @@ public class IncomingProducts extends AppCompatActivity {
                 inserAsos = new AsosModell();
                 asos.setNomer(incomingNum.getText().toString());
                 asos.setSana(incomingDate.getText().toString());
-                asos.setDilerId(dillerId);
+                asos.setDiler_id(dillerId);
+                Log.d("DillerID_IP", dillerId.toString());
                 asos.setId(1);
-                Integer check = 0;
+                int check = 0;
                 if (incomingDollar.isChecked()) {
                     check = 1;
                 }
                 asos.setDollar(check);
                 newAsosCheck = 1;
                 copyProperties(inserAsos, asos);
-                Log.d("Getgani" , inserAsos.getSumma().toString());
+                Log.d("Getgani", inserAsos.getSumma().toString());
                 new getDiller().execute();
-
             }
         });
 
@@ -136,6 +132,7 @@ public class IncomingProducts extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 dillerId = dillerListId.get(i);
+                Log.d("DillerID1" , dillerId.toString());
             }
         });
         try {
@@ -143,40 +140,47 @@ public class IncomingProducts extends AppCompatActivity {
 
                 @Override
                 public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                    asos = modellList.get(position);
-                    Integer index = dillerListId.indexOf(asos.getDilerId());
-                    if ((index.equals(null) &&  index.equals(-1))) {
+                    Log.d("Modellist_IP1", modellList.toString());
+                    try {
+                        asos = modellList.get(position);
+                        Log.d("Asos" , asos.toString());
+                    } catch (Exception e) {
+                        Log.d("Catch", e.toString());
+                    }
+
+
+                    Integer index = dillerListId.indexOf(asos.getDiler_id());
+                    Log.d("Index" , index.toString());
+                    if ((index.equals(null) && index.equals(-1))) {
                         try {
                             incomingdiller.setSelection(index);
-                        }catch (Exception e){
-                            Log.d("CatchError1" , e.toString());
+                        } catch (Exception e) {
+                            Log.d("CatchError1", e.toString());
                             Toast.makeText(IncomingProducts.this, "Taminotchi yo'q 1", LENGTH_SHORT).show();
                         }
 
-                        dillerId = dillerListId.get(index);
+                        dillerId = dillerListId.get(index+1); // +1
                         incomingdiller.setText(incomingdiller.getAdapter().getItem(index).toString(), false);
                     }
-                    incomingdiller.setText(incomingdiller.getAdapter().getItem(index).toString(), false);
-                    Log.d("dillerID" , dillerList.get(asos.getDilerId()));
-                     // incomingdiller.setText(dillerList.get(asos.getDilerId() -1 ));
+                    if (index > -1) {
+                        dillerId = dillerListId.get(index);
+                        Log.d("Dillerid2" , dillerId.toString());
+                        incomingdiller.setText(incomingdiller.getAdapter().getItem(index).toString(), false);
+                    }
+                    // incomingdiller.setText(dillerList.get(asos.getDilerId() -1 ));
                     // incomingdiller.setText(asos.getDilerId().toString());
                     incomingNum.setText(asos.getNomer());
                     incomingDate.setText(asos.getSana());
-                    if (asos.getDollar() == 1){
-                        incomingDollar.setChecked(true);
-                    } else incomingDollar.setChecked(false);
-
-                    // your code here
+                    incomingDollar.setChecked(asos.getDollar() == 1);
                 }
 
                 @Override
                 public void onNothingSelected(AdapterView<?> parentView) {
-                    // your code here
                 }
 
             });
-        } catch (Exception e){
-            Log.d("ErrCatch" , e.toString());
+        } catch (Exception e) {
+            Log.d("ErrCatch", e.toString());
             Toast.makeText(IncomingProducts.this, "Taminotchi yo'q 2", LENGTH_SHORT).show();
         }
 
@@ -233,12 +237,13 @@ public class IncomingProducts extends AppCompatActivity {
         asosBefore.setDollar(asosLast.getDollar());
         asosBefore.setClient_id(asosLast.getClient_id());
         asosBefore.setDel_flag(1);
-        asosBefore.setTurOper(1);
+        asosBefore.setTur_oper(1);
         asosBefore.setXodimId(asosLast.getXodimId());
         asosBefore.setHaridorId(0);
         asosBefore.setSana(asosLast.getSana());
-        asosBefore.setDilerId(asosLast.getDilerId());
-        asosBefore.setTurOper(1);
+        asosBefore.setDiler_id(asosLast.getDiler_id());
+        Log.d("dillerid" , asosBefore.getDiler_id().toString());
+        asosBefore.setTur_oper(1);
         asosBefore.setSumma(0.0);
         asosBefore.setSotuv_turi(1);
         asosBefore.setNomer(asosLast.getNomer());
@@ -258,7 +263,6 @@ public class IncomingProducts extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.item1) {
-//           new Finish().execute();
             Intent intent = new Intent(IncomingProducts.this, TypeChangeActivity.class);
             setDownIntent(intent);
             startActivity(intent);
@@ -289,7 +293,7 @@ public class IncomingProducts extends AppCompatActivity {
     }
 
     public Integer tryParse(Object obj) {
-        Integer retVal;
+        int retVal;
         try {
             retVal = Integer.parseInt((String) obj);
         } catch (NumberFormatException nfe) {
@@ -299,7 +303,7 @@ public class IncomingProducts extends AppCompatActivity {
     }
 
     public Double tryParseDouble(Object obj) {
-        Double retVal;
+        double retVal;
         try {
             retVal = Double.parseDouble((String) obj);
         } catch (NumberFormatException nfe) {
@@ -326,8 +330,8 @@ public class IncomingProducts extends AppCompatActivity {
     private void loadData() {
         for (int i = 0; i < modellList.size(); i++) {
             CharSequence x = "";
-            Integer index = -1;
-            index = dillerListId.indexOf(modellList.get(i).getDilerId());
+            int index = -1;
+            index = dillerListId.indexOf(modellList.get(i).getDiler_id());
             if (index > -1)
                 x = dillerList.get(index);
             else
@@ -339,11 +343,9 @@ public class IncomingProducts extends AppCompatActivity {
         }
 
         Log.v("MyTag2", list.size() + "size");
-
     }
 
     class getDiller extends AsyncTask<Void, Void, Void> {
-
 
         HttpHandler httpHandler = new HttpHandler();
 
@@ -360,7 +362,6 @@ public class IncomingProducts extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             if (thisUser.getId() != null) {
                 String urlGetDillers = "http://" + ip + ":8080/application/json/" + thisUser.getClient_id() + "/dillers";
-//              String urlGetAsoss = "http://" + ip + ":8080/application/json/clientid="+thisUser.getClientId()+"/asoss";
                 String urlGetAsoss = "http://" + ip + ":8080/application/json/asoss";
                 String urlNewAsos = "http://" + ip + ":8080/application/json/newasos";
 
@@ -371,17 +372,21 @@ public class IncomingProducts extends AppCompatActivity {
                 asosModell.setUserId(asos.getUserId());
                 asosModell.setClient_id(asos.getClient_id());
                 asosModell.setDollar(asos.getDollar());
-                asosModell.setDilerId(asos.getDilerId());
+                asosModell.setDiler_id(asos.getDiler_id());
                 asosModell.setSana(asos.getSana());
                 asosModell.setKol(asos.getKol());
 
                 if (newAsosCheck == 0) {
                     jsonAsosStr = httpHandler.makeServiceCreate(urlGetAsoss, asos);
+                    Log.d("newAsosCheck1", newAsosCheck.toString());
                 } else {
+                    Log.d("newAsosCheck2", newAsosCheck.toString());
                     jsonAsosStr = httpHandler.makeServiceCreate(urlNewAsos, inserAsos);
                 }
 
                 if (jsonDillersStr != null) {
+                    dillerList.clear();
+                    dillerListId.clear();
                     Log.d("Dillers", jsonDillersStr);
                     try {
                         JSONArray jsonArray = new JSONArray(jsonDillersStr);
@@ -423,6 +428,11 @@ public class IncomingProducts extends AppCompatActivity {
                 }
                 Log.d("json", jsonAsosStr);
                 if (jsonAsosStr != null) {
+                    if (!jsonAsosStr.contains("[") && !jsonAsosStr.contains("]")) {
+                        jsonAsosStr = "[" + jsonAsosStr + "]";
+                        Log.d("JsonObj", jsonAsosStr);
+                    }
+                    modellList.clear();
                     try {
                         JSONArray jsonArray = new JSONArray(jsonAsosStr);
                         for (int i = 0; i < jsonArray.length(); i++) {
@@ -430,69 +440,71 @@ public class IncomingProducts extends AppCompatActivity {
                             Log.d("Object ", object.toString());
                             AsosModell modell = new AsosModell();
                             modell.setId(object.getInt("id"));
-                            if (object.get("client_id").toString().equals("null")){
+                            if (object.get("client_id").toString().equals("null")) {
                                 modell.setClient_id(0);
                             } else
-                            modell.setClient_id(object.getInt("client_id"));
-                            if (object.get("userId").toString().equals("null")){
+                                modell.setClient_id(object.getInt("client_id"));
+                            if (object.get("userId").toString().equals("null")) {
                                 modell.setUserId(0);
                             } else
-                            modell.setUserId(object.getInt("userId"));
-                            if (object.get("xodimId").toString().equals("null")){
+                                modell.setUserId(object.getInt("userId"));
+                            if (object.get("xodimId").toString().equals("null")) {
                                 modell.setXodimId(0);
                             } else
-                            modell.setXodimId(object.getInt("xodimId"));
-                            if (object.get("haridorId").toString().equals("null")){
+                                modell.setXodimId(object.getInt("xodimId"));
+                            if (object.get("haridorId").toString().equals("null")) {
                                 modell.setHaridorId(-1);
                             } else {
                                 modell.setHaridorId(object.getInt("haridorId"));
                             }
-                            if (object.get("sana").toString().equals("null")){
-                                modell.setSana("0");
+                            if (object.get("sana").toString().equals("null")) {
+                                modell.setSana("");
                             } else
-                            modell.setSana(object.getString("sana"));
-                            if (object.get("dilerId").toString().equals("null")){
-                                modell.setDilerId(0);
+                                modell.setSana(object.getString("sana"));
+                            if (object.get("diler_id").toString().equals("null")) {
+                                modell.setDiler_id(0);
                             } else
-                               modell.setDilerId(object.getInt("dilerId"));
+                                modell.setDiler_id(object.getInt("diler_id"));
 
-                            if (object.get("turOper").toString().equals("null")) {
-                                modell.setTurOper(0);
+                            if (object.get("tur_oper").toString().equals("null")) {
+                                modell.setTur_oper(0);
                             } else {
-                                modell.setTurOper(object.getInt("turOper"));
+                                modell.setTur_oper(object.getInt("tur_oper"));
                             }
-                            if (object.get("summa").toString().equals("null")){
+                            if (object.get("summa").toString().equals("null")) {
                                 modell.setSumma(0.0);
                             } else
-                            modell.setSumma(object.getDouble("summa"));
-                            if (object.get("sotuvTuri").toString().equals("null")){
+                                modell.setSumma(object.getDouble("summa"));
+                            if (object.get("sotuv_turi").toString().equals("null")) {
                                 modell.setSotuv_turi(0);
-                            } else {modell.setSotuv_turi(object.getInt("sotuvTuri"));}
-                            if (object.get("nomer").toString().equals("null")){
+                            } else {
+                                modell.setSotuv_turi(object.getInt("sotuv_turi"));
+                            }
+                            if (object.get("nomer").toString().equals("null")) {
                                 modell.setNomer("");
                             } else
-                            modell.setNomer(object.getString("nomer"));
-                            if (object.get("del_flag").toString().equals("null")){
+                                modell.setNomer(object.getString("nomer"));
+                            if (object.get("del_flag").toString().equals("null")) {
                                 modell.setDel_flag(0);
                             } else
-                            modell.setDel_flag(object.getInt("del_flag"));
-                            if (object.get("dollar").toString().equals("null")){
+                                modell.setDel_flag(object.getInt("del_flag"));
+                            if (object.get("dollar").toString().equals("null")) {
                                 modell.setDollar(0);
                             } else
-                            modell.setDollar(object.getInt("dollar"));
-                            if (object.get("kurs").toString().equals("null")){
+                                modell.setDollar(object.getInt("dollar"));
+                            if (object.get("kurs").toString().equals("null")) {
                                 modell.setKurs(0.0);
                             } else {
                                 modell.setKurs(object.getDouble("kurs"));
                             }
-                            if (object.get("sum_d").toString().equals("null")){
+                            if (object.get("sum_d").toString().equals("null")) {
                                 modell.setSum_d(0.0);
                             } else
-                            modell.setSum_d(object.getDouble("sum_d"));
-                            if (object.get("kol").toString().equals("null")){
+                                modell.setSum_d(object.getDouble("sum_d"));
+                            if (object.get("kol").toString().equals("null")) {
                                 modell.setKol(0);
                             } else
-                            modell.setKol(object.getInt("kol"));
+                                modell.setKol(object.getInt("kol"));
                             /*{
                                 "id": 1782,
                                     "clientId": 4,
@@ -512,6 +524,7 @@ public class IncomingProducts extends AppCompatActivity {
                                     "kol": null
                             }*/
                             modellList.add(modell);
+                            Log.d("Modellist_IP", modellList.toString());
                         }
 
                     } catch (JSONException e) {

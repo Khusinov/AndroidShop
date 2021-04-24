@@ -9,8 +9,8 @@ public class AsosModell implements Serializable {
     private Integer xodimId;
     private Integer haridorId;
     private String sana;
-    private Integer dilerId;
-    private Integer turOper;
+    private Integer diler_id;
+    private Integer tur_oper;
     private Double summa;
     private Integer sotuv_turi;
     private String nomer;
@@ -107,20 +107,20 @@ public class AsosModell implements Serializable {
         this.haridorId = haridorId;
     }
 
-    public Integer getDilerId() {
-        return dilerId;
+    public Integer getDiler_id() {
+        return diler_id;
     }
 
-    public void setDilerId(Integer dilerId) {
-        this.dilerId = dilerId;
+    public void setDiler_id(Integer diler_id) {
+        this.diler_id = diler_id;
     }
 
-    public Integer getTurOper() {
-        return turOper;
+    public Integer getTur_oper() {
+        return tur_oper;
     }
 
-    public void setTurOper(Integer turOper) {
-        this.turOper = turOper;
+    public void setTur_oper(Integer tur_oper) {
+        this.tur_oper = tur_oper;
     }
 
     public String getSana() {
