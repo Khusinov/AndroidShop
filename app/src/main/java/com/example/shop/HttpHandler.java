@@ -700,6 +700,62 @@ public class HttpHandler {
         return response;
     }
 
+    public Integer makeServiceChangeAsos(String reqUrl, AsosModell inserAsos) {
+        HttpURLConnection conn = null;
+        try {
+            URL url = new URL(reqUrl);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("PUT");
+            conn.setRequestProperty("Content-Type", "application/json; utf-8");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setDoOutput(true);
+            JSONObject object = new JSONObject();
+            Log.v("HttpInserAsos", inserAsos.toString() + "");
+
+            object.put("id" , inserAsos.getId());
+            Log.d("HTTPasosID" , inserAsos.getId().toString());
+            object.put("client_id", inserAsos.getClient_id());
+            object.put("userId", inserAsos.getUserId());
+            object.put("xodimId", inserAsos.getXodimId());
+            object.put("haridorId", inserAsos.getHaridorId());
+            object.put("sana", inserAsos.getSana());
+            object.put("diler_id", inserAsos.getDiler_id());
+            object.put("tur_oper", inserAsos.getTur_oper());
+            object.put("summa" , inserAsos.getSumma());
+            object.put("sotuv_turi", inserAsos.getSotuv_turi());
+            object.put("nomer", inserAsos.getNomer());
+            object.put("del_flag", inserAsos.getDel_flag());
+            object.put("dollar", inserAsos.getDollar());
+            object.put("kurs", inserAsos.getKurs());
+            object.put("sum_d", inserAsos.getSum_d());
+            object.put("kol", inserAsos.getKol());
+
+            Log.d("err", object.toString());
+
+
+
+
+            String jsonInputString = object.toString();
+            OutputStream os = conn.getOutputStream();
+            byte[] input = jsonInputString.getBytes("utf-8");
+            os.write(input, 0, input.length);
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+            StringBuilder response = new StringBuilder();
+            String responseLine = null;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+            return  response.capacity();//  Integer.parseInt(response.toString());
+
+
+        } catch (IOException e) {
+            Log.v("MyTag", e.getMessage());
+        } catch (JSONException e) {
+            Log.v("MyTag", e.getMessage());
+        }
+        return 0;
+    }
+
 
     private String convertStreamToString(InputStream in) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
