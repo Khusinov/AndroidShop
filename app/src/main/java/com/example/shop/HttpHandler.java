@@ -87,7 +87,7 @@ public class HttpHandler {
             jsonParam.put("sana", asosModell.getSana());
             jsonParam.put("diler_id", asosModell.getDiler_id());
             jsonParam.put("tur_oper", asosModell.getTur_oper());
-            jsonParam.put("summa" , asosModell.getSumma());
+            jsonParam.put("summa", asosModell.getSumma());
             jsonParam.put("sotuv_turi", asosModell.getSotuv_turi());
             jsonParam.put("nomer", asosModell.getNomer());
             jsonParam.put("del_flag", asosModell.getDel_flag());
@@ -151,9 +151,9 @@ public class HttpHandler {
             conn.setDoOutput(true);
             JSONObject object = new JSONObject();
             object.put("id", newProducts.getId());
-            object.put("user_id",user.getUser_id());
+            object.put("user_id", user.getUser_id());
             object.put("nom", newProducts.getNom());
-            Log.d("nom_shshs" , newProducts.getNom_sh());
+            Log.d("nom_shshs", newProducts.getNom_sh());
             object.put("nom_sh", newProducts.getNom_sh());
             object.put("shtrix", newProducts.getShtrix());
             object.put("shtrix1", newProducts.getShtrix1());
@@ -183,7 +183,7 @@ public class HttpHandler {
             object.put("kol_in", newProducts.getKol_in());
             object.put("sena_d", newProducts.getSena_d());
             object.put("sena_in_d", newProducts.getSena_in_d());
-            object.put("seriya",newProducts.getSeriya());
+            object.put("seriya", newProducts.getSeriya());
 
 
             String jsonInputString = object.toString();
@@ -207,7 +207,7 @@ public class HttpHandler {
         return 0;
     }
 
-    public Integer makeServiceChangeProducts(String reqUrl, STovar newProducts, User user, Integer kat, Integer brend , Integer papka , String nom_sh) {
+    public Integer makeServiceChangeProducts(String reqUrl, STovar newProducts, User user, Integer kat, Integer brend, Integer papka, String nom_sh) {
         HttpURLConnection conn = null;
         try {
             URL url = new URL(reqUrl);
@@ -218,7 +218,7 @@ public class HttpHandler {
             conn.setDoOutput(true);
             JSONObject object = new JSONObject();
             object.put("id", newProducts.getId());
-            object.put("user_id",user.getUser_id());
+            object.put("user_id", user.getUser_id());
             object.put("nom", newProducts.getNom());
             object.put("nom_sh", nom_sh);
             object.put("shtrix", newProducts.getShtrix());
@@ -240,8 +240,8 @@ public class HttpHandler {
             object.put("del_flag", 0);
             object.put("client_id", user.getClient_id());
             object.put("brend", brend);
-            Log.d("katofs",brend.toString());
-            object.put("kat",kat);
+            Log.d("katofs", brend.toString());
+            object.put("kat", kat);
             object.put("sotish", newProducts.getSotish());
             object.put("ulg1", newProducts.getUlg1());
             object.put("ulg2", newProducts.getUlg2());
@@ -252,7 +252,7 @@ public class HttpHandler {
             object.put("kol_in", newProducts.getKol_in());
             object.put("sena_d", newProducts.getSena_d());
             object.put("sena_in_d", newProducts.getSena_in_d());
-            object.put("seriya",newProducts.getSeriya());
+            object.put("seriya", newProducts.getSeriya());
 
 
             String jsonInputString = object.toString();
@@ -287,7 +287,7 @@ public class HttpHandler {
             conn.setRequestProperty("Accept", "application/json");
             conn.setDoOutput(true);
             JSONObject object = new JSONObject();
-            Log.d("errros", slaveId + "  "+serial.getSerial());
+            Log.d("errros", slaveId + "  " + serial.getSerial());
 
 
             String jsonInputString = object.toString();
@@ -309,7 +309,7 @@ public class HttpHandler {
         return 0;
     }
 
-    public Integer makeServicePostSeriesWithSlave(String reqUrl, SeriesModel serial,Integer slaveId) {
+    public Integer makeServicePostSeriesWithSlave(String reqUrl, SeriesModel serial, Integer slaveId) {
         HttpURLConnection conn = null;
         try {
             URL url = new URL(reqUrl);
@@ -320,7 +320,7 @@ public class HttpHandler {
             conn.setDoOutput(true);
             JSONObject object = new JSONObject();
             object.put("slave_id", slaveId);
-            object.put("serial",serial.getSerial());
+            object.put("serial", serial.getSerial());
             Log.d("errros", slaveId + serial.getSerial());
 
 
@@ -334,7 +334,7 @@ public class HttpHandler {
             while ((responseLine = br.readLine()) != null) {
                 response.append(responseLine.trim());
             }
-            Log.d("HttpID" , response.toString());
+            Log.d("HttpID", response.toString());
             return Integer.parseInt(response.toString());
 
 
@@ -355,8 +355,8 @@ public class HttpHandler {
             conn.setRequestProperty("Accept", "application/json");
             conn.setDoOutput(true);
             JSONObject object = new JSONObject();
-         //   object.put("id", id);
-           // Log.d("ERRORinMakeService", id.toString() + object.toString());
+            //   object.put("id", id);
+            // Log.d("ERRORinMakeService", id.toString() + object.toString());
 
             String jsonInputString = object.toString();
             OutputStream os = conn.getOutputStream();
@@ -413,7 +413,7 @@ public class HttpHandler {
     }
 
 
-        public Integer makeServiceAddNewProduct(String reqUrl, Product selectedItem) {
+    public Integer makeServiceAddNewProduct(String reqUrl, Product selectedItem) {
         HttpURLConnection conn = null;
         try {
             URL url = new URL(reqUrl);
@@ -671,7 +671,7 @@ public class HttpHandler {
             jsonParam.put("userId", user.getId());
             jsonParam.put("xodimId", user.getId());
             jsonParam.put("haridorId", haridorId);
-            jsonParam.put("diler_id",11 ); // zatish garak
+            jsonParam.put("diler_id", 11); // zatish garak
             jsonParam.put("tur_oper", 2);
             jsonParam.put("sotuv_turi", type);
 
@@ -712,8 +712,8 @@ public class HttpHandler {
             JSONObject object = new JSONObject();
             Log.v("HttpInserAsos", inserAsos.toString() + "");
 
-            object.put("id" , inserAsos.getId());
-            Log.d("HTTPasosID" , inserAsos.getId().toString());
+            object.put("id", inserAsos.getId());
+            Log.d("HTTPasosID", inserAsos.getId().toString());
             object.put("client_id", inserAsos.getClient_id());
             object.put("userId", inserAsos.getUserId());
             object.put("xodimId", inserAsos.getXodimId());
@@ -721,7 +721,7 @@ public class HttpHandler {
             object.put("sana", inserAsos.getSana());
             object.put("diler_id", inserAsos.getDiler_id());
             object.put("tur_oper", inserAsos.getTur_oper());
-            object.put("summa" , inserAsos.getSumma());
+            object.put("summa", inserAsos.getSumma());
             object.put("sotuv_turi", inserAsos.getSotuv_turi());
             object.put("nomer", inserAsos.getNomer());
             object.put("del_flag", inserAsos.getDel_flag());
@@ -731,8 +731,6 @@ public class HttpHandler {
             object.put("kol", inserAsos.getKol());
 
             Log.d("err", object.toString());
-
-
 
 
             String jsonInputString = object.toString();
@@ -745,7 +743,7 @@ public class HttpHandler {
             while ((responseLine = br.readLine()) != null) {
                 response.append(responseLine.trim());
             }
-            return  response.capacity();//  Integer.parseInt(response.toString());
+            return response.capacity();//  Integer.parseInt(response.toString());
 
 
         } catch (IOException e) {

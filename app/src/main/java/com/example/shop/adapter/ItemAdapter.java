@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,10 @@ import android.widget.TextView;
 import com.example.shop.HttpHandler;
 import com.example.shop.R;
 import com.example.shop.model.Product;
+import com.example.shop.model.STovar;
+import com.example.shop.ui.IncomingAdd;
+import com.example.shop.ui.ProductAdd;
+import com.example.shop.ui.ProductsList;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -26,12 +31,18 @@ public class ItemAdapter extends ArrayAdapter<Product> {
     private String reqUrl = "";
     private Integer position=-1;
     private Integer asosId=-1;
+    private IncomingAddListener listener;
+    private String ip ;
+    private ArrayList<Product> items;
 
-    public ItemAdapter(Context context, int resource, ArrayList<Product> items,String ip,Integer asosId) {
+    public ItemAdapter(Context context, int resource, ArrayList<Product> items,String ip,Integer asosId, IncomingAddListener listener) {
         super(context,resource, items);
+        this.items = items;
         this.adapter=this;
         this.reqUrl="http://"+ip+":8080/application/json/delasosslave/asosid=";
         this.asosId=asosId;
+        this.ip = ip ;
+        this.listener = listener;
     }
 
     public void setPosition(int posit) {
@@ -48,7 +59,7 @@ public class ItemAdapter extends ArrayAdapter<Product> {
     }
 
     @Override
-    public View getView(int position, View convertView,  ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         item=getItem(position);
         Integer putId=item.getPutId();
@@ -68,6 +79,19 @@ public class ItemAdapter extends ArrayAdapter<Product> {
         ((TextView)convertView.findViewById(R.id.item_count)).setText(item.getCount().toString());
         ((TextView)convertView.findViewById(R.id.item_incount)).setText(item.getIncount().toString());
         ((TextView)convertView.findViewById(R.id.item_sum)).setText(getModny(item.getCount()*item.getPrice()+item.getIncount()*item.getInprice() ));
+
+        ((TextView)convertView.findViewById(R.id.item_seriya)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("test" , "yyyy");
+                listener.itemSeriesClick(items , position );
+              //  listener.itemSeriesClick(ip , user , pro , slave_id ,  item.getName() , item.getCount() , item.getId() );
+                // user , slave_id va Stovar ni berish kk
+            }
+        });
+
+
+
         ((ImageView)convertView.findViewById(R.id.item_delete)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

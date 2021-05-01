@@ -47,6 +47,7 @@ public class IncomingWork extends AppCompatActivity {
     private ImageView add;
     private ImageView next;
     private ImageView item_deleteW;
+    private ImageView edit ;
 
     private ListView listView;
     private TextView searchView;
@@ -83,6 +84,7 @@ public class IncomingWork extends AppCompatActivity {
         listView = findViewById(R.id.products_list_list_view);
         searchView = findViewById(R.id.searchView);
         soni = findViewById(R.id.soni);
+        edit = findViewById(R.id.edit);
 
         intent = getIntent();
         ip = intent.getStringExtra("ip");
@@ -120,6 +122,12 @@ public class IncomingWork extends AppCompatActivity {
                         finish();
                     }
                 });
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
@@ -137,8 +145,12 @@ public class IncomingWork extends AppCompatActivity {
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
                                 // xa
-                                new DelSeries().execute();
+                                new DelSeries().execute(); // Seriyani del qilish
+                                Log.d("Del" , "test");
+                                adapter.notifyDataSetChanged();
                                 new GetSeries().execute();
+                                Log.d("Del11" , "test1"); // del qilgandan keyin qayta get qilish
+                                adapter.notifyDataSetChanged();
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:
                                 //yo'q'
@@ -195,6 +207,7 @@ public class IncomingWork extends AppCompatActivity {
             new AddSeries().execute();
             new GetSeries().execute();
             Log.d("anotherone", "no");
+           // Log.d("")
             if ((int) mainSlaveId < 0) {
                 Log.d("mainslaveid1", mainSlaveId.toString());
                 //    Toast.makeText(this, "Bu malumtlar bazasida bor", Toast.LENGTH_LONG).show();
@@ -206,12 +219,14 @@ public class IncomingWork extends AppCompatActivity {
                     public void onChanged(@Nullable ArrayList<SeriesModel> seriesModels) {
                         adapter = new SeriesAdapter(IncomingWork.this, R.layout.activity_incoming__item, seriesModels);
                         listView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
                     }
                 });
             }
 
-
-            soni.setText(allNumber + " dan " + counts);
+            if (allNumber != null){
+                soni.setText(allNumber + " dan " + counts);
+            }
         } else {
             Toast.makeText(IncomingWork.this, "Yaroqsiz Seriya raqam!", Toast.LENGTH_SHORT).show();
         }
@@ -247,7 +262,7 @@ public class IncomingWork extends AppCompatActivity {
             String jsonStr = httpHandler.makeServiceCall(urlProducts);
 
             if (jsonStr != null) {
-
+            Log.d("jsoonget", jsonStr);
                 try {
                     list.clear();
                     JSONArray jsonArray = new JSONArray(jsonStr);
@@ -296,6 +311,7 @@ public class IncomingWork extends AppCompatActivity {
             if (progressDialog.isShowing()) {
                 progressDialog.dismiss();
             }
+
         }
     }
 
@@ -353,7 +369,38 @@ public class IncomingWork extends AppCompatActivity {
             HttpHandler httpHandler = new HttpHandler();
             String reqUrldel = "http://" + ip + ":8080/application/json/delMainSlave/" + selectedId;
             Integer x = httpHandler.makeServiceDelete(reqUrldel);
-            Log.d("DELETE IW", x.toString());
+            Log.d("DELETE IW1", x.toString());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (progressDialog.isShowing())
+                progressDialog.dismiss();
+              adapter.notifyDataSetChanged();
+        }
+    }
+
+    private class EditTovar extends AsyncTask<Void, Void, Void> {
+
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(IncomingWork.this);
+            progressDialog.setMessage("O'chirilmoqda!");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            HttpHandler httpHandler = new HttpHandler();
+            String reqUrldel = "http://" + ip + ":8080/application/json/delMainSlave/" + selectedId;
+            Integer x = httpHandler.makeServiceDelete(reqUrldel);
+            Log.d("DELETE IW2", x.toString());
             return null;
         }
 

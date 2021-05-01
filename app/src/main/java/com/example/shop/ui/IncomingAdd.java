@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.shop.HttpHandler;
 import com.example.shop.R;
+import com.example.shop.adapter.IncomingAddListener;
 import com.example.shop.adapter.ItemAdapter;
 import com.example.shop.adapter.STovarAdapter;
 import com.example.shop.model.Product;
@@ -124,13 +125,28 @@ public class IncomingAdd extends AppCompatActivity {
                     selectedProduct = 1;
                     Log.v("MyTag", tovar.toString());
                 }
-                for (int j = 0; j < listView.getChildCount(); j++) {
-                    if(i == j ){
-                        listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-                    }else{
-                        listView.getChildAt(j).setBackgroundColor(Color.TRANSPARENT);
-                    }
-                }
+                Integer price_product_count_int = tryParse(count.getText().toString());
+                Integer price_inproduct_count_int = tryParse(incount.getText().toString());
+                Product product = new Product();
+                product.setPutId(0);
+                product.setId(tovar.getId());
+                product.setName(tovar.getNom());
+                product.setCount(price_product_count_int);
+                product.setIncount(price_inproduct_count_int);
+                product.setPrice(tovar.getSotish());
+                product.setInprice(0.0);
+                product.setIncnt(tovar.getKol_in());
+                selectProduct = product;
+                selectedProduct = 2 ;
+                Log.d("SelectPro" , selectProduct.toString());
+                selectProduct();
+//                for (int j = 0; j < listView.getChildCount(); j++) {
+//                    if(i == j ){
+//                        listView.getChildAt(j).setBackgroundColor(Color.WHITE);
+//                    }else{
+//                        listView.getChildAt(j).setBackgroundColor(Color.TRANSPARENT);
+//                    }
+//                }
             }
         });
 //        listView2.setOnClickListener(new View.OnClickListener() {
@@ -158,6 +174,7 @@ public class IncomingAdd extends AppCompatActivity {
                 list2.add(product);
                 adapter2.notifyDataSetChanged();
                 selectedProduct = 0;
+                selectProduct();
             }
         });
 
@@ -253,21 +270,27 @@ public class IncomingAdd extends AppCompatActivity {
     private void selectProduct() {
         if (selectedProduct != 0) {
             if (selectProduct.getIncnt().equals(1) && tovar.getKol_in().equals(1)) {
-                count.setEnabled(false);
+                count.setEnabled(true);
             } else {
                 incount.setEnabled(true);
+                count.setEnabled(true);
             }
             if (selectedProduct == 2) {
                 main_changed1.setBackgroundResource(R.drawable.backgroun3ch);
                 main_changed2.setBackgroundResource(R.drawable.backgroun3ch);
-                if (product.getCount() > 0) {
-                    CharSequence c = "" + product.getCount();
+                if (selectProduct.getCount() > 0 && false) {
+                    CharSequence c = "" + selectProduct.getCount();
                     count.setText(c, EditText.BufferType.EDITABLE);
                 }
-                if (product.getIncount() > 0) {
-                    CharSequence c = "" + product.getIncount();
+                if (selectProduct.getIncount() > 0 && false) {
+                    CharSequence c = "" + selectProduct.getIncount();
                     incount.setText(c, EditText.BufferType.EDITABLE);
                 }
+                if (selectProduct.getName() != null){
+                    selectProductView.setText(selectProduct.getName());
+                    Log.d("shsbhbshs ",selectProduct.getName());
+                }
+
             } else {
                 main_changed1.setBackgroundResource(R.drawable.backgroun4ch);
                 main_changed2.setBackgroundResource(R.drawable.backgroun4ch);
@@ -318,7 +341,7 @@ public class IncomingAdd extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog = new ProgressDialog(IncomingAdd.this);
-            progressDialog.setMessage("Малумот сақланяпти");
+            progressDialog.setMessage("Маьлумот сақланяпти");
             progressDialog.setCancelable(false);
             progressDialog.show();
         }
@@ -353,7 +376,7 @@ public class IncomingAdd extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog = new ProgressDialog(IncomingAdd.this);
-            progressDialog.setMessage("Малумот юкланяпти");
+            progressDialog.setMessage("Маьлумот юкланаяпти");
             progressDialog.setCancelable(false);
             progressDialog.show();
         }
@@ -534,6 +557,7 @@ public class IncomingAdd extends AppCompatActivity {
                         item.setId(object2.getInt("productId"));
                         item.setName(object2.getString("name"));
                         item.setCount(object2.getInt("count"));
+                        Log.d("Incount" , String.valueOf(object2.getInt("incount")));
                         item.setIncount(object2.getInt("incount"));
                         item.setPrice(object2.getDouble("price"));
                         item.setInprice(object2.getDouble("inprice"));
@@ -551,11 +575,10 @@ public class IncomingAdd extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(IncomingAdd.this, "Сервер билан муамо бор 2", Toast.LENGTH_LONG).show();
+                     //   Toast.makeText(IncomingAdd.this, "Сервер билан муамо бор 2", Toast.LENGTH_LONG).show();
                     }
                 });
             }
-
             return null;
         }
 
@@ -567,7 +590,21 @@ public class IncomingAdd extends AppCompatActivity {
             }
             adapter = new STovarAdapter(IncomingAdd.this, R.layout.stovar_item, list);
             listView.setAdapter(adapter);
-            adapter2 = new ItemAdapter(IncomingAdd.this, R.layout.list_item, list2, ip, asosId);
+            adapter2 = new ItemAdapter(IncomingAdd.this, R.layout.list_item, list2, ip, asosId, new IncomingAddListener() {
+                @Override
+                public void itemSeriesClick(ArrayList<Product> products, Integer position) {
+                    Intent intent = new Intent(getApplicationContext(), IncomingWork.class);
+                    intent.putExtra("ip" , ip);
+                    intent.putExtra("user" , thisuUser);
+                    intent.putExtra("sTovar" , tovar);
+                    intent.putExtra("slaveId" , asosId ); // slaveId
+                    intent.putExtra("name" , products.get(position).getName());
+                    intent.putExtra("soni" , products.get(position).getCount());
+                    intent.putExtra("id" , products.get(position).getId());
+                    startActivity(intent);
+                }
+
+            });
             listView2.setAdapter(adapter2);
         }
     }

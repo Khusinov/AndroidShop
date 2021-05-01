@@ -57,7 +57,7 @@
     <LinearLayout
         android:id="@+id/linerLayout1"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:orientation="horizontal"
 
         android:background="@drawable/backgroun4"
@@ -66,7 +66,7 @@
         <TextView
             android:id="@+id/select_product"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="50dp"
             android:text="@string/product"
             android:textAlignment="center"
             android:textColor="@color/black"

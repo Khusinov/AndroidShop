@@ -128,6 +128,10 @@ public class IncomingProducts extends AppCompatActivity {
                 copyProperties(inserAsos, asos);
                 Log.d("Getgani", inserAsos.getSumma().toString());
                 new getDiller().execute();
+                incomingDate.setText("");
+                incomingNum.setText("");
+                incomingdiller.setText("");
+                incomingDollar.setChecked(false);
                  // newAsosCheck = 0 ;
               //  new getDiller().execute();
             }
@@ -179,6 +183,7 @@ public class IncomingProducts extends AppCompatActivity {
 
                 @Override
                 public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+
                     Log.d("Modellist_IP1", modellList.toString());
                     Log.d("position", String.valueOf(position));
                     try {
@@ -205,18 +210,24 @@ public class IncomingProducts extends AppCompatActivity {
                         dillerId = dillerListId.get(index);
                         Log.d("Dillerid2", dillerId.toString());
                         incomingdiller.setText(dillerList.get(index));
-                        //  incomingdiller.setText(incomingdiller.getAdapter().getItem(index).toString() , false);
+                        incomingNum.setText(asos.getNomer());
+                        incomingDate.setText(asos.getSana());
+                        incomingDollar.setChecked(asos.getDollar() == 1);
                     }
                     // incomingdiller.setText(dillerList.get(asos.getDiler_id()));
                     // incomingdiller.setText(asos.getDiler_id().toString());
-                    incomingNum.setText(asos.getNomer());
-                    incomingDate.setText(asos.getSana());
-                    incomingDollar.setChecked(asos.getDollar() == 1);
+                  //  incomingNum.setText(asos.getNomer());
+                  //  incomingDate.setText(asos.getSana());
+                   // incomingDollar.setChecked(asos.getDollar() == 1);
+
                 }
 
                 @Override
                 public void onNothingSelected(AdapterView<?> parentView) {
-
+                    incomingNum.setText("");
+                    incomingDate.setText("");
+                    incomingdiller.setText("");
+                    incomingDollar.setChecked(false);
                 }
 
             });
