@@ -137,24 +137,38 @@ public class IncomingAdd extends AppCompatActivity {
                 product.setInprice(0.0);
                 product.setIncnt(tovar.getKol_in());
                 selectProduct = product;
-                selectedProduct = 2 ;
+                selectedProduct = 1 ;
                 Log.d("SelectPro" , selectProduct.toString());
+                adapter.setPosition(i);
+                adapter2.setPosition(-1);
+                adapter.notifyDataSetChanged();
+                adapter2.notifyDataSetChanged();
+
                 selectProduct();
-//                for (int j = 0; j < listView.getChildCount(); j++) {
-//                    if(i == j ){
-//                        listView.getChildAt(j).setBackgroundColor(Color.WHITE);
-//                    }else{
-//                        listView.getChildAt(j).setBackgroundColor(Color.TRANSPARENT);
-//                    }
-//                }
             }
         });
-//        listView2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                product=(Product)view.getTag();
-//            }
-//        });
+
+
+        Log.v("view " , "onclick");
+        listView2.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        product=(Product)view.getTag();
+                        selectedProduct = 2;
+
+
+                        adapter.setPosition(-1);
+                        adapter2.setPosition(position);
+                        adapter.notifyDataSetChanged();
+                        adapter2.notifyDataSetChanged();
+
+                        selectProduct();
+                    }
+                }
+        );
+
+
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -278,11 +292,11 @@ public class IncomingAdd extends AppCompatActivity {
             if (selectedProduct == 2) {
                 main_changed1.setBackgroundResource(R.drawable.backgroun3ch);
                 main_changed2.setBackgroundResource(R.drawable.backgroun3ch);
-                if (selectProduct.getCount() > 0 && false) {
+                if (selectProduct.getCount() > 0 ) {
                     CharSequence c = "" + selectProduct.getCount();
                     count.setText(c, EditText.BufferType.EDITABLE);
                 }
-                if (selectProduct.getIncount() > 0 && false) {
+                if (selectProduct.getIncount() > 0 ) {
                     CharSequence c = "" + selectProduct.getIncount();
                     incount.setText(c, EditText.BufferType.EDITABLE);
                 }

@@ -69,7 +69,7 @@ public class ItemAdapter extends ArrayAdapter<Product> {
         }
 
 
-        if(this.position.equals(position) ){
+        if(this.position.equals(position)){
             convertView.setBackgroundResource(R.drawable.backgroun3ch);
         }
         else{
