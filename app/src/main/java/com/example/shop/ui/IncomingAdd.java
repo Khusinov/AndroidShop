@@ -137,7 +137,7 @@ public class IncomingAdd extends AppCompatActivity {
                 product.setInprice(0.0);
                 product.setIncnt(tovar.getKol_in());
                 selectProduct = product;
-                selectedProduct = 1 ;
+                selectedProduct = 2 ;
                 Log.d("SelectPro" , selectProduct.toString());
                 adapter.setPosition(i);
                 adapter2.setPosition(-1);
@@ -155,7 +155,7 @@ public class IncomingAdd extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         product=(Product)view.getTag();
-                        selectedProduct = 2;
+                        selectedProduct = 1;
 
 
                         adapter.setPosition(-1);
@@ -291,8 +291,8 @@ public class IncomingAdd extends AppCompatActivity {
             }
             if (selectedProduct == 2) {
                 Log.d("else2" , "tttt");
-                main_changed1.setBackgroundResource(R.drawable.backgroun3ch);
-                main_changed2.setBackgroundResource(R.drawable.backgroun3ch);
+                main_changed1.setBackgroundResource(R.drawable.backgroun4ch); //backgroun3ch
+                main_changed2.setBackgroundResource(R.drawable.backgroun4ch);
                 if (selectProduct.getCount() > 0 ) {
                     CharSequence c = "" + selectProduct.getCount();
                     count.setText(c, EditText.BufferType.EDITABLE);
@@ -308,8 +308,8 @@ public class IncomingAdd extends AppCompatActivity {
 
             }
             else {
-                main_changed1.setBackgroundResource(R.drawable.backgroun4ch);
-                main_changed2.setBackgroundResource(R.drawable.backgroun4ch);
+                main_changed1.setBackgroundResource(R.drawable.backgroun3ch); //backgroun4ch
+                main_changed2.setBackgroundResource(R.drawable.backgroun3ch);
                 Log.d("else1" , "tttt");
             }
         } else {
