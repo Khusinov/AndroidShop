@@ -290,6 +290,7 @@ public class IncomingAdd extends AppCompatActivity {
                 count.setEnabled(true);
             }
             if (selectedProduct == 2) {
+                Log.d("else2" , "tttt");
                 main_changed1.setBackgroundResource(R.drawable.backgroun3ch);
                 main_changed2.setBackgroundResource(R.drawable.backgroun3ch);
                 if (selectProduct.getCount() > 0 ) {
@@ -305,14 +306,18 @@ public class IncomingAdd extends AppCompatActivity {
                     Log.d("shsbhbshs ",selectProduct.getName());
                 }
 
-            } else {
+            }
+            else {
                 main_changed1.setBackgroundResource(R.drawable.backgroun4ch);
                 main_changed2.setBackgroundResource(R.drawable.backgroun4ch);
+                Log.d("else1" , "tttt");
             }
         } else {
+            Log.d("elsenutnull" , "tttt");
             selectProductView.setText(R.string.product);
             main_changed1.setBackgroundResource(R.drawable.backgroun4);
             main_changed2.setBackgroundResource(R.drawable.backgroun4);
+
             adapter.setPosition(-1);
             adapter2.setPosition(-1);
             adapter.notifyDataSetChanged();
