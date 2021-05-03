@@ -719,7 +719,6 @@ public class MainActivity extends AppCompatActivity {
             setProduct(selectProduct);
 
         }
-
     }
 
 

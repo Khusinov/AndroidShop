@@ -26,6 +26,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.shop.HttpHandler;
 import com.example.shop.R;
 import com.example.shop.adapter.IncomingAddListener;
@@ -34,10 +35,13 @@ import com.example.shop.adapter.STovarAdapter;
 import com.example.shop.model.Product;
 import com.example.shop.model.STovar;
 import com.example.shop.model.User;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
+
 import me.sudar.zxingorient.ZxingOrient;
 import me.sudar.zxingorient.ZxingOrientResult;
 
@@ -64,6 +68,8 @@ public class IncomingAdd extends AppCompatActivity {
     private static Integer selectedProduct = 0;
     private EditText count;
     private EditText incount;
+    private static Double selectProductSum = 0.0;
+    private static Double sum = 0.0;
     private LinearLayout main_changed1;
     private LinearLayout main_changed2;
     private Product product;
@@ -138,8 +144,8 @@ public class IncomingAdd extends AppCompatActivity {
                 product.setInprice(0.0);
                 product.setIncnt(tovar.getKol_in());
                 selectProduct = product;
-                selectedProduct = 2 ;
-                Log.d("SelectPro" , selectProduct.toString());
+                selectedProduct = 2;
+                Log.d("SelectPro", selectProduct.toString());
                 adapter.setPosition(i);
                 adapter2.setPosition(-1);
                 adapter.notifyDataSetChanged();
@@ -150,12 +156,12 @@ public class IncomingAdd extends AppCompatActivity {
         });
 
 
-        Log.v("view " , "onclick");
+        Log.v("view ", "onclick");
         listView2.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        product=(Product)view.getTag();
+                        product = (Product) view.getTag();
                         selectedProduct = 1;
 
 
@@ -173,26 +179,44 @@ public class IncomingAdd extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Integer price_product_count_int = tryParse(count.getText().toString());
-                Integer price_inproduct_count_int = tryParse(incount.getText().toString());
-                Product product = new Product();
-                product.setPutId(0);
-                product.setId(tovar.getId());
-                product.setName(tovar.getNom());
-                product.setCount(price_product_count_int);
-                product.setIncount(price_inproduct_count_int);
-                product.setPrice(tovar.getSotish());
-                product.setInprice(0.0);
-                product.setIncnt(tovar.getKol_in());
-                selectProduct = product;
-                new AddProduct().execute();
-                list2.add(product);
-                adapter2.notifyDataSetChanged();
+                if (selectedProduct == 2) {
+                    Integer price_product_count_int = tryParse(count.getText().toString());
+                    Integer price_inproduct_count_int = tryParse(incount.getText().toString());
+                    Product product = new Product();
+                    product.setPutId(0);
+                    product.setId(tovar.getId());
+                    product.setName(tovar.getNom());
+                    product.setCount(price_product_count_int);
+                    product.setIncount(price_inproduct_count_int);
+                    product.setPrice(tovar.getSotish());
+                    product.setInprice(0.0);
+                    product.setIncnt(tovar.getKol_in());
+                    selectProduct = product;
+                    new AddProduct().execute();
+                    list2.add(product);
+                    adapter2.notifyDataSetChanged();
+                } else
+                    if (selectedProduct == 1) {
+                    if (!count.getText().toString().equals("null")){
+                        product.setCount(Integer.valueOf(count.getText().toString()));
+                        Log.d("NutNull" , "count");
+                    }
+
+                    if (!incount.getText().toString().equals("null")){
+                        product.setIncount(Integer.valueOf(incount.getText().toString()));
+                        Log.d("NutNull" , "Incount");
+
+                    }
+
+
+                    selectProduct = product;
+                    new PutProduct().execute();
+                 //   new GetProducts().execute();
+                }
                 selectedProduct = 0;
                 selectProduct();
             }
         });
-
     }
 
     public void showSoftKeyboard(View view) {
@@ -291,30 +315,29 @@ public class IncomingAdd extends AppCompatActivity {
                 count.setEnabled(true);
             }
             if (selectedProduct == 2) {
-                Log.d("else2" , "tttt");
+                Log.d("else2", "tttt");
                 main_changed1.setBackgroundResource(R.drawable.backgroun4ch); //backgroun3ch
                 main_changed2.setBackgroundResource(R.drawable.backgroun4ch);
-                if (selectProduct.getCount() > 0 ) {
+                if (selectProduct.getCount() > 0) {
                     CharSequence c = "" + selectProduct.getCount();
                     count.setText(c, EditText.BufferType.EDITABLE);
                 }
-                if (selectProduct.getIncount() > 0 ) {
+                if (selectProduct.getIncount() > 0) {
                     CharSequence c = "" + selectProduct.getIncount();
                     incount.setText(c, EditText.BufferType.EDITABLE);
                 }
-                if (selectProduct.getName() != null){
+                if (selectProduct.getName() != null) {
                     selectProductView.setText(selectProduct.getName());
-                    Log.d("shsbhbshs ",selectProduct.getName());
+                    Log.d("shsbhbshs ", selectProduct.getName());
                 }
 
-            }
-            else {
+            } else {
                 main_changed1.setBackgroundResource(R.drawable.backgroun3ch); //backgroun4ch
                 main_changed2.setBackgroundResource(R.drawable.backgroun3ch);
-                Log.d("else1" , "tttt");
+                Log.d("else1", "tttt");
             }
         } else {
-            Log.d("elsenutnull" , "tttt");
+            Log.d("elsenutnull", "tttt");
             selectProductView.setText(R.string.product);
             main_changed1.setBackgroundResource(R.drawable.backgroun4);
             main_changed2.setBackgroundResource(R.drawable.backgroun4);
@@ -443,30 +466,30 @@ public class IncomingAdd extends AppCompatActivity {
                         } else {
                             tovar.setTz_id(object.getInt("tz_id"));
                         }
-                        if (object.get("kg").toString().equals("null")){
+                        if (object.get("kg").toString().equals("null")) {
                             tovar.setKg(0);
                         } else
-                        tovar.setKg(object.getInt("kg"));
-                        if ( object.get("shtrix_full").toString().equals("null")){
+                            tovar.setKg(object.getInt("kg"));
+                        if (object.get("shtrix_full").toString().equals("null")) {
                             tovar.setShtrix_full("");
                         } else
-                        tovar.setShtrix_full(object.getString("shtrix_full"));
-                        if (object.get("shtrix1").toString().equals("null")){
+                            tovar.setShtrix_full(object.getString("shtrix_full"));
+                        if (object.get("shtrix1").toString().equals("null")) {
                             tovar.setShtrix1("");
                         } else
-                        tovar.setShtrix1(object.getString("shtrix1"));
-                        if (object.get("shtrix2").toString().equals("null")){
+                            tovar.setShtrix1(object.getString("shtrix1"));
+                        if (object.get("shtrix2").toString().equals("null")) {
                             tovar.setShtrix2("");
                         } else
-                        tovar.setShtrix2(object.getString("shtrix2"));
-                        if (object.get("kat").toString().equals("null")){
+                            tovar.setShtrix2(object.getString("shtrix2"));
+                        if (object.get("kat").toString().equals("null")) {
                             tovar.setKat(0);
                         } else
-                        tovar.setKat(object.getInt("kat"));
-                        if (object.get("brend").toString().equals("null")){
+                            tovar.setKat(object.getInt("kat"));
+                        if (object.get("brend").toString().equals("null")) {
                             tovar.setBrend(0);
                         } else
-                        tovar.setBrend(object.getInt("brend"));
+                            tovar.setBrend(object.getInt("brend"));
 
                         if (object.get("papka").toString().equals("null")) {
                             tovar.setPapka(0);
@@ -528,14 +551,14 @@ public class IncomingAdd extends AppCompatActivity {
                             tovar.setKol_in(0);
                         } else
                             tovar.setKol_in(object.getInt("kol_in"));
-                        if (object.get("sena_d").toString().equals("null")){
+                        if (object.get("sena_d").toString().equals("null")) {
                             tovar.setSena_d(0.0);
                         } else
                             tovar.setSena_d(object.getDouble("sena_d"));
-                       if (object.get("sena_in_d").toString().equals("null")){
-                           tovar.setSena_in_d(0.0);
-                       } else
-                           tovar.setSena_in_d(object.getDouble("sena_in_d"));
+                        if (object.get("sena_in_d").toString().equals("null")) {
+                            tovar.setSena_in_d(0.0);
+                        } else
+                            tovar.setSena_in_d(object.getDouble("sena_in_d"));
                         list.add(tovar);
 
                     }
@@ -577,7 +600,7 @@ public class IncomingAdd extends AppCompatActivity {
                         item.setId(object2.getInt("productId"));
                         item.setName(object2.getString("name"));
                         item.setCount(object2.getInt("count"));
-                        Log.d("Incount" , String.valueOf(object2.getInt("incount")));
+                        Log.d("Incount", String.valueOf(object2.getInt("incount")));
                         item.setIncount(object2.getInt("incount"));
                         item.setPrice(object2.getDouble("price"));
                         item.setInprice(object2.getDouble("inprice"));
@@ -595,7 +618,7 @@ public class IncomingAdd extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                     //   Toast.makeText(IncomingAdd.this, "Сервер билан муамо бор 2", Toast.LENGTH_LONG).show();
+                        //   Toast.makeText(IncomingAdd.this, "Сервер билан муамо бор 2", Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -614,18 +637,63 @@ public class IncomingAdd extends AppCompatActivity {
                 @Override
                 public void itemSeriesClick(ArrayList<Product> products, Integer position) {
                     Intent intent = new Intent(getApplicationContext(), IncomingWork.class);
-                    intent.putExtra("ip" , ip);
-                    intent.putExtra("user" , thisuUser);
-                    intent.putExtra("sTovar" , tovar);
-                    intent.putExtra("slaveId" , asosId ); // slaveId
-                    intent.putExtra("name" , products.get(position).getName());
-                    intent.putExtra("soni" , products.get(position).getCount());
-                    intent.putExtra("id" , products.get(position).getId());
+                    intent.putExtra("ip", ip);
+                    intent.putExtra("user", thisuUser);
+                    intent.putExtra("sTovar", tovar);
+                    intent.putExtra("slaveId", asosId); // slaveId
+                    intent.putExtra("name", products.get(position).getName());
+                    intent.putExtra("soni", products.get(position).getCount());
+                    intent.putExtra("id", products.get(position).getId());
                     startActivity(intent);
                 }
 
             });
             listView2.setAdapter(adapter2);
+        }
+    }
+
+    private class PutProduct extends AsyncTask<Void, Void, Void> {
+        private String urlPutProducts = "http://" + ip + ":8080/application/json/asosslaveput/asosid=" + asosId + "/userid=" + thisuUser.getId();
+//        http://localhost:8080/application/json/
+
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(IncomingAdd.this);
+            progressDialog.setMessage("Малумот сақланйапти");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            HttpHandler httpHandler = new HttpHandler();
+            httpHandler.putProduct(urlPutProducts, selectProduct);
+            return null;
+        }
+
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+            sum -= selectProductSum;
+            selectProductSum = (selectProduct.getPrice() * selectProduct.getCount() + selectProduct.getInprice() * selectProduct.getIncount());
+            sum += selectProductSum;
+
+            Log.v("PutProduct", "list added product:" + selectProduct.toString());
+            listView2.setAdapter(adapter2);
+            //addList(selectProduct);
+            adapter2.notifyDataSetChanged();
+
+            selectedProduct = 0;
+
+            // sumPrice.setText("Умуммий сумма: " + sum + " Сўм");
+            //  intent.putExtra("sumprice", sumPrice.getText().toString());
+            //  setProduct(selectProduct);
+
         }
     }
 
