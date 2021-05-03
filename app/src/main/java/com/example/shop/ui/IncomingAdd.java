@@ -102,6 +102,7 @@ public class IncomingAdd extends AppCompatActivity {
                 new ZxingOrient(IncomingAdd.this).setIcon(R.mipmap.ic_launcher).initiateScan();
             }
         });
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {

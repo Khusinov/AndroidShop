@@ -365,9 +365,12 @@ public class MainActivity extends AppCompatActivity {
         ZxingOrientResult scanResult =
                 ZxingOrient.parseActivityResult(requestCode, resultCode, intent);
 
-        if (scanResult != null) {
+        if (scanResult != null && scanResult.toString().length() == 12 ) {
             // handle the result
             searchView.setQuery(scanResult.getContents(), false);
+        }
+        else if (scanResult.toString().length() > 12){
+            Log.d("Shtrix" , "12 dan katta");
         }
     }
 
