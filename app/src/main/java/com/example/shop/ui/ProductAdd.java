@@ -54,6 +54,10 @@ public class ProductAdd extends AppCompatActivity {
     EditText barcode1;
     EditText barcode2;
     EditText barcode3;
+    EditText turiEdt;
+    EditText brendEdt;
+    EditText papkaEdt;
+    EditText bolimEdt;
     EditText type1;
     EditText type2;
     EditText type3;
@@ -62,6 +66,7 @@ public class ProductAdd extends AppCompatActivity {
     EditText type6;
     EditText for_count;
     ListView listView;
+
     private ProgressDialog progressDialog;
     private MutableLiveData<ArrayList<GetList>> liveData;
   //  AutoCompleteTextView incomingdiller;
@@ -103,6 +108,10 @@ public class ProductAdd extends AppCompatActivity {
         barcode1=findViewById(R.id.product_add_barcode1);
         barcode2=findViewById(R.id.product_add_barcode2);
         barcode3=findViewById(R.id.product_add_barcode3);
+        turiEdt = findViewById(R.id.turi);
+        brendEdt = findViewById(R.id.brend);
+        papkaEdt = findViewById(R.id.papka);
+        bolimEdt = findViewById(R.id.bolim);
         type1=findViewById(R.id.product_add_type1);
         type2=findViewById(R.id.product_add_type2);
         type3=findViewById(R.id.product_add_type3);
@@ -129,9 +138,9 @@ public class ProductAdd extends AppCompatActivity {
         list = new ArrayList<>();
 
         dillerList = new ArrayList<>();
-        dillerList.add("obizatilni");
-        dillerList.add("50/50");
-        dillerList.add("neobizatilni");
+        dillerList.add("S/N Muhim"); // obizatilni 0 . 2
+        dillerList.add("S/N Muhim Emas"); // 50/50 1 . 1
+        dillerList.add("50/50");   // neobizatilni  2 . 0
 
         if(sTovar != null){
             copyPraporty(sTovar);
@@ -182,7 +191,7 @@ public class ProductAdd extends AppCompatActivity {
                 if (name.getText().toString().isEmpty()){
                     name.setError("kiriting");
                 }
-                else if (!for_incount.getText().toString().isEmpty() && for_count.getText().toString().isEmpty()){
+                else if ( for_count.getText().toString().isEmpty()){ // ( !for_incount.getText().toString().isEmpty() ) &&
                     for_count.setError("kiriting");
                 }else {
                     copyPraporty();
@@ -198,7 +207,7 @@ public class ProductAdd extends AppCompatActivity {
                 if (name.getText().toString().isEmpty()){
                     name.setError("kiriting");
                 }
-                else if (!for_incount.getText().toString().isEmpty() && for_count.getText().toString().isEmpty()){
+                else if (for_count.getText().toString().isEmpty()){ // (!for_incount.getText().toString().isEmpty()) &&
                         for_count.setError("kiriting");
                 }else {
                     copyPraporty();
@@ -207,6 +216,7 @@ public class ProductAdd extends AppCompatActivity {
 
             }
         });
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -230,10 +240,10 @@ public class ProductAdd extends AppCompatActivity {
                     series = 2;
                 }
                 else if (i == 1){
-                    series = 1;
+                    series = 0;
                 }
                 else{
-                    series = 0;
+                    series = 1;
                 }
             }
 

@@ -653,7 +653,7 @@ public class IncomingAdd extends AppCompatActivity {
     }
 
     private class PutProduct extends AsyncTask<Void, Void, Void> {
-        private String urlPutProducts = "http://" + ip + ":8080/application/json/asosslaveput/asosid=" + asosId + "/userid=" + thisuUser.getId();
+        private String urlPutProducts = "http://" + ip + ":8080/application/json/asosslaveput/" + asosId + "/" + thisuUser.getId();
 //        http://localhost:8080/application/json/
 
 

@@ -88,7 +88,7 @@
         <EditText
             android:id="@+id/product_add_barcode2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:layout_margin="4dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
@@ -120,6 +120,67 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             app:srcCompat="@drawable/barcodescan" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="2dp"
+        >
+        <EditText
+            android:id="@+id/turi"
+            android:layout_width="wrap_content"
+            android:inputType="number"
+            android:background="@drawable/backgroun"
+            android:ems="3"
+            android:layout_height="35dp"
+            android:layout_margin="4dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="2"
+            android:hint="Тури" />
+
+        <EditText
+            android:id="@+id/brend"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_margin="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="2"
+            android:background="@drawable/backgroun"
+            android:ems="3"
+            android:hint="Бренд"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/papka"
+            android:layout_width="wrap_content"
+            android:background="@drawable/backgroun"
+            android:ems="3"
+            android:layout_height="35dp"
+            android:layout_margin="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="2"
+            android:hint="Папка"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/bolim"
+            android:layout_width="wrap_content"
+            android:background="@drawable/backgroun"
+            android:ems="3"
+            android:layout_height="35dp"
+            android:layout_margin="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="2"
+            android:hint="Болим"
+            android:inputType="number" />
+
 
     </LinearLayout>
 
@@ -329,7 +390,7 @@
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="O'zgartirish" />
+            android:text="Keyingi" />
 
 
 
