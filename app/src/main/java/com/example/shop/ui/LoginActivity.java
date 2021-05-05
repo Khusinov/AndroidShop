@@ -222,8 +222,8 @@ public class LoginActivity extends AppCompatActivity {
         return sPref.getString(SharedPreferences.IP_ADRES_SHARED_PREF, "LoginPref");
     }
 
-   public void saveIP(String ip) {
-        android.content.SharedPreferences sPref = getPreferences( MODE_PRIVATE);
+    public void saveIP(String ip) {
+        android.content.SharedPreferences sPref = getPreferences(MODE_PRIVATE);
         android.content.SharedPreferences.Editor ed = sPref.edit();
         ed.putString(SharedPreferences.IP_ADRES_SHARED_PREF, ip);
         ed.apply();
@@ -331,6 +331,7 @@ public class LoginActivity extends AppCompatActivity {
             }
             return null;
         }
+
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
