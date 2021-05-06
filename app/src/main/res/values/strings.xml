@@ -4,11 +4,11 @@
     <string name="title_activity_login">Тизимга кириш</string>
     <string name="password">Парол</string>
     <string name="action_sign_in">Кириш</string>
-    <string name="username_error">Логини киритинг !!!</string>
+    <string name="username_error">Логинни киритинг !!!</string>
     <string name="username">Логин</string>
     <string name="invalid_password">Логин йоки парол хато !!!</string>
     <string name="ip_input">IP адресни киритинг !!!</string>
     <string name="ip_input_error">IP адресни тўғри киритинг !!!</string>
-    <string name="invalid_ip">IP адрес хато йоки тармоқа уланилмаган !!!</string>
+    <string name="invalid_ip">IP адрес хато йоки тармоқга уланилмаган !!!</string>
     <string name="btn">Button</string>
 </resources>

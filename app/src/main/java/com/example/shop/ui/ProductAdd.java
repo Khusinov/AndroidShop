@@ -413,7 +413,9 @@ public class ProductAdd extends AppCompatActivity {
         if (!for_count.getText().toString().isEmpty()) {
             nextIntent.putExtra("slave_id", x);
             nextIntent.putExtra("soni", for_count.getText().toString());
+            nextIntent.putExtra("ichkiSoni" , in_count.getText().toString());
         }
+
     }
 
     private class EditProduct extends AsyncTask<Void, Void, Void> {

@@ -47,7 +47,7 @@ public class IncomingWork extends AppCompatActivity {
     private ImageView add;
     private ImageView next;
     private ImageView item_deleteW;
-    private ImageView edit ;
+    private ImageView edit;
 
     private ListView listView;
     private TextView searchView;
@@ -62,9 +62,11 @@ public class IncomingWork extends AppCompatActivity {
     private Integer slaveId;
     private String name;
     private TextView soni;
+    private TextView IWSoni;
+    private TextView IWIchkiSoni ;
     private MutableLiveData<ArrayList<SeriesModel>> liveData;
     private Integer count = 0;
-    private Integer mainSlaveId = 55;
+    private Integer mainSlaveId = 5511155;
     private Integer counts = 0;
     private String allNumber = "";
     private Integer idForGetList;
@@ -84,6 +86,8 @@ public class IncomingWork extends AppCompatActivity {
         listView = findViewById(R.id.products_list_list_view);
         searchView = findViewById(R.id.searchView);
         soni = findViewById(R.id.soni);
+        IWSoni = findViewById(R.id.IWSoni);
+        IWIchkiSoni = findViewById(R.id.IWIchkiSoni);
         edit = findViewById(R.id.edit);
 
         intent = getIntent();
@@ -93,6 +97,10 @@ public class IncomingWork extends AppCompatActivity {
         slaveId = intent.getIntExtra("slave_id", 0);
         name = intent.getStringExtra("name");
         allNumber = intent.getStringExtra("soni");
+        IWSoni.setText(allNumber);
+        if (!intent.getStringExtra("ichkiSoni").isEmpty()) {
+            IWIchkiSoni.setText(intent.getStringExtra("ichkiSoni"));
+        }
         idForGetList = intent.getIntExtra("id", 0);
         Log.d("getid", idForGetList.toString());
         next = findViewById(R.id.next);
@@ -146,10 +154,10 @@ public class IncomingWork extends AppCompatActivity {
                             case DialogInterface.BUTTON_POSITIVE:
                                 // xa
                                 new DelSeries().execute(); // Seriyani del qilish
-                                Log.d("Del" , "test");
+                                Log.d("Del", "test");
                                 adapter.notifyDataSetChanged();
                                 new GetSeries().execute();
-                                Log.d("Del11" , "test1"); // del qilgandan keyin qayta get qilish
+                                Log.d("Del11", "test1"); // del qilgandan keyin qayta get qilish
                                 adapter.notifyDataSetChanged();
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:
@@ -188,6 +196,7 @@ public class IncomingWork extends AppCompatActivity {
             // handle the result
             CharSequence c = scanResult.getContents();
             if (c.length() >= 12) {
+
                 setText(c);
             } else {
                 Toast.makeText(IncomingWork.this, "Yaroqsiz Seriya raqam!", Toast.LENGTH_SHORT).show();
@@ -200,33 +209,20 @@ public class IncomingWork extends AppCompatActivity {
 
         if (sequence.length() >= 12) {
             count = 1;
+            new GetSeries().execute();
             searchView.setText(sequence, TextView.BufferType.EDITABLE); // list add
+
             seriesModel.setSerial(String.valueOf(sequence));
             seriesModel.setMain_id(mainSlaveId);
             list.add(seriesModel);
-            new AddSeries().execute();
-            new GetSeries().execute();
-            Log.d("anotherone", "no");
-           // Log.d("")
-            if ((int) mainSlaveId < 0) {
-                Log.d("mainslaveid1", mainSlaveId.toString());
-                //    Toast.makeText(this, "Bu malumtlar bazasida bor", Toast.LENGTH_LONG).show();
-            } else {
-                Log.d("mainslaveid2", mainSlaveId.toString());
-                counts++;
-                liveData.observe(this, new Observer<ArrayList<SeriesModel>>() {
-                    @Override
-                    public void onChanged(@Nullable ArrayList<SeriesModel> seriesModels) {
-                        adapter = new SeriesAdapter(IncomingWork.this, R.layout.activity_incoming__item, seriesModels);
-                        listView.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-            }
 
-            if (allNumber != null){
-                soni.setText(allNumber + " dan " + counts);
-            }
+
+            Log.d("Teg", "GetSeries().execute() " + mainSlaveId.toString());
+
+            new AddSeries().execute();
+            Log.d("Teg", "AddSeries().Execute() " + mainSlaveId.toString());
+
+
         } else {
             Toast.makeText(IncomingWork.this, "Yaroqsiz Seriya raqam!", Toast.LENGTH_SHORT).show();
         }
@@ -240,7 +236,6 @@ public class IncomingWork extends AppCompatActivity {
         nextIntent.putExtra("sumprice",intent.getStringExtra("sumprice"));*/
         nextIntent.putExtra("stovar", sTovar);
     }
-
 
 
     private class GetSeries extends AsyncTask<Void, Void, Void> {
@@ -262,8 +257,9 @@ public class IncomingWork extends AppCompatActivity {
             String jsonStr = httpHandler.makeServiceCall(urlProducts);
 
             if (jsonStr != null) {
-            Log.d("jsoonget", jsonStr);
+                Log.d("jsoonget", jsonStr);
                 try {
+
                     list.clear();
                     JSONArray jsonArray = new JSONArray(jsonStr);
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -298,7 +294,7 @@ public class IncomingWork extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(IncomingWork.this, "Сервер билан муамо бор", Toast.LENGTH_LONG).show();
+                        Toast.makeText(IncomingWork.this, "Сервер билан муаммо бор", Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -314,7 +310,6 @@ public class IncomingWork extends AppCompatActivity {
 
         }
     }
-
 
 
     private class AddSeries extends AsyncTask<Void, Void, Void> {
@@ -347,9 +342,30 @@ public class IncomingWork extends AppCompatActivity {
             super.onPostExecute(aVoid);
             if (progressDialog.isShowing())
                 progressDialog.dismiss();
-            //  new GetSeries().execute();
+            if (mainSlaveId < 0) {
+                Log.d("mainslaveid1", mainSlaveId.toString());
+                Toast.makeText(IncomingWork.this, "Bu malumotlar bazasida bor!", Toast.LENGTH_LONG).show();
+            }
+            else {
+                Log.d("mainslaveid2", mainSlaveId.toString());
+                counts++;
+                liveData.observe(IncomingWork.this, new Observer<ArrayList<SeriesModel>>() {
+                    @Override
+                    public void onChanged(@Nullable ArrayList<SeriesModel> seriesModels) {
+                        adapter = new SeriesAdapter(IncomingWork.this, R.layout.activity_incoming__item, seriesModels);
+                        listView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            }
+
+            if (allNumber != null) {
+                soni.setText(allNumber + " ta dan " + counts + " ta kiritildi!");
+            }
+            // new GetSeries().execute();
         }
     }
+
 
     private class DelSeries extends AsyncTask<Void, Void, Void> {
 
@@ -376,9 +392,10 @@ public class IncomingWork extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            count-- ;
             if (progressDialog.isShowing())
                 progressDialog.dismiss();
-              adapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
         }
     }
 
