@@ -83,7 +83,7 @@ public class HttpHandler {
             jsonParam.put("client_id", asosModell.getClient_id());
             jsonParam.put("userId", asosModell.getUserId());
             jsonParam.put("xodimId", asosModell.getXodimId());
-            jsonParam.put("haridorId", asosModell.getHaridorId());
+            jsonParam.put("haridorId",0 );//asosModell.getHaridorId()
             jsonParam.put("sana", asosModell.getSana());
             jsonParam.put("diler_id", asosModell.getDiler_id());
             jsonParam.put("tur_oper", asosModell.getTur_oper());
