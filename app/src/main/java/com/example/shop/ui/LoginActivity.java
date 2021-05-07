@@ -344,7 +344,7 @@ public class LoginActivity extends AppCompatActivity {
                 intent.putExtra("user", thisUser);
                 intent.putExtra("ip", ipadress.getText().toString());
                 intent.putExtra("password", passwordEdt.getText().toString());
-//                intent.putExtra("asosId",asosId);
+        //       intent.putExtra("asosId",asosId);
                 saveIP(ipadress.getText().toString());
                 saveLogin(loginEdt.getText().toString());
                 savePassword(passwordEdt.getText().toString());

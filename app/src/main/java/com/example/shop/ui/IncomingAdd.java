@@ -68,6 +68,9 @@ public class IncomingAdd extends AppCompatActivity {
     private static Integer selectedProduct = 0;
     private EditText count;
     private EditText incount;
+    private TextView nomer ;
+    private TextView sana ;
+    private TextView taminotchi;
     private static Double selectProductSum = 0.0;
     private static Double sum = 0.0;
     private LinearLayout main_changed1;
@@ -86,6 +89,10 @@ public class IncomingAdd extends AppCompatActivity {
         save = findViewById(R.id.product_incoming_add_save);
         count = findViewById(R.id.product_incoming_add_price_product_count);
         incount = findViewById(R.id.product_incoming_add_price_inproduct_count);
+      //  nomer = findViewById(R.id.nomerid);
+//        sana = findViewById(R.id.sanaid);
+     //   taminotchi = findViewById(R.id.taminotchiid);
+
         barcodescan = findViewById(R.id.product_incoming_add_barcodescan);
         listView = findViewById(R.id.product_incoming_add_list_view);
         listView2 = findViewById(R.id.product_incoming_add_list_view2);
@@ -122,6 +129,7 @@ public class IncomingAdd extends AppCompatActivity {
                 return false;
             }
         });
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override

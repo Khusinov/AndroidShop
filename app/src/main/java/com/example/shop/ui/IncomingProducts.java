@@ -188,7 +188,7 @@ public class IncomingProducts extends AppCompatActivity {
                     Log.d("position", String.valueOf(position));
                     try {
                         asos = modellList.get(position);
-                        Log.d("Asos", asos.toString());
+                        Log.d("Asos", asos.getId().toString());
                     } catch (Exception e) {
                         Log.d("Catch", e.toString());
                     }
@@ -353,7 +353,8 @@ public class IncomingProducts extends AppCompatActivity {
     public void setDownIntent(Intent nextIntent) {
         nextIntent.putExtra("user", intent.getSerializableExtra("user"));
         nextIntent.putExtra("ip", intent.getStringExtra("ip"));
-        nextIntent.putExtra("asosId", intent.getIntExtra("asosId", 0));
+        nextIntent.putExtra("asosId", asos.getId());//intent.getIntExtra("asosId", 0)
+
         nextIntent.putExtra("type", intent.getIntExtra("type", 0));
         nextIntent.putExtra("sumprice", intent.getStringExtra("sumprice"));
         nextIntent.putExtra("stovar", intent.getSerializableExtra("stovar"));

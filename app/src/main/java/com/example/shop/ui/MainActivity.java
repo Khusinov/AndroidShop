@@ -154,11 +154,11 @@ public class MainActivity extends AppCompatActivity {
         type = intent.getIntExtra("type", 1);
         sumPrice.setText(intent.getStringExtra("sumprice"));
         Log.v(TAG, ip + "");
-        asosId = (Integer) intent.getIntExtra("asosId", 0);
+        asosId = (Integer) intent.getIntExtra("asosId", -1);
         Log.v(TAG, thisuUser.getId().toString());
         Log.v(TAG, intent.getStringExtra("ip"));
         new GetProducts().execute();
-        Log.v(TAG, asosId + "");
+        Log.v("MainAsosId", asosId + "");
 
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
