@@ -209,17 +209,18 @@ public class IncomingWork extends AppCompatActivity {
 
         if (sequence.length() >= 12) {
             count = 1;
-            new GetSeries().execute();
+            //new GetSeries().execute();
             searchView.setText(sequence, TextView.BufferType.EDITABLE); // list add
 
-            seriesModel.setSerial(String.valueOf(sequence));
-            seriesModel.setMain_id(mainSlaveId);
-            list.add(seriesModel);
+
 
 
             Log.d("Teg", "GetSeries().execute() " + mainSlaveId.toString());
 
             new AddSeries().execute();
+            seriesModel.setSerial(String.valueOf(sequence));
+            seriesModel.setMain_id(mainSlaveId);
+            list.add(seriesModel);
             Log.d("Teg", "AddSeries().Execute() " + mainSlaveId.toString());
 
 
@@ -246,7 +247,7 @@ public class IncomingWork extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog = new ProgressDialog(IncomingWork.this);
-            progressDialog.setMessage("Малумот юкланяпти");
+            progressDialog.setMessage("getMainSlave - малумот юкланяпти");
             progressDialog.setCancelable(false);
             progressDialog.show();
         }
@@ -257,21 +258,16 @@ public class IncomingWork extends AppCompatActivity {
             String jsonStr = httpHandler.makeServiceCall(urlProducts);
 
             if (jsonStr != null) {
-                Log.d("jsoonget", jsonStr);
                 try {
-
                     list.clear();
                     JSONArray jsonArray = new JSONArray(jsonStr);
                     for (int i = 0; i < jsonArray.length(); i++) {
                         SeriesModel tovar = new SeriesModel();
                         JSONObject object = jsonArray.getJSONObject(i);
-                        Log.v("MyLog1", object.toString());
-                        Log.d("idddd", String.valueOf(object.getInt("id")));
                         mainId.add(object.getInt("id"));
                         serial.add(object.getString("serial"));
                         tovar.setId(object.getInt("id"));
                         tovar.setSerial(object.getString("serial"));
-
                         list.add(tovar);
                         runOnUiThread(new Runnable() {
                             @Override
@@ -281,7 +277,6 @@ public class IncomingWork extends AppCompatActivity {
                         });
                     }
                 } catch (final JSONException e) {
-                    Log.v("MyTag2", e.getMessage());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -332,6 +327,47 @@ public class IncomingWork extends AppCompatActivity {
             String reqUrl2 = "http://" + ip + ":8080/application/json/addMainSlave";
             Integer x = httpHandler.makeServicePostSeries(reqUrl, seriesModel, slaveId);
             mainSlaveId = httpHandler.makeServicePostSeriesWithSlave(reqUrl2, seriesModel, slaveId);
+            String urlProducts = "http://" + ip + ":8080/application/json/getMainSlave/" + slaveId;
+            String jsonStr = httpHandler.makeServiceCall(urlProducts);
+
+            if (jsonStr != null) {
+                try {
+                    list.clear();
+                    JSONArray jsonArray = new JSONArray(jsonStr);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        SeriesModel tovar = new SeriesModel();
+                        JSONObject object = jsonArray.getJSONObject(i);
+                        mainId.add(object.getInt("id"));
+                        serial.add(object.getString("serial"));
+                        tovar.setId(object.getInt("id"));
+                        tovar.setSerial(object.getString("serial"));
+                        list.add(tovar);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                liveData.postValue(list);
+                            }
+                        });
+                    }
+                } catch (final JSONException e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(IncomingWork.this, "Хатолик юз берди", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            } else {
+                Log.v("MyTag2", "serverdan galmadi");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(IncomingWork.this, "Сервер билан муаммо бор", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
+
             Log.v("MyTag2:", x + " sTovar:" + seriesModel.getSerial());
             Log.v("Myssla:", String.valueOf(mainSlaveId));
             return null;
