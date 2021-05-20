@@ -13,39 +13,39 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="4dp"
-        >
-        <TextView
-            android:id="@+id/nomerid"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:height="4dp"
-            android:text="Nomer: "/>
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:layout_marginLeft="8dp"-->
+<!--        android:layout_marginTop="4dp"-->
+<!--        android:layout_marginRight="8dp"-->
+<!--        android:layout_marginBottom="4dp"-->
+<!--        >-->
+<!--&lt;!&ndash;        <TextView&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/nomerid"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_height="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:height="4dp"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:text="Nomer: "/>&ndash;&gt;-->
 
-        <TextView
-            android:id="@+id/sanaid"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:height="2dp"
-            android:text="Sana: "/>
+<!--&lt;!&ndash;        <TextView&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/sanaid"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_height="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:height="2dp"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:text="Sana: "/>&ndash;&gt;-->
 
-        <TextView
-            android:id="@+id/taminotchiid"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:height="2dp"
-            android:text="Taminotchi: "/>
+<!--&lt;!&ndash;        <TextView&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/taminotchiid"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_height="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:height="2dp"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:text="Taminotchi: "/>&ndash;&gt;-->
 
 
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
     <LinearLayout
         android:layout_width="match_parent"

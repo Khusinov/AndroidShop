@@ -65,6 +65,7 @@ public class ProductAdd extends AppCompatActivity {
     EditText type5;
     EditText type6;
     EditText for_count;
+
     ListView listView;
 
     private ProgressDialog progressDialog;
@@ -413,7 +414,7 @@ public class ProductAdd extends AppCompatActivity {
         if (!for_count.getText().toString().isEmpty()) {
             nextIntent.putExtra("slave_id", x);
             nextIntent.putExtra("soni", for_count.getText().toString());
-            nextIntent.putExtra("ichkiSoni" , in_count.getText().toString());
+            nextIntent.putExtra("ichkiSoni" , for_incount.getText().toString());
         }
 
     }

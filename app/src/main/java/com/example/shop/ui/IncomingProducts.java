@@ -116,24 +116,32 @@ public class IncomingProducts extends AppCompatActivity {
                 inserAsos = new AsosModell();
                 asos.setNomer(incomingNum.getText().toString());
                 asos.setSana(incomingDate.getText().toString());
-                asos.setDiler_id(dillerId);
-                Log.d("DillerID_IP", dillerId.toString());
-                asos.setId(1);
-                int check = 0;
-                if (incomingDollar.isChecked()) {
-                    check = 1;
+               // Log.d("DillerId" , dillerId.toString());
+                if (!dillerId.equals("null")){
+                    asos.setDiler_id(dillerId);
+                    Log.d("DillerID_IP", dillerId.toString());
+
+                    asos.setId(1);
+                    int check = 0;
+                    if (incomingDollar.isChecked()) {
+                        check = 1;
+                    }
+                    asos.setDollar(check);
+                    newAsosCheck = 1;
+                    copyProperties(inserAsos, asos);
+                    Log.d("Getgani", inserAsos.getSumma().toString());
+                    new getDiller().execute();
+                    incomingDate.setText("");
+                    incomingNum.setText("");
+                    incomingdiller.setText("");
+                    incomingDollar.setChecked(false);
+                    // newAsosCheck = 0 ;
+                    // new getDiller().execute();
+
+                } else {
+                incomingdiller.setError("Diller yo'q");
                 }
-                asos.setDollar(check);
-                newAsosCheck = 1;
-                copyProperties(inserAsos, asos);
-                Log.d("Getgani", inserAsos.getSumma().toString());
-                new getDiller().execute();
-                incomingDate.setText("");
-                incomingNum.setText("");
-                incomingdiller.setText("");
-                incomingDollar.setChecked(false);
-                 // newAsosCheck = 0 ;
-              //  new getDiller().execute();
+
             }
         });
 

@@ -45,7 +45,7 @@ public class IncomingWork extends AppCompatActivity {
     private Intent intent;
     private ImageView barcodescan;
     private ImageView add;
-    private ImageView next;
+    private Button next;
     private ImageView item_deleteW;
     private ImageView edit;
 
@@ -100,6 +100,7 @@ public class IncomingWork extends AppCompatActivity {
         IWSoni.setText(allNumber);
         if (!intent.getStringExtra("ichkiSoni").isEmpty()) {
             IWIchkiSoni.setText(intent.getStringExtra("ichkiSoni"));
+            Log.d("ichki Soni" , intent.getStringExtra("ichkiSoni"));
         }
         idForGetList = intent.getIntExtra("id", 0);
         Log.d("getid", idForGetList.toString());
@@ -428,7 +429,10 @@ public class IncomingWork extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            count-- ;
+            counts -- ;
+            if (allNumber != null) {
+                soni.setText(allNumber + " ta dan " + counts + " ta kiritildi!");
+            }
             if (progressDialog.isShowing())
                 progressDialog.dismiss();
             adapter.notifyDataSetChanged();
@@ -465,3 +469,4 @@ public class IncomingWork extends AppCompatActivity {
         }
     }
 }
+

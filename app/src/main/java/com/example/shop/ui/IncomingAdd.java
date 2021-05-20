@@ -704,6 +704,4 @@ public class IncomingAdd extends AppCompatActivity {
 
         }
     }
-
-
 }
