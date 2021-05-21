@@ -94,7 +94,8 @@ public class ProductAdd extends AppCompatActivity {
     Integer papka;
     String nom_sh;
     GetListAdapter adapter; // ozgartrsh garak
-    BrendAdapter brendAdapter ;
+//    BrendAdapter brendAdapter ;
+    ArrayAdapter<String> brendAdapter;
 
     Integer slaveId = 0; // intentdan alish garak
     private ArrayList<GetList> list; /// modelni ozgartirish garak
@@ -170,11 +171,33 @@ public class ProductAdd extends AppCompatActivity {
 
             liveData2.observe(this, new Observer<ArrayList<Brend>>() {
                 @Override
-                public void onChanged(@Nullable  ArrayList<Brend> brends) {
-                    brendAdapter = new BrendAdapter(ProductAdd.this ,  R.layout.get_list_item, brends);
+                public void onChanged(@Nullable final ArrayList<Brend> brends) {
+                    final List<String> brendNames = new ArrayList<>();
+                    for(Brend brend: brends) {
+                        brendNames.add(brend.getNom());
+                    }
+                    brendAdapter = new ArrayAdapter<String>(ProductAdd.this, android.R.layout.simple_spinner_dropdown_item, brendNames);//BrendAdapter(ProductAdd.this ,  R.layout.get_list_item, brends);
+                    Log.v("MyTag" , String.valueOf(brends.size()));
                     typeSpinner.setAdapter(brendAdapter);
-                }
 
+                    typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                             String selected = brendNames.get(position);
+                             Log.v("Selected" , selected);
+                            for (int i = 0; i < brends.size(); i++) {
+                                if (brends.get(i).getNom().equals(selected)){
+                                    brend = brends.get(i).getId();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                                   brend = 0 ;
+                        }
+                    });
+                }
             });
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -587,7 +610,7 @@ public class ProductAdd extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(ProductAdd.this, "Сервер билан муамо бор", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ProductAdd.this, "Сервер билан муаммо бор", Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -635,8 +658,8 @@ public class ProductAdd extends AppCompatActivity {
                         list2.add(brend);
 
                         if (!list2.isEmpty()) {
-                            Log.v("object" , object2.get("id") + " nom: " + object2.get("nom"));
-                            Log.v("List2" , list2.get(i).getNom() + list2.get(i).getId());
+                            liveData2.postValue(list2);
+
                         }
 
                     }
@@ -655,7 +678,7 @@ public class ProductAdd extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(ProductAdd.this, "Сервер билан муаммо бор", Toast.LENGTH_LONG).show();
+                       // Toast.makeText(ProductAdd.this, "Сервер билан муаммо бор", Toast.LENGTH_LONG).show();
                     }
                 });
             }
