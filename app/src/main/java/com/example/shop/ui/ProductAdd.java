@@ -167,18 +167,14 @@ public class ProductAdd extends AppCompatActivity {
                     listView.setAdapter(adapter);
                 }
             });
-            liveData2.observe(this, new Observer<ArrayList<Brend>>() {
 
+            liveData2.observe(this, new Observer<ArrayList<Brend>>() {
                 @Override
                 public void onChanged(@Nullable  ArrayList<Brend> brends) {
                     brendAdapter = new BrendAdapter(ProductAdd.this ,  R.layout.get_list_item, brends);
                     typeSpinner.setAdapter(brendAdapter);
                 }
 
-                public void onChangedee(@Nullable ArrayList<GetList> seriesModels) {
-                    adapter = new GetListAdapter(ProductAdd.this, R.layout.get_list_item, seriesModels);
-                    listView.setAdapter(adapter);
-                }
             });
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
