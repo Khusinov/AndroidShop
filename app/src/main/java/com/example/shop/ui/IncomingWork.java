@@ -124,7 +124,7 @@ public class IncomingWork extends AppCompatActivity {
         next.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void onClick(View view) { 
                         Intent intent = new Intent(IncomingWork.this, ProductsList.class);
                         setDownIntent(intent);
                         startActivity(intent);

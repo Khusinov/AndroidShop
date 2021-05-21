@@ -19,11 +19,14 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.shop.HttpHandler;
 import com.example.shop.R;
 import com.example.shop.adapter.STovarAdapter;
+import com.example.shop.model.Brend;
+import com.example.shop.model.GetList;
 import com.example.shop.model.STovar;
 import com.example.shop.model.User;
 
@@ -44,7 +47,9 @@ public class ProductsList extends AppCompatActivity {
     ListView listView;
     SearchView searchView;
     ArrayList<STovar> list;
+    ArrayList<Brend> list2;
     STovarAdapter adapter;
+    Spinner typeSpinner ;
     ProgressDialog progressDialog;
     private String ip;
     private User thisuUser;
@@ -59,12 +64,15 @@ public class ProductsList extends AppCompatActivity {
         add=findViewById(R.id.products_list_input_add);
         barcodescan=findViewById(R.id.products_list_barcodescan);
         listView=findViewById(R.id.products_list_list_view);
+        typeSpinner = findViewById(R.id.spinnerTuri);
         searchView=findViewById(R.id.searchView);
         intent=getIntent();
         ip=intent.getStringExtra("ip");
         thisuUser=(User) intent.getSerializableExtra("user");
         new GetProducts().execute();
+      //  new GetSBrend().execute();
         list=new ArrayList<>();
+        list2=new ArrayList<>();
 
 
         barcodescan.setOnClickListener(new View.OnClickListener() {
@@ -268,9 +276,12 @@ public class ProductsList extends AppCompatActivity {
                          }
                          if (object.get("brend") == null){
                              tovar.setBrend(0);
+                             Log.d("brend" , "brend null galdi");
                          } else {
                              tovar.setBrend(object.getInt("brend"));
+                             Log.d("brend" , String.valueOf(object.getInt("brend")));
                          }
+
                          if ( object.get("papka").toString().equals("null")){
                              tovar.setPapka(0);
                          } else {
@@ -381,4 +392,9 @@ public class ProductsList extends AppCompatActivity {
             listView.setAdapter(adapter);
         }
     }
+
+    // S_Brend ni olish
+
+
+
 }

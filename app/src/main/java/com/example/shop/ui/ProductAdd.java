@@ -26,7 +26,9 @@ import android.widget.Toast;
 
 import com.example.shop.HttpHandler;
 import com.example.shop.R;
+import com.example.shop.adapter.BrendAdapter;
 import com.example.shop.adapter.GetListAdapter;
+import com.example.shop.model.Brend;
 import com.example.shop.model.GetList;
 import com.example.shop.model.Product;
 import com.example.shop.model.STovar;
@@ -70,10 +72,12 @@ public class ProductAdd extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
     private MutableLiveData<ArrayList<GetList>> liveData;
+    private MutableLiveData<ArrayList<Brend>> liveData2 ;
     //  AutoCompleteTextView incomingdiller;
     EditText for_incount;
     EditText incomingprice;
     Spinner spinner;
+    Spinner typeSpinner ;
     ImageView barcodescan;
     ArrayAdapter adapterdillers;
     STovar sTovar;
@@ -90,8 +94,11 @@ public class ProductAdd extends AppCompatActivity {
     Integer papka;
     String nom_sh;
     GetListAdapter adapter; // ozgartrsh garak
+    BrendAdapter brendAdapter ;
+
     Integer slaveId = 0; // intentdan alish garak
     private ArrayList<GetList> list; /// modelni ozgartirish garak
+    private ArrayList<Brend> list2 ;
     private GetList getList;
 
     @Override
@@ -110,7 +117,7 @@ public class ProductAdd extends AppCompatActivity {
         barcode1 = findViewById(R.id.product_add_barcode1);
         barcode2 = findViewById(R.id.product_add_barcode2);
         barcode3 = findViewById(R.id.product_add_barcode3);
-        turiEdt = findViewById(R.id.turi);
+      //  turiEdt = findViewById(R.id.turi);
         brendEdt = findViewById(R.id.brend);
         papkaEdt = findViewById(R.id.papka);
         bolimEdt = findViewById(R.id.bolim);
@@ -121,6 +128,7 @@ public class ProductAdd extends AppCompatActivity {
         type5 = findViewById(R.id.product_add_type5);
         type6 = findViewById(R.id.product_add_type6);
         spinner = findViewById(R.id.spinner);
+        typeSpinner = findViewById(R.id.spinnerTuri);
         listView = findViewById(R.id.slaveList);
         for_count = findViewById(R.id.product_add_for_count);
         for_incount = findViewById(R.id.product_add_for_incount);
@@ -137,7 +145,10 @@ public class ProductAdd extends AppCompatActivity {
         isEdit = intent.getIntExtra("edit", 0);
 
         liveData = new MutableLiveData<>();
+        liveData2 = new MutableLiveData<>();
+
         list = new ArrayList<>();
+        list2 = new ArrayList<>();
 
         dillerList = new ArrayList<>();
         dillerList.add("S/N Muhim"); // obizatilni 0 . 2
@@ -152,6 +163,19 @@ public class ProductAdd extends AppCompatActivity {
             liveData.observe(this, new Observer<ArrayList<GetList>>() {
                 @Override
                 public void onChanged(@Nullable ArrayList<GetList> seriesModels) {
+                    adapter = new GetListAdapter(ProductAdd.this, R.layout.get_list_item, seriesModels);
+                    listView.setAdapter(adapter);
+                }
+            });
+            liveData2.observe(this, new Observer<ArrayList<Brend>>() {
+
+                @Override
+                public void onChanged(@Nullable  ArrayList<Brend> brends) {
+                    brendAdapter = new BrendAdapter(ProductAdd.this ,  R.layout.get_list_item, brends);
+                    typeSpinner.setAdapter(brendAdapter);
+                }
+
+                public void onChangedee(@Nullable ArrayList<GetList> seriesModels) {
                     adapter = new GetListAdapter(ProductAdd.this, R.layout.get_list_item, seriesModels);
                     listView.setAdapter(adapter);
                 }
@@ -427,10 +451,9 @@ public class ProductAdd extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog = new ProgressDialog(ProductAdd.this);
-            progressDialog.setMessage("Сақлаyмоқда !!!");
+            progressDialog.setMessage("Сакланмокда !!!");
             progressDialog.setCancelable(false);
             progressDialog.show();
-
         }
 
         @Override
@@ -468,7 +491,7 @@ public class ProductAdd extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog = new ProgressDialog(ProductAdd.this);
-            progressDialog.setMessage("Сақлаyмоқда !!!");
+            progressDialog.setMessage("Сакланмокда !!!");
             progressDialog.setCancelable(false);
             progressDialog.show();
 
@@ -569,6 +592,74 @@ public class ProductAdd extends AppCompatActivity {
                     @Override
                     public void run() {
                         Toast.makeText(ProductAdd.this, "Сервер билан муамо бор", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+            new GetSBrend().execute();
+        }
+    }
+
+    private class GetSBrend extends AsyncTask<Void, Void, Void> {
+
+        private String urlProducts = "http://" + ip + ":8080/application/json/brend";
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(ProductAdd.this);
+            progressDialog.setMessage("Малумот юкланяпти");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            HttpHandler httpHandler = new HttpHandler();
+            String jsonStr = httpHandler.makeServiceCall(urlProducts);
+            if (jsonStr != null) {
+                try {
+
+                    JSONArray jsonArray2 = new JSONArray(jsonStr);
+                    for (int i = 0; i < jsonArray2.length(); i++) {
+                        Brend brend = new Brend();
+                        JSONObject object2 = jsonArray2.getJSONObject(i);
+
+                        brend.setId(object2.getInt("id"));
+                        brend.setNom(object2.getString("nom"));
+                        list2.add(brend);
+
+                        if (!list2.isEmpty()) {
+                            Log.v("object" , object2.get("id") + " nom: " + object2.get("nom"));
+                            Log.v("List2" , list2.get(i).getNom() + list2.get(i).getId());
+                        }
+
+                    }
+
+                } catch (JSONException e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(ProductAdd.this, "Serverdan galmadi", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                }
+
+            } else {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(ProductAdd.this, "Сервер билан муаммо бор", Toast.LENGTH_LONG).show();
                     }
                 });
             }
