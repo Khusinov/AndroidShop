@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -30,9 +29,9 @@ import android.widget.Toast;
 import com.example.shop.HttpHandler;
 import com.example.shop.R;
 import com.example.shop.adapter.IncomingAddListener;
-import com.example.shop.adapter.ItemAdapter;
+import com.example.shop.adapter.ItemSlaveAdapter;
 import com.example.shop.adapter.STovarAdapter;
-import com.example.shop.model.Product;
+import com.example.shop.model.Slave;
 import com.example.shop.model.STovar;
 import com.example.shop.model.User;
 
@@ -51,8 +50,8 @@ public class IncomingAdd extends AppCompatActivity {
     Intent intent;
     ImageView barcodescan;
 
-    private ArrayList<Product> list2;
-    private ItemAdapter adapter2;
+    private ArrayList<Slave> list2;
+    private ItemSlaveAdapter adapter2;
     private ListView listView;
     private ListView listView2;
     private SearchView searchView;
@@ -63,9 +62,9 @@ public class IncomingAdd extends AppCompatActivity {
     private User thisuUser;
     private Integer asosId;
     private STovar tovar;
-    private Product selectProduct;
+    private Slave selectSlave;
     private ImageView save;
-    private static Integer selectedProduct = 0;
+    private static Integer selectedSlave = 0;
     private EditText count;
     private EditText incount;
     private TextView nomer ;
@@ -75,7 +74,7 @@ public class IncomingAdd extends AppCompatActivity {
     private static Double sum = 0.0;
     private LinearLayout main_changed1;
     private LinearLayout main_changed2;
-    private Product product;
+    private Slave slave;
     private TextView selectProductView;
 
     @Override
@@ -137,91 +136,85 @@ public class IncomingAdd extends AppCompatActivity {
                 STovar stovar = (STovar) view.getTag();
                 if (stovar != null) {
                     tovar = stovar;
-                    selectedProduct = 1;
-                    Log.v("MyTag", tovar.toString());
+                    selectedSlave = 1;
                 }
                 Integer price_product_count_int = tryParse(count.getText().toString());
                 Integer price_inproduct_count_int = tryParse(incount.getText().toString());
-                Product product = new Product();
-                product.setPutId(0);
-                product.setId(tovar.getId());
-                product.setName(tovar.getNom());
-                product.setCount(price_product_count_int);
-                product.setIncount(price_inproduct_count_int);
-                product.setPrice(tovar.getSotish());
-                product.setInprice(0.0);
-                product.setIncnt(tovar.getKol_in());
-                selectProduct = product;
-                selectedProduct = 2;
-                Log.d("SelectPro", selectProduct.toString());
+                Slave slave = new Slave();
+                slave.setId(tovar.getId());
+                slave.setPutId(0);
+                slave.setTovar_id(tovar.getId());
+                slave.setTovar_nom(tovar.getNom());
+                slave.setKol(price_product_count_int);
+                slave.setKol_in(price_inproduct_count_int);
+                slave.setKol_ost(price_product_count_int);
+                slave.setSena(0.0);
+                slave.setSena_in(0.0);
+                slave.setSotish_in(0.0);
+                slave.setSotish_in(0.0);
+                selectSlave = slave;
+                selectedSlave = 2;
                 adapter.setPosition(i);
                 adapter2.setPosition(-1);
                 adapter.notifyDataSetChanged();
                 adapter2.notifyDataSetChanged();
-
                 selectProduct();
             }
         });
-
-
-        Log.v("view ", "onclick");
         listView2.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        product = (Product) view.getTag();
-                        selectedProduct = 1;
 
-
+                        selectedSlave= 1;
                         adapter.setPosition(-1);
                         adapter2.setPosition(position);
                         adapter.notifyDataSetChanged();
                         adapter2.notifyDataSetChanged();
-
+                        slave = (Slave) view.getTag();
+                        selectSlave = slave;
                         selectProduct();
                     }
                 }
         );
-
-
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (selectedProduct == 2) {
+                if (selectedSlave == 2) {
                     Integer price_product_count_int = tryParse(count.getText().toString());
                     Integer price_inproduct_count_int = tryParse(incount.getText().toString());
-                    Product product = new Product();
-                    product.setPutId(0);
-                    product.setId(tovar.getId());
-                    product.setName(tovar.getNom());
-                    product.setCount(price_product_count_int);
-                    product.setIncount(price_inproduct_count_int);
-                    product.setPrice(tovar.getSotish());
-                    product.setInprice(0.0);
-                    product.setIncnt(tovar.getKol_in());
-                    selectProduct = product;
+                    Slave slave = new Slave();
+                    slave.setPutId(0);
+                    slave.setId(tovar.getId());
+                    slave.setTovar_nom(tovar.getNom());
+                    slave.setTovar_id(tovar.getId());
+                    slave.setKol(price_product_count_int);
+                    slave.setKol_in(price_inproduct_count_int);
+                    slave.setKol_ost(price_product_count_int);
+                    slave.setSena(0.0);
+                    slave.setSena_in(0.0);
+                    slave.setSotish_in(0.0);
+                    slave.setSotish_in(0.0);
+                    selectSlave = slave;
                     new AddProduct().execute();
-                    list2.add(product);
+                    list2.add(slave);
                     adapter2.notifyDataSetChanged();
                 } else
-                    if (selectedProduct == 1) {
-                    if (!count.getText().toString().equals("null")){
-                        product.setCount(Integer.valueOf(count.getText().toString()));
-                        Log.d("NutNull" , "count");
+                    if (selectedSlave == 1) {
+                    if (!count.getText().toString().equals("")){
+                        slave.setKol(Integer.valueOf(count.getText().toString()));
                     }
 
-                    if (!incount.getText().toString().equals("null")){
-                        product.setIncount(Integer.valueOf(incount.getText().toString()));
-                        Log.d("NutNull" , "Incount");
-
+                    if (!incount.getText().toString().equals("")){
+                        slave.setKol_in(Integer.valueOf(incount.getText().toString()));
                     }
 
 
-                    selectProduct = product;
-                    new PutProduct().execute();
+                    selectSlave = slave;
+                    new PutSlave().execute();
                  //   new GetProducts().execute();
                 }
-                selectedProduct = 0;
+                selectedSlave = 0;
                 selectProduct();
             }
         });
@@ -315,31 +308,39 @@ public class IncomingAdd extends AppCompatActivity {
 
 
     private void selectProduct() {
-        if (selectedProduct != 0) {
-            if (selectProduct.getIncnt().equals(1) && tovar.getKol_in().equals(1)) {
-                count.setEnabled(true);
-            } else {
-                incount.setEnabled(true);
-                count.setEnabled(true);
-            }
-            if (selectedProduct == 2) {
+        if (selectedSlave != 0) {
+            incount.setEnabled(true);
+            count.setEnabled(true);
+            if (selectedSlave == 2) {
                 Log.d("else2", "tttt");
                 main_changed1.setBackgroundResource(R.drawable.backgroun4ch); //backgroun3ch
                 main_changed2.setBackgroundResource(R.drawable.backgroun4ch);
-                if (selectProduct.getCount() > 0) {
-                    CharSequence c = "" + selectProduct.getCount();
+                if (selectSlave.getKol() > 0) {
+                    CharSequence c = "" + selectSlave.getKol();
                     count.setText(c, EditText.BufferType.EDITABLE);
                 }
-                if (selectProduct.getIncount() > 0) {
-                    CharSequence c = "" + selectProduct.getIncount();
+                if (selectSlave.getKol_in() > 0) {
+                    CharSequence c = "" + selectSlave.getKol_in();
                     incount.setText(c, EditText.BufferType.EDITABLE);
                 }
-                if (selectProduct.getName() != null) {
-                    selectProductView.setText(selectProduct.getName());
-                    Log.d("shsbhbshs ", selectProduct.getName());
+                if (selectSlave.getTovar_nom() != null) {
+                    selectProductView.setText(selectSlave.getTovar_nom());
                 }
 
             } else {
+                incount.setEnabled(true);
+                count.setEnabled(true);
+                if (selectSlave.getKol() > 0) {
+                    CharSequence c = "" + selectSlave.getKol();
+                    count.setText(c, EditText.BufferType.EDITABLE);
+                }
+                if (selectSlave.getKol_in() > 0) {
+                    CharSequence c = "" + selectSlave.getKol_in();
+                    count.setText(c, EditText.BufferType.EDITABLE);
+                }
+                if (selectSlave.getTovar_nom() != null) {
+                    selectProductView.setText(selectSlave.getTovar_nom());
+                }
                 main_changed1.setBackgroundResource(R.drawable.backgroun3ch); //backgroun4ch
                 main_changed2.setBackgroundResource(R.drawable.backgroun3ch);
                 Log.d("else1", "tttt");
@@ -347,6 +348,8 @@ public class IncomingAdd extends AppCompatActivity {
         } else {
             Log.d("elsenutnull", "tttt");
             selectProductView.setText(R.string.product);
+            count.getText().clear();
+            incount.getText().clear();
             main_changed1.setBackgroundResource(R.drawable.backgroun4);
             main_changed2.setBackgroundResource(R.drawable.backgroun4);
 
@@ -355,22 +358,25 @@ public class IncomingAdd extends AppCompatActivity {
             adapter.notifyDataSetChanged();
             adapter2.notifyDataSetChanged();
         }
-        count.getText().clear();
-        incount.getText().clear();
+
 
     }
 
 
-    private void copyProperties(Product productBefore, Product productLast) {
-        productBefore.setPutId(productLast.getPutId());
-        productBefore.setId(productLast.getId());
-        productBefore.setIncount(productLast.getIncount());
-        productBefore.setCount(productLast.getCount());
-        productBefore.setPrice(productLast.getPrice());
-        productBefore.setInprice(productLast.getInprice());
-        productBefore.setIncnt(productLast.getIncnt());
-        productBefore.setShtrix(productLast.getShtrix());
-        productBefore.setName(productLast.getName());
+    private void copyProperties(Slave productBefore, Slave slaveLast) {
+        productBefore.setId(slaveLast.getId());
+        productBefore.setAsos_id(slaveLast.getAsos_id());
+        productBefore.setUser_id(slaveLast.getUser_id());
+        productBefore.setTovar_id(slaveLast.getTovar_id());
+        productBefore.setTovar_nom(slaveLast.getTovar_nom());
+        productBefore.setKol(slaveLast.getKol());
+        productBefore.setKol_in(slaveLast.getKol_in());
+        productBefore.setKol_ost(slaveLast.getKol_ost());
+        productBefore.setKol_in_ost(slaveLast.getKol_in_ost());
+        productBefore.setSotish(slaveLast.getSotish());
+        productBefore.setSotish_in(slaveLast.getSotish());
+        productBefore.setSena(slaveLast.getSena());
+        productBefore.setSena_in(slaveLast.getSena_in());
     }
 
     public Integer tryParse(Object obj) {
@@ -400,8 +406,7 @@ public class IncomingAdd extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             HttpHandler httpHandler = new HttpHandler();
-            i = httpHandler.makeServiceAddProduct(urlRequest, selectProduct);
-            Log.v("TAG", "makeServiceAddProduct: " + i);
+            i = httpHandler.makeServiceAddSlave(urlRequest, selectSlave);
             return null;
         }
 
@@ -411,8 +416,9 @@ public class IncomingAdd extends AppCompatActivity {
             if (progressDialog.isShowing()) {
                 progressDialog.dismiss();
             }
-            if (i != 0)
-                selectProduct.setPutId(i);
+            if (i != 0) {
+                selectSlave.setPutId(i);
+            }
         }
 
     }
@@ -421,13 +427,13 @@ public class IncomingAdd extends AppCompatActivity {
     private class GetProducts extends AsyncTask<Void, Void, Void> {
         //        http://localhost:8080/application/json/clientid=4/4/products
         private String urlProducts = "http://" + ip + ":8080/application/json/getproduct/" + thisuUser.getClient_id();
-        private String urlAddProducts = "http://" + ip + ":8080/application/json/products/" + asosId;
+        private String urlAddProducts = "http://" + ip + ":8080/application/json/getKirimSlave/" + asosId;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog = new ProgressDialog(IncomingAdd.this);
-            progressDialog.setMessage("Маьлумот юкланаяпти");
+            progressDialog.setMessage("Kirim tovarlar yuklanmoqda");
             progressDialog.setCancelable(false);
             progressDialog.show();
         }
@@ -581,7 +587,6 @@ public class IncomingAdd extends AppCompatActivity {
                 }
 
             } else {
-                Log.v("MyTag4", "serverdan galmadi");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -593,27 +598,17 @@ public class IncomingAdd extends AppCompatActivity {
                 try {
                     JSONArray jsonArray2 = new JSONArray(jsonStr2);
                     for (int i = 0; i < jsonArray2.length(); i++) {
-                        Product item = new Product();
+                        Slave item = new Slave();
                         JSONObject object2 = jsonArray2.getJSONObject(i);
-                                /*
-                                "id": 1,
-                                "productId": 2,
-                                "nameShort": "anvar",
-                                "count": 4,
-                                "incount": 5,
-                                "price": 6,
-                                "inprice": 7
-                                */
-                        item.setPutId(object2.getInt("id"));
-                        item.setId(object2.getInt("productId"));
-                        item.setName(object2.getString("name"));
-                        item.setCount(object2.getInt("count"));
-                        Log.d("Incount", String.valueOf(object2.getInt("incount")));
-                        item.setIncount(object2.getInt("incount"));
-                        item.setPrice(object2.getDouble("price"));
-                        item.setInprice(object2.getDouble("inprice"));
-                        item.setIncnt(object2.getInt("incnt"));
-                        Product pr = new Product();
+                        item.setId(object2.getInt("id"));
+                        item.setAsos_id(object2.getInt("asos_id"));
+                        item.setTovar_id(object2.getInt("tovar_id"));
+                        item.setTovar_nom(object2.getString("tovar_nom"));
+                        item.setKol(object2.getInt("kol"));
+                        item.setKol_in((Integer)object2.getInt("kol_in"));
+                        item.setKol_ost(object2.getInt("kol_ost"));
+                        item.setKol_in_ost(object2.getInt("kol_in_ost"));
+                        Slave pr = new Slave();
                         copyProperties(pr, item);
                         list2.add(pr);
                     }
@@ -641,18 +636,23 @@ public class IncomingAdd extends AppCompatActivity {
             }
             adapter = new STovarAdapter(IncomingAdd.this, R.layout.stovar_item, list);
             listView.setAdapter(adapter);
-            adapter2 = new ItemAdapter(IncomingAdd.this, R.layout.list_item, list2, ip, asosId, new IncomingAddListener() {
+            adapter2 = new ItemSlaveAdapter(IncomingAdd.this, R.layout.list_item, list2, ip, asosId, new IncomingAddListener() {
                 @Override
-                public void itemSeriesClick(ArrayList<Product> products, Integer position) {
+                public void itemSeriesClick(ArrayList<Slave> products, Integer position) {
                     Intent intent = new Intent(getApplicationContext(), IncomingWork.class);
                     intent.putExtra("ip", ip);
                     intent.putExtra("user", thisuUser);
                     intent.putExtra("sTovar", tovar);
                     intent.putExtra("slaveId", asosId); // slaveId
-                    intent.putExtra("name", products.get(position).getName());
-                    intent.putExtra("soni", products.get(position).getCount());
+                    intent.putExtra("name", products.get(position).getTovar_nom());
+                    intent.putExtra("soni", products.get(position).getKol());
                     intent.putExtra("id", products.get(position).getId());
                     startActivity(intent);
+                }
+
+                @Override
+                public void itemSlaveClick(ArrayList<Slave> items, int position) {
+
                 }
 
             });
@@ -660,8 +660,8 @@ public class IncomingAdd extends AppCompatActivity {
         }
     }
 
-    private class PutProduct extends AsyncTask<Void, Void, Void> {
-        private String urlPutProducts = "http://" + ip + ":8080/application/json/asosslaveput/" + asosId + "/" + thisuUser.getId();
+    private class PutSlave extends AsyncTask<Void, Void, Void> {
+        private String urlPutProducts = "http://" + ip + ":8080/application/json/saveinslave/";
 //        http://localhost:8080/application/json/
 
 
@@ -670,7 +670,7 @@ public class IncomingAdd extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog = new ProgressDialog(IncomingAdd.this);
-            progressDialog.setMessage("Малумот сақланйапти");
+            progressDialog.setMessage("Omborga ma`lumot qo`shilmoqda");
             progressDialog.setCancelable(false);
             progressDialog.show();
         }
@@ -678,7 +678,7 @@ public class IncomingAdd extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             HttpHandler httpHandler = new HttpHandler();
-            httpHandler.putProduct(urlPutProducts, selectProduct);
+            httpHandler.putSlave(urlPutProducts, selectSlave);
             return null;
         }
 
@@ -687,16 +687,15 @@ public class IncomingAdd extends AppCompatActivity {
             if (progressDialog.isShowing()) {
                 progressDialog.dismiss();
             }
-            sum -= selectProductSum;
-            selectProductSum = (selectProduct.getPrice() * selectProduct.getCount() + selectProduct.getInprice() * selectProduct.getIncount());
-            sum += selectProductSum;
+//            sum -= selectProductSum;
+//            selectProductSum = (selectSlave.getSena() * selectSlave.getKol() + selectSlave.getSena() * selectSlave.getKol_in());
+//            sum += selectProductSum;
 
-            Log.v("PutProduct", "list added product:" + selectProduct.toString());
             listView2.setAdapter(adapter2);
             //addList(selectProduct);
             adapter2.notifyDataSetChanged();
 
-            selectedProduct = 0;
+            selectedSlave = 0;
 
             // sumPrice.setText("Умуммий сумма: " + sum + " Сўм");
             //  intent.putExtra("sumprice", sumPrice.getText().toString());

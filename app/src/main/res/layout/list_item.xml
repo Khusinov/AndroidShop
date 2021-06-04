@@ -65,7 +65,7 @@
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
         android:layout_weight="1"
-        android:text="S"
+        android:text="SER"
         android:background="#8dffcd"
         android:textStyle="bold"
         android:textSize="16sp" />

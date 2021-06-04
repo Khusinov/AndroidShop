@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.shop.model.AsosModell;
 import com.example.shop.model.Product;
+import com.example.shop.model.Slave;
 import com.example.shop.model.STovar;
 import com.example.shop.model.SeriesModel;
 import com.example.shop.model.User;
@@ -95,26 +96,6 @@ public class HttpHandler {
             jsonParam.put("kurs", asosModell.getKurs());
             jsonParam.put("sum_d", asosModell.getSum_d());
             jsonParam.put("kol", asosModell.getKol());
-
-            Log.d("err", jsonParam.toString());
-             /*{
-                    "client_id": 4,
-                    "userId": 30,
-                    "xodimId": 10,
-                    "haridorId": 0,
-                    "sana": "",
-                    "dilerId": 1,
-                    "turOper": 2,
-                    "summa": 4500.0,
-                    "sotuvTuri": 1,
-                    "nomer": "4521",
-                    "del_flag": 1,
-                    "dollar": 4526,
-                    "kurs": 1,
-                    "sum_d": 1452,
-                    "kol": 2
-            }
-*/
             conn.setConnectTimeout(15000);
             conn.setRequestProperty("Content-Type", "application/json");
             conn.connect();
@@ -454,7 +435,7 @@ public class HttpHandler {
     }
 
 
-    public Integer makeServiceAddProduct(String reqUrl, Product selectedItem) {
+    public Integer makeServiceAddProduct(String reqUrl, Slave selectedItem) {
         HttpURLConnection conn = null;
         try {
             URL url = new URL(reqUrl);
@@ -465,26 +446,111 @@ public class HttpHandler {
             conn.setDoOutput(true);
             JSONObject object = new JSONObject();
             try {
-                object.put("id", selectedItem.getPutId());
-                object.put("productId", selectedItem.getId());
-                object.put("name", selectedItem.getName());
-                object.put("count", selectedItem.getCount());
-                object.put("incount", selectedItem.getIncount());
-                object.put("price", selectedItem.getPrice());
-                object.put("inprice", selectedItem.getInprice());
-                object.put("incnt", selectedItem.getIncnt());
-                /*{
-                    "id": 3407,
-                        "productId": 1088,
-                        "nameShort": null,
-                        "name": "1091. Фенал 1820 ",
-                        "count":  10,
-                        "incount": 9,
-                        "price": 20000,
-                        "inprice": 0,
-                        "shtrix": "8803465418203",
-                        "incnt": 12
-                }*/
+                object.put("putid", selectedItem.getPutId());
+                object.put("Id", selectedItem.getId());
+                object.put("tovar_id", selectedItem.getTovar_id());
+                object.put("asos_id", selectedItem.getAsos_id());
+                object.put("user_id", selectedItem.getUser_id());
+                object.put("tovar_id", selectedItem.getTovar_id());
+                object.put("tovar_nom", selectedItem.getTovar_nom());
+                object.put("kol", selectedItem.getKol());
+                object.put("kol_in", selectedItem.getKol_in());
+                object.put("sena", selectedItem.getSena());
+                object.put("sena_in", selectedItem.getSena_in());
+                object.put("sotish", selectedItem.getSotish());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String jsonInputString = object.toString();
+            OutputStream os = conn.getOutputStream();
+            byte[] input = jsonInputString.getBytes("utf-8");
+            os.write(input, 0, input.length);
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+            StringBuilder response = new StringBuilder();
+            String responseLine = null;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+            return Integer.parseInt(response.toString());
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public void putProduct(String reqUrl, Slave selectedItem) {
+
+        HttpURLConnection conn = null;
+        try {
+            URL url = new URL(reqUrl);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json; utf-8");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setDoOutput(true);
+            JSONObject object = new JSONObject();
+            try {
+                object.put("id", selectedItem.getId());
+                object.put("tovar_id", selectedItem.getTovar_id());
+                object.put("asos_id", selectedItem.getAsos_id());
+                object.put("user_id", selectedItem.getUser_id());
+                object.put("tovar_nom", selectedItem.getTovar_nom());
+                object.put("kol", selectedItem.getKol());
+                object.put("kol_in", selectedItem.getKol_in());
+                object.put("kol_ost", selectedItem.getKol_ost());
+                object.put("kol_in_ost", selectedItem.getKol_in_ost());
+                object.put("sena", selectedItem.getSena());
+                object.put("sena_in", selectedItem.getSena_in());
+                object.put("sotish", selectedItem.getSotish());
+                object.put("sotish_in", selectedItem.getSotish_in());
+                Log.v("Http", selectedItem.toString());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String jsonInputString = object.toString();
+            OutputStream os = conn.getOutputStream();
+            byte[] input = jsonInputString.getBytes("utf-8");
+            os.write(input, 0, input.length);
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+            StringBuilder response = new StringBuilder();
+            String responseLine = null;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public Integer makeServiceAddSlave(String reqUrl, Slave selectedItem) {
+        HttpURLConnection conn = null;
+        try {
+            URL url = new URL(reqUrl);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json; utf-8");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setDoOutput(true);
+            JSONObject object = new JSONObject();
+            try {
+                //object.put("id", selectedItem.getPutId());
+                object.put("id", selectedItem.getId());
+                object.put("tovar_id", selectedItem.getTovar_id());
+                object.put("asos_id", selectedItem.getAsos_id());
+                object.put("user_id", selectedItem.getUser_id());
+                object.put("tovar_nom", selectedItem.getTovar_nom());
+                object.put("kol", selectedItem.getKol());
+                object.put("kol_in", selectedItem.getKol_in());
+                object.put("kol_ost", selectedItem.getKol_ost());
+                object.put("kol_in_ost", selectedItem.getKol_in_ost());
+                object.put("sena", selectedItem.getSena());
+                object.put("sena_in", selectedItem.getSena_in());
+                object.put("sotish", selectedItem.getSotish());
+                object.put("sotish_in", selectedItem.getSotish_in());
                 Log.v("Http", selectedItem.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -508,7 +574,7 @@ public class HttpHandler {
         return 0;
     }
 
-    public void putProduct(String reqUrl, Product selectedItem) {
+    public void putSlave(String reqUrl, Slave selectedItem) {
 
         HttpURLConnection conn = null;
         try {
@@ -520,14 +586,19 @@ public class HttpHandler {
             conn.setDoOutput(true);
             JSONObject object = new JSONObject();
             try {
-                object.put("id", selectedItem.getPutId());
-                object.put("productId", selectedItem.getId());
-                object.put("name", selectedItem.getName());
-                object.put("count", selectedItem.getCount());
-                object.put("incount", selectedItem.getIncount());
-                object.put("price", selectedItem.getPrice());
-                object.put("inprice", selectedItem.getInprice());
-                object.put("incnt", selectedItem.getIncnt());
+                object.put("id", selectedItem.getId());
+                object.put("tovar_id", selectedItem.getTovar_id());
+                object.put("asos_id", selectedItem.getAsos_id());
+                object.put("user_id", selectedItem.getUser_id());
+                object.put("tovar_nom", selectedItem.getTovar_nom());
+                object.put("kol", selectedItem.getKol());
+                object.put("kol_in", selectedItem.getKol_in());
+                object.put("kol_ost", selectedItem.getKol_ost());
+                object.put("kol_in_ost", selectedItem.getKol_in_ost());
+                object.put("sena", selectedItem.getSena());
+                object.put("sena_in", selectedItem.getSena_in());
+                object.put("sotish", selectedItem.getSotish());
+                object.put("sotish_in", selectedItem.getSotish_in());
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -548,7 +619,6 @@ public class HttpHandler {
             e.printStackTrace();
         }
     }
-
 
     public void makeServiceDelItem(String reqUrl) {
         String response = "0";
@@ -655,18 +725,6 @@ public class HttpHandler {
             conn.setDoOutput(true);
 
             JSONObject jsonParam = new JSONObject();
-            /* {
-                "clientId": 4,
-                "userId": 99,
-                "xodimId": 99,
-                "haridorId":
-                "dilerId":0,
-                "turOper": 2
-
-
-
-        }*/
-
             jsonParam.put("client_id", user.getClient_id());
             jsonParam.put("userId", user.getId());
             jsonParam.put("xodimId", user.getId());

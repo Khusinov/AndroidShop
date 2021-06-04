@@ -30,8 +30,10 @@ import com.example.shop.R;
 import com.example.shop.SMSsender;
 import com.example.shop.adapter.IncomingAddListener;
 import com.example.shop.adapter.ItemAdapter;
+import com.example.shop.adapter.ItemSlaveAdapter;
 import com.example.shop.adapter.ProductAdapter;
 import com.example.shop.model.Product;
+import com.example.shop.model.Slave;
 import com.example.shop.model.User;
 
 import org.json.JSONArray;
@@ -51,16 +53,16 @@ public class MainActivity extends AppCompatActivity {
     private SearchView searchView;
     private ListView listView;
     private ListView listView2;
-    private ArrayList<Product> list;
-    private ArrayList<Product> list2;
-    private ProductAdapter adapter;
+    private ArrayList<Slave> list;
+    private ArrayList<Slave> list2;
+    private ItemSlaveAdapter adapter;
     private ItemAdapter adapter2;
     private ImageView save;
     private ImageView calsel;
     private EditText price_product_count;
     private EditText price_inproduct_count;
-    private Product selectProduct;
-    private Product selectProductOnList;
+    private Slave selectProduct;
+    private Slave selectProductOnList;
     private static Double selectProductSum = 0.0;
     private static Integer selectedProduct = 0;
     private static Double sum = 0.0;
@@ -181,21 +183,14 @@ public class MainActivity extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 //                      price_product_count.requestFocus();
                         showSoftKeyboard(price_product_count);
-                        Product product = (Product) view.getTag();
-                        Log.v(TAG, product.getName() + " " + product.getId());
-                        Log.v(TAG, product.getName() + " " + product.getPutId());
-                        Log.v(TAG, product.getName() + " " + product.getCount());
-                        Log.v(TAG, product.getName() + " " + product.getIncount());
-                        Log.v(TAG, product.getName() + " " + product.getInprice());
-                        Log.v(TAG, product.getName() + " " + product.getPrice());
-//                      Log.v(TAG,product.getName()+" "+selectProduct.getName());
+                        Slave slave = (Slave) view.getTag();
                         adapter.setPosition(i);
                         adapter2.setPosition(-1);
                         adapter.notifyDataSetChanged();
                         adapter2.notifyDataSetChanged();
 
                         selectedProduct = 1;
-                        setProduct(product);
+                        setProduct(slave);
                     }
                 });
 
@@ -205,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 //                      price_product_count.requestFocus();
                         showSoftKeyboard(price_product_count);
-                        Product item = (Product) view.getTag();
+                        Slave item = (Slave) view.getTag();
                         if (item == null) {
                             Log.v(TAG, "Ah sani");
                         }
@@ -232,9 +227,9 @@ public class MainActivity extends AppCompatActivity {
                             Log.v(TAG, price_inproduct_count_int + " " + price_product_count_int);
 
                             if (price_product_count_int > 0 || price_inproduct_count_int > 0) {
-                                Log.v(TAG + "in 1:", selectProduct.getName() + price_product_count_int + " " + price_inproduct_count_int);
-                                selectProduct.setCount(price_product_count_int);
-                                selectProduct.setIncount(price_inproduct_count_int);
+                                Log.v(TAG + "in 1:", selectProduct.getTovar_nom() + price_product_count_int + " " + price_inproduct_count_int);
+                                selectProduct.setKol(price_product_count_int);
+                                selectProduct.setKol_in(price_inproduct_count_int);
                                 if (selectedProduct == 1) {
                                     Log.v(TAG, "begin AddProduct().execute()");
                                     new AddProduct().execute();
@@ -374,33 +369,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setProduct(Product product) {
-        Product pr = new Product();
+    private void setProduct(Slave slave) {
         if (selectedProduct != 0) {
-            copyProperties(pr, product);
-            selectProductOnList = product;
-            selectProductView.setText(product.getName());
-            if (selectProductOnList.getIncnt().equals(1)) {
-                price_inproduct_count.setEnabled(false);
-            } else {
-                price_inproduct_count.setEnabled(true);
-            }
+            selectProductOnList = slave;
+            selectProductView.setText(slave.getTovar_nom());
             if (selectedProduct == 2) {
                 main_changed1.setBackgroundResource(R.drawable.backgroun3ch);
                 main_changed2.setBackgroundResource(R.drawable.backgroun3ch);
-                if (product.getCount() > 0) {
-                    CharSequence c = "" + product.getCount();
+                if (slave.getKol() > 0) {
+                    CharSequence c = "" + slave.getKol();
                     price_product_count.setText(c, EditText.BufferType.EDITABLE);
                 }
-                if (product.getIncount() > 0) {
-                    CharSequence c = "" + product.getIncount();
+                if (slave.getKol_in() > 0) {
+                    CharSequence c = "" + slave.getKol_in();
                     price_inproduct_count.setText(c, EditText.BufferType.EDITABLE);
                 }
             } else {
                 main_changed1.setBackgroundResource(R.drawable.backgroun4ch);
                 main_changed2.setBackgroundResource(R.drawable.backgroun4ch);
             }
-            selectProduct = pr;
+            selectProduct = slave;
         } else {
             selectProductView.setText(R.string.product);
             main_changed1.setBackgroundResource(R.drawable.backgroun4);
@@ -409,7 +397,7 @@ public class MainActivity extends AppCompatActivity {
             adapter2.setPosition(-1);
             adapter.notifyDataSetChanged();
             adapter2.notifyDataSetChanged();
-            selectProduct = pr;
+            selectProduct = slave;
         }
         price_product_count.getText().clear();
         price_inproduct_count.getText().clear();
@@ -435,54 +423,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void addList(Product product) {
-        int index = -1;
-        for (int i = 0; i < list2.size(); i++) {
-            if (list2.get(i).getId().equals(product.getId()) && list2.get(i).getPrice().equals(product.getPrice()) && list2.get(i).getInprice().equals(product.getInprice())) {
-                index = i;
-                Log.v(TAG, "Index:" + index);
-                break;
-            }
-        }
-        if (index == -1) {
-            Product pr = new Product();
-            copyProperties(pr, product);
-            list2.add(pr);
-        } else {
-            Integer setCount;
-            Integer setInCount;
-            if (selectedProduct.equals(2)) {
-                setCount = (product.getCount() * product.getIncnt() + +product.getIncount()) / product.getIncnt();
-                setInCount = (product.getCount() * product.getIncnt() + product.getIncount()) % product.getIncnt();
-
-            } else {
-                setCount = ((list2.get(index).getCount() + product.getCount()) * product.getIncnt() + (list2.get(index).getIncount() + product.getIncount())) / product.getIncnt();
-                setInCount = ((list2.get(index).getCount() + product.getCount()) * product.getIncnt() + (list2.get(index).getIncount() + product.getIncount())) % product.getIncnt();
-            }
-            list2.get(index).setPutId(product.getPutId());
-            list2.get(index).setCount(setCount);
-            list2.get(index).setIncount(setInCount);
-            Log.v(TAG, "pr:" + product.toString());
-
-            for (int i = 0; i < list2.size(); i++) {
-                Log.v(TAG, "list2 exam:" + list2.get(i).toString());
-            }
-        }
+    private void addList(Slave slave) {
+        list2.add(slave);
     }
 
-    private void copyProperties(Product productBefore, Product productLast) {
-        productBefore.setPutId(productLast.getPutId());
-        productBefore.setId(productLast.getId());
-        productBefore.setIncount(productLast.getIncount());
-        productBefore.setCount(productLast.getCount());
-        productBefore.setPrice(productLast.getPrice());
-        productBefore.setInprice(productLast.getInprice());
-        productBefore.setIncnt(productLast.getIncnt());
-        productBefore.setShtrix(productLast.getShtrix());
-        productBefore.setName(productLast.getName());
-    }
-
-    public void showSoftKeyboard(View view) {
+     public void showSoftKeyboard(View view) {
         if (view.requestFocus()) {
             InputMethodManager imm = (InputMethodManager)
                     getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -518,19 +463,11 @@ public class MainActivity extends AppCompatActivity {
             if (progressDialog.isShowing()) {
                 progressDialog.dismiss();
             }
-            if (i != 0)
-                selectProduct.setPutId(i);
-            if (i < 0) {
-                Toast.makeText(MainActivity.this, "Сиз танлаган миқдордан " + (-i) / selectProduct.getIncnt() + " " + (-i) % selectProduct.getIncnt() + " та этмайди !!!", Toast.LENGTH_LONG).show();
-                return;
-            }
-            Log.v(TAG, "selectProduct.setPutId: " + i);
+//            selectProductSum = (selectProduct.getPrice() * selectProduct.getCount() + selectProduct.getInprice() * selectProduct.getIncount());
+//            sum += selectProductSum;
+//            selectProductOnList.setCount(selectProductOnList.getCount() - selectProduct.getCount());
+//            selectProductOnList.setIncount(selectProductOnList.getIncount() - selectProduct.getIncount());
 
-            selectProductSum = (selectProduct.getPrice() * selectProduct.getCount() + selectProduct.getInprice() * selectProduct.getIncount());
-            sum += selectProductSum;
-            selectProductOnList.setCount(selectProductOnList.getCount() - selectProduct.getCount());
-            selectProductOnList.setIncount(selectProductOnList.getIncount() - selectProduct.getIncount());
-            Log.v(TAG, "list added product:" + selectProduct.toString());
             addList(selectProduct);
             adapter2.notifyDataSetChanged();
 
@@ -572,30 +509,18 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     JSONArray jsonArray2 = new JSONArray(jsonStr2);
                     for (int i = 0; i < jsonArray2.length(); i++) {
-                        Product item = new Product();
+                        Slave item = new Slave();
                         JSONObject object2 = jsonArray2.getJSONObject(i);
-
-                                /*
-                                "id": 1,
-                                "productId": 2,
-                                "nameShort": "anvar",
-                                "count": 4,
-                                "incount": 5,
-                                "price": 6,
-                                "inprice": 7
-                                */
                         item.setPutId(object2.getInt("id"));
                         item.setId(object2.getInt("productId"));
-                        item.setName(object2.getString("name"));
-                        item.setCount(object2.getInt("count"));
-                        item.setIncount(object2.getInt("incount"));
-                        item.setPrice(object2.getDouble("price"));
-                        item.setInprice(object2.getDouble("inprice"));
-                        item.setIncnt(object2.getInt("incnt"));
-                        Product pr = new Product();
-                        copyProperties(pr, item);
-                        list2.add(pr);
-                        Log.v(TAG, "item:" + item.toString());
+                        item.setTovar_nom(object2.getString("tovar_nom"));
+                        item.setKol(object2.getInt("kol"));
+                        item.setKol_in(object2.getInt("kol_in"));
+                        item.setSena(object2.getDouble("sena"));
+                        item.setSena_in(object2.getDouble("sena_in"));
+                        item.setSotish(object2.getDouble("sotish"));
+                        item.setSotish_in(object2.getDouble("sotish_in"));
+                        list2.add(item);
                     }
                 } catch (JSONException e) {
                     Log.v(TAG, e.getMessage());
@@ -606,32 +531,18 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     JSONArray jsonArray = new JSONArray(jsonStr);
                     for (int i = 0; i < jsonArray.length(); i++) {
-                        Product product = new Product();
+                        Slave product = new Slave();
                         JSONObject object = jsonArray.getJSONObject(i);
-
-                                /*
-                                "id": 1,
-                                "productId": 2,
-                                "nameShort": "anvar",
-                                "count": 4,
-                                "incount": 5,
-                                "price": 6,
-                                "inprice": 7
-                                */
-                        product.setPutId(object.getInt("id"));
-                        product.setId(object.getInt("productId"));
-                        product.setName(object.getString("name"));
-                        product.setCount(object.getInt("count"));
-                        product.setIncount(object.getInt("incount"));
-                        product.setPrice(object.getDouble("price"));
-                        product.setInprice(object.getDouble("inprice"));
-                        product.setShtrix(object.getString("shtrix"));
-                        product.setIncnt(object.getInt("incnt"));
-                        product.setSena_d(object.getDouble("sena_d"));
-                        product.setSena_in_d(object.getDouble("sena_in_d"));
-                        product.setShtrix_full(object.getString("shtrix_full"));
-//                        Log.v(TAG,"selectProduct Id:"+product.toString());
-
+                        product.setPutId(object.getInt("0"));
+                        product.setId(object.getInt("id"));
+                        product.setTovar_nom(object.getString("tovar_nom"));
+                        product.setKol(object.getInt("kol"));
+                        product.setKol_in(object.getInt("kol_in"));
+                        product.setKol_ost(object.getInt("kol_ost"));
+                        product.setKol_in_ost(object.getInt("kol_in_ost"));
+                        product.setSena(object.getDouble("sena"));
+                        product.setSena_in(object.getDouble("sena_in"));
+                        product.setSotish(object.getDouble("sotish_in"));
                         list.add(product);
 
                     }
@@ -654,7 +565,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-
             return null;
         }
 
@@ -664,11 +574,27 @@ public class MainActivity extends AppCompatActivity {
             if (progressDialog.isShowing()) {
                 progressDialog.dismiss();
             }
-            adapter = new ProductAdapter(MainActivity.this, R.layout.products_item, list);
+            adapter = new ItemSlaveAdapter(MainActivity.this, R.layout.products_item, list,ip, asosId,  new IncomingAddListener() {
+                @Override
+                public void itemSeriesClick(ArrayList<Slave> products, Integer position) {
+
+                }
+
+                @Override
+                public void itemSlaveClick(ArrayList<Slave> items, int position) {
+
+                }
+            }
+            );
             listView.setAdapter(adapter);
             adapter2 = new ItemAdapter(MainActivity.this, R.layout.list_item, list2, ip, asosId, new IncomingAddListener() {
                 @Override
-                public void itemSeriesClick(ArrayList<Product> products, Integer position) {
+                public void itemSeriesClick(ArrayList<Slave> products, Integer position) {
+
+                }
+
+                @Override
+                public void itemSlaveClick(ArrayList<Slave> items, int position) {
 
                 }
 
@@ -680,8 +606,6 @@ public class MainActivity extends AppCompatActivity {
     private class PutProduct extends AsyncTask<Void, Void, Void> {
         private String urlPutProducts = "http://" + ip + ":8080/application/json/asosslaveput/" + asosId + "/" + thisuUser.getId();
 //        http://localhost:8080/application/json/
-
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -703,11 +627,9 @@ public class MainActivity extends AppCompatActivity {
             if (progressDialog.isShowing()) {
                 progressDialog.dismiss();
             }
-            sum -= selectProductSum;
-            selectProductSum = (selectProduct.getPrice() * selectProduct.getCount() + selectProduct.getInprice() * selectProduct.getIncount());
-            sum += selectProductSum;
-
-            Log.v(TAG, "list added product:" + selectProduct.toString());
+//            sum -= selectProductSum;
+//            selectProductSum = (selectProduct.getPrice() * selectProduct.getCount() + selectProduct.getInprice() * selectProduct.getIncount());
+//            sum += selectProductSum;
 
             addList(selectProduct);
             adapter2.notifyDataSetChanged();

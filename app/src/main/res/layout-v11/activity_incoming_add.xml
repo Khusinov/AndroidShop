@@ -85,9 +85,8 @@
             android:id="@+id/textView"
             android:layout_width="55dp"
             android:layout_height="30dp"
-            android:text="Асосий:"
-            android:textColor="@color/black"
-            />
+            android:text="Асос:"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/product_incoming_add_price_product_count"

@@ -96,9 +96,10 @@ public class IncomingWork extends AppCompatActivity {
         sTovar = (STovar) intent.getSerializableExtra("stovar");
         slaveId = intent.getIntExtra("slave_id", 0);
         name = intent.getStringExtra("name");
-        allNumber = intent.getStringExtra("soni");
+        allNumber = "" + intent.getIntExtra("soni",0);
         IWSoni.setText(allNumber);
-        if (!intent.getStringExtra("ichkiSoni").isEmpty()) {
+
+        if (intent.getStringExtra("ichkiSoni")!=null && !intent.getStringExtra("ichkiSoni").isEmpty()) {
             IWIchkiSoni.setText(intent.getStringExtra("ichkiSoni"));
             Log.d("ichki Soni" , intent.getStringExtra("ichkiSoni"));
         }
@@ -181,7 +182,6 @@ public class IncomingWork extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 new ZxingOrient(IncomingWork.this).setIcon(R.mipmap.ic_launcher).initiateScan();
-
             }
         });
 
@@ -212,10 +212,6 @@ public class IncomingWork extends AppCompatActivity {
             count = 1;
             //new GetSeries().execute();
             searchView.setText(sequence, TextView.BufferType.EDITABLE); // list add
-
-
-
-
             Log.d("Teg", "GetSeries().execute() " + mainSlaveId.toString());
 
             new AddSeries().execute();

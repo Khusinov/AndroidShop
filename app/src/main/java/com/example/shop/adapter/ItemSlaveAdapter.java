@@ -13,22 +13,21 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.example.shop.HttpHandler;
 import com.example.shop.R;
-import com.example.shop.model.Product;
 import com.example.shop.model.Slave;
-import com.example.shop.model.STovar;
 import com.example.shop.ui.IncomingAdd;
-import com.example.shop.ui.ProductAdd;
-import com.example.shop.ui.ProductsList;
+import com.example.shop.ui.IncomingProducts;
+import com.example.shop.ui.IncomingWork;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class ItemAdapter extends ArrayAdapter<Slave> {
+public class ItemSlaveAdapter extends ArrayAdapter<Slave> {
 
     private  Slave item;
-    private  ItemAdapter adapter;
+    private ItemSlaveAdapter adapter;
     private String reqUrl = "";
     private Integer position=-1;
     private Integer asosId=-1;
@@ -36,7 +35,7 @@ public class ItemAdapter extends ArrayAdapter<Slave> {
     private String ip ;
     private ArrayList<Slave> items;
 
-    public ItemAdapter(Context context, int resource, ArrayList<Slave> items, String ip, Integer asosId, IncomingAddListener listener) {
+    public ItemSlaveAdapter(Context context, int resource, ArrayList<Slave> items, String ip, Integer asosId, IncomingAddListener listener) {
         super(context,resource, items);
         this.items = items;
         this.adapter=this;
@@ -79,14 +78,19 @@ public class ItemAdapter extends ArrayAdapter<Slave> {
         ((TextView)convertView.findViewById(R.id.item_name)).setText(item.getTovar_nom());
         ((TextView)convertView.findViewById(R.id.item_count)).setText(item.getKol().toString());
         ((TextView)convertView.findViewById(R.id.item_incount)).setText(item.getKol_in().toString());
-        ((TextView)convertView.findViewById(R.id.item_sum)).setText(getModny(item.getKol()*item.getSena()+item.getKol_in()*item.getSena_in() ));
+       // ((TextView)convertView.findViewById(R.id.item_sum)).setText(getModny(item.getKol()*item.getSena()+item.getKol_in()*item.getSena_in()));
 
         ((TextView)convertView.findViewById(R.id.item_seriya)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.itemSeriesClick(items , position );
-              //  listener.itemSeriesClick(ip , user , pro , slave_id ,  item.getName() , item.getCount() , item.getId() );
-                // user , slave_id va Stovar ni berish kk
+                //listener.itemSlaveClick(items , position ); //888
+                Intent intent = new Intent(getContext(), IncomingWork.class);
+                intent.putExtra("ip", ip);
+                intent.putExtra("slaveId", asosId); // slaveId
+                intent.putExtra("name",items.get(position).getTovar_nom());
+                intent.putExtra("soni", items.get(position).getKol());
+                intent.putExtra("id", items.get(position).getId());
+                getContext().startActivity(intent);
             }
         });
 
@@ -126,7 +130,7 @@ public class ItemAdapter extends ArrayAdapter<Slave> {
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog=new ProgressDialog(getContext());
-            progressDialog.setMessage("Махсулот ўчирилйарти !!!");
+            progressDialog.setMessage("Kirim tovar y`chirilmoqda !!!");
             progressDialog.setCancelable(false);
             progressDialog.show();
         }

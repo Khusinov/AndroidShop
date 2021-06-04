@@ -434,13 +434,6 @@ public class IncomingProducts extends AppCompatActivity {
                             JSONObject object = jsonArray.getJSONObject(i);
                             dillerListId.add(object.getInt("id"));
                             dillerList.add(object.getString("nom"));
-                            /* {
-                           "id": 1,
-                           "nom": "01.Artel dileri",
-                           "tel": "+998999664660",
-                           "client_id": 3
-                           },*/
-
                         }
                         adapterdillers.notifyDataSetChanged();
                     } catch (final JSONException e) {
