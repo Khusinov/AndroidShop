@@ -16,91 +16,99 @@
         android:layout_marginTop="64dp"
         app:srcCompat="@drawable/ic_success_green_check_mark"/>
 
-  <LinearLayout
-      android:layout_marginTop="64dp"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="vertical">
-
-      <EditText
-          android:id="@+id/ipadress"
-          android:layout_width="match_parent"
-          android:layout_height="50dp"
-          android:layout_marginLeft="50dp"
-          android:layout_marginRight="50dp"
-          android:autofillHints=""
-          android:background="@drawable/back_rounded"
-          android:ems="10"
-          android:hint="@string/ip_input"
-          android:inputType="textFilter"
-          android:padding="10dp"
-          tools:targetApi="o" />
-
-
-      <TextView
-          android:id="@+id/ipmessage"
-          android:layout_width="match_parent"
-          android:layout_height="35dp"
-          android:layout_margin="10dp"
-          android:text="@string/invalid_ip"
-          android:textAlignment="center"
-          android:textColor="@color/colorAccent"
-          android:visibility="invisible"
-          android:gravity="center_horizontal" />
-
-      <EditText
-          android:id="@+id/loginEdt"
-          android:layout_width="match_parent"
-          android:layout_height="50dp"
-          android:layout_marginLeft="50dp"
-          android:layout_marginTop="8dp"
-          android:layout_marginRight="50dp"
-          android:layout_marginBottom="10dp"
-          android:autofillHints=""
-          android:background="@drawable/back_rounded"
-          android:ems="10"
-          android:hint="@string/username"
-          android:inputType="text"
-          android:padding="10dp"
-          tools:targetApi="o" />
-
-      <EditText
-          android:id="@+id/passwordEdt"
-          android:layout_width="match_parent"
-          android:layout_height="50dp"
-          android:layout_marginLeft="50dp"
-          android:layout_marginTop="10dp"
-          android:layout_marginRight="50dp"
-          android:layout_marginBottom="10dp"
-          android:background="@drawable/back_rounded"
-          android:ems="10"
-          android:hint="@string/password"
-          android:importantForAutofill="no"
-          android:inputType="numberPassword"
-          android:padding="10dp" tools:targetApi="o"/>
-
-      <Button
-          android:id="@+id/logInBtn"
-          android:layout_width="match_parent"
-          android:layout_height="50dp"
-          android:layout_marginLeft="50dp"
-          android:layout_marginTop="10dp"
-          android:layout_marginRight="50dp"
-          android:layout_marginBottom="10dp"
-          android:background="#35968b"
-          android:textColor="@color/white"
-          android:text="@string/action_sign_in" />
-  </LinearLayout>
-
-    <TextView
-        android:id="@+id/message"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_margin="10dp"
-        android:text="@string/invalid_password"
-        android:textAlignment="center"
-        android:textColor="@color/colorAccent"
-        android:visibility="invisible"
-        android:gravity="center_horizontal" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_marginTop="64dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/ipadress"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:autofillHints=""
+                android:background="@drawable/back_rounded"
+                android:ems="10"
+                android:hint="@string/ip_input"
+                android:inputType="textFilter"
+                android:padding="10dp"
+                tools:targetApi="o" />
+
+
+            <TextView
+                android:id="@+id/ipmessage"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_margin="10dp"
+                android:text="@string/invalid_ip"
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent"
+                android:visibility="invisible"
+                android:gravity="center_horizontal" />
+
+            <EditText
+                android:id="@+id/loginEdt"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginBottom="10dp"
+                android:autofillHints=""
+                android:background="@drawable/back_rounded"
+                android:ems="10"
+                android:hint="@string/username"
+                android:inputType="text"
+                android:padding="10dp"
+                tools:targetApi="o" />
+
+            <EditText
+                android:id="@+id/passwordEdt"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/back_rounded"
+                android:ems="10"
+                android:hint="@string/password"
+                android:importantForAutofill="no"
+                android:inputType="numberPassword"
+                android:padding="10dp" tools:targetApi="o"/>
+
+            <Button
+                android:id="@+id/logInBtn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginBottom="10dp"
+                android:background="#35968b"
+                android:textColor="@color/white"
+                android:text="@string/action_sign_in" />
+
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_margin="10dp"
+                android:text="@string/invalid_password"
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent"
+                android:visibility="invisible"
+                android:gravity="center_horizontal" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
 
 </LinearLayout>

@@ -1,44 +1,48 @@
-package com.example.shop.model;
+package com.example.shop.db.beans;
+
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
 import java.io.Serializable;
 
-public class STovar  implements Serializable {
-    Integer id;
-    String nom;
-    String nom_ru;
-    String nom_sh;
 
+@Entity(tableName = "s_tovar")
+public class STovar implements Serializable {
 
-    String shtrix;
-    String shtrix_in;
-    Integer tz_id;
-    Integer kg;
-    String shtrix_full;
-    String shtrix1;
-    String shtrix2;
-    Integer kat;
-    Integer brend;
-    Integer papka;
-    String qr;
-    Integer shtrixkod;
-    String qrkod;
-    Integer izm_id;
-    Integer del_flag;
-    Integer client_id;
-    Double sotish;
-    Double ulg1;
-    Double ulg2;
-    Double ulg1_pl;
-    Double ulg2_pl;
-    Double bank;
-    Double sena;
-    Integer kol_in;
-    Double sena_d;
-    Double sena_in_d;
-    Integer tkol;
-    Integer tkol_in;
-    Integer seriya = 0;
-
+    @PrimaryKey
+    private Integer id;
+    private String nom;
+    private String nom_ru;
+    private String nom_sh;
+    private String shtrix;
+    private String shtrix_in;
+    private Integer tz_id;
+    private Integer kg;
+    private String shtrix_full;
+    private String shtrix1;
+    private String shtrix2;
+    private Integer kat;
+    private Integer brend;
+    private Integer papka;
+    private String qr;
+    private Integer shtrixkod;
+    private String qrkod;
+    private Integer izm_id;
+    private Integer del_flag;
+    private Integer client_id;
+    private Double sotish;
+    private Double ulg1;
+    private Double ulg2;
+    private Double ulg1_pl;
+    private Double ulg2_pl;
+    private Double bank;
+    private Double sena;
+    private Integer kol_in;
+    private Double sena_d;
+    private Double sena_in_d;
+    private Integer tkol;
+    private Integer tkol_in;
+    private Integer seriya = 0;
 
 
     public STovar() {

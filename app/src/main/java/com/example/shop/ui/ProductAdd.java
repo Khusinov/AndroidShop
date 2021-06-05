@@ -4,10 +4,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,12 +24,10 @@ import android.widget.Toast;
 
 import com.example.shop.HttpHandler;
 import com.example.shop.R;
-import com.example.shop.adapter.BrendAdapter;
 import com.example.shop.adapter.GetListAdapter;
 import com.example.shop.model.Brend;
 import com.example.shop.model.GetList;
-import com.example.shop.model.Product;
-import com.example.shop.model.STovar;
+import com.example.shop.db.beans.STovar;
 import com.example.shop.model.User;
 
 import org.json.JSONArray;

@@ -1,11 +1,8 @@
 package com.example.shop.adapter;
 
 import com.example.shop.model.Slave;
-import com.example.shop.model.STovar;
-import com.example.shop.model.User;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public interface IncomingAddListener {
     public void itemSeriesClick(ArrayList<Slave> products , Integer position);

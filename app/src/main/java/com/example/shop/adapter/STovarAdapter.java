@@ -1,7 +1,6 @@
 package com.example.shop.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,7 @@ import android.widget.Filter;
 import android.widget.TextView;
 
 import com.example.shop.R;
-import com.example.shop.model.STovar;
+import com.example.shop.db.beans.STovar;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;

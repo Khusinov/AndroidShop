@@ -7,7 +7,6 @@ import android.arch.lifecycle.Observer;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.annotation.LongDef;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,7 +23,7 @@ import android.widget.Toast;
 import com.example.shop.HttpHandler;
 import com.example.shop.R;
 import com.example.shop.adapter.SeriesAdapter;
-import com.example.shop.model.STovar;
+import com.example.shop.db.beans.STovar;
 import com.example.shop.model.SeriesModel;
 import com.example.shop.model.User;
 
@@ -33,9 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 import me.sudar.zxingorient.ZxingOrient;
 import me.sudar.zxingorient.ZxingOrientResult;
@@ -100,7 +97,7 @@ public class IncomingWork extends AppCompatActivity {
         IWSoni.setText(allNumber);
 
         if (intent.getStringExtra("ichkiSoni")!=null && !intent.getStringExtra("ichkiSoni").isEmpty()) {
-            IWIchkiSoni.setText(intent.get[]/nExtra("ichkiSoni"));
+            IWIchkiSoni.setText(intent.getStringExtra("ichkiSoni"));
             Log.d("ichki Soni" , intent.getStringExtra("ichkiSoni"));
         }
         idForGetList = intent.getIntExtra("id", 0);

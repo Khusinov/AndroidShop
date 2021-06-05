@@ -5,7 +5,7 @@ import android.util.Log;
 import com.example.shop.model.AsosModell;
 import com.example.shop.model.Product;
 import com.example.shop.model.Slave;
-import com.example.shop.model.STovar;
+import com.example.shop.db.beans.STovar;
 import com.example.shop.model.SeriesModel;
 import com.example.shop.model.User;
 

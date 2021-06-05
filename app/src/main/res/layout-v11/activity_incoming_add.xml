@@ -45,14 +45,22 @@
             android:contentDescription="TODO" />
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/product_incoming_add_list_view"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/sw_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="163dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="4dp" />
+        android:layout_height="163dp">
+
+        <ListView
+            android:id="@+id/product_incoming_add_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="163dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="4dp" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
     <LinearLayout
         android:id="@+id/linerLayout1"

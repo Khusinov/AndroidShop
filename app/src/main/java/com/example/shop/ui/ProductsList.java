@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -26,8 +25,7 @@ import com.example.shop.HttpHandler;
 import com.example.shop.R;
 import com.example.shop.adapter.STovarAdapter;
 import com.example.shop.model.Brend;
-import com.example.shop.model.GetList;
-import com.example.shop.model.STovar;
+import com.example.shop.db.beans.STovar;
 import com.example.shop.model.User;
 
 import org.json.JSONArray;
@@ -35,7 +33,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import me.sudar.zxingorient.ZxingOrient;
 import me.sudar.zxingorient.ZxingOrientResult;
