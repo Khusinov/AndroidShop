@@ -561,7 +561,7 @@ public class ProductAdd extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             HttpHandler httpHandler = new HttpHandler();
             String jsonStr = httpHandler.makeServiceCall(urlProducts);
-            if (jsonStr != null) {
+            if (jsonStr != null && jsonStr != "[]/n") {
                 try {
                     list.clear();
                     JSONArray jsonArray2 = new JSONArray(jsonStr);

@@ -96,11 +96,11 @@ public class IncomingWork extends AppCompatActivity {
         sTovar = (STovar) intent.getSerializableExtra("stovar");
         slaveId = intent.getIntExtra("slave_id", 0);
         name = intent.getStringExtra("name");
-        allNumber = "" + intent.getIntExtra("soni",0);
+        allNumber = intent.getStringExtra("soni");
         IWSoni.setText(allNumber);
 
         if (intent.getStringExtra("ichkiSoni")!=null && !intent.getStringExtra("ichkiSoni").isEmpty()) {
-            IWIchkiSoni.setText(intent.getStringExtra("ichkiSoni"));
+            IWIchkiSoni.setText(intent.get[]/nExtra("ichkiSoni"));
             Log.d("ichki Soni" , intent.getStringExtra("ichkiSoni"));
         }
         idForGetList = intent.getIntExtra("id", 0);
