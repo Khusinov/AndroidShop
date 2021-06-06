@@ -44,4 +44,7 @@ dependencies {
     //for see browse local db on any os broswer
     implementation 'com.facebook.stetho:stetho:1.5.0'
 
+    //barcode reader
+    implementation 'com.google.android.gms:play-services-vision:17.0.2'
+
 }
