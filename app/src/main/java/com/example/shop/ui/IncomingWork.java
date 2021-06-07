@@ -91,7 +91,7 @@ public class IncomingWork extends AppCompatActivity {
         ip = intent.getStringExtra("ip");
         thisuUser = (User) intent.getSerializableExtra("user");
         sTovar = (STovar) intent.getSerializableExtra("stovar");
-        slaveId = intent.getIntExtra("slave_id", 0);
+        slaveId = intent.getIntExtra("slaveId", -1);
         name = intent.getStringExtra("name");
         allNumber = intent.getStringExtra("soni");
         IWSoni.setText(allNumber);

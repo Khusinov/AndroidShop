@@ -5,8 +5,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.icu.text.DateFormat;
+import android.icu.text.SimpleDateFormat;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
@@ -38,6 +42,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
 
 import static android.widget.Toast.LENGTH_SHORT;
 
@@ -80,7 +85,7 @@ public class IncomingProducts extends AppCompatActivity {
         incomingDollar = findViewById(R.id.incoming_dollar);
         listView = findViewById(R.id.incoming_ac_list);
         save = findViewById(R.id.incoming_save);
-        ImageView imageView4 = findViewById(R.id.imageView4);
+        ImageView add_kirim_asos = findViewById(R.id.add_kirim_asos);
         Button next = findViewById(R.id.incoming_add_product_next);
         intent = getIntent();
         thisUser = (User) intent.getSerializableExtra("user");
@@ -108,20 +113,18 @@ public class IncomingProducts extends AppCompatActivity {
         asos.setKol(1);
 
         //This is plus button | Add new Document | Save edi.
-        imageView4.setOnClickListener(new View.OnClickListener() {
-
+        add_kirim_asos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 clear = false ; // clear qilmaydi
                 inserAsos = new AsosModell();
-                asos.setNomer(incomingNum.getText().toString());
-                asos.setSana(incomingDate.getText().toString());
-               // Log.d("DillerId" , dillerId.toString());
-                if (!dillerId.equals("null")){
-                    asos.setDiler_id(dillerId);
-                    Log.d("DillerID_IP", dillerId.toString());
-
-                    asos.setId(1);
+                asos.setNomer("Yangi");
+                long millis=System.currentTimeMillis();
+                java.sql.Date date=new java.sql.Date(millis);
+                asos.setSana(date.toString()); //999
+                //if (!dillerId.equals("null")){
+                    asos.setDiler_id(0);
+                    //asos.setId(1);
                     int check = 0;
                     if (incomingDollar.isChecked()) {
                         check = 1;
@@ -129,18 +132,17 @@ public class IncomingProducts extends AppCompatActivity {
                     asos.setDollar(check);
                     newAsosCheck = 1;
                     copyProperties(inserAsos, asos);
-                    Log.d("Getgani", inserAsos.getSumma().toString());
                     new getDiller().execute();
-                    incomingDate.setText("");
-                    incomingNum.setText("");
+                    incomingDate.setText(date.toString());
+                    incomingNum.setText("Yangi");
                     incomingdiller.setText("");
                     incomingDollar.setChecked(false);
                     // newAsosCheck = 0 ;
                     // new getDiller().execute();
 
-                } else {
-                incomingdiller.setError("Diller yo'q");
-                }
+                //} else {
+                //incomingdiller.setError("Diller yo'q");
+                //}
 
             }
         });
@@ -155,15 +157,12 @@ public class IncomingProducts extends AppCompatActivity {
                 asos.setNomer(incomingNum.getText().toString());
                 asos.setSana(incomingDate.getText().toString());
                 asos.setDiler_id(dillerId);
-                Log.d("DillerID_IPSave", dillerId.toString());
-               //  asos.setId(); | id modellistdan Asos ga o'tadi
                 int check = 0;
                 if (incomingDollar.isChecked()) {
                     check = 1;
                 }
                 asos.setDollar(check);
-                copyProperties(inserAsos, asos);
-                Log.d("Save ID", inserAsos.getId().toString());
+                copyProperties(inserAsos, asos); // 777
                 new EditAsos().execute();
                 newAsosCheck = 0 ;
                 new getDiller().execute();
@@ -175,15 +174,10 @@ public class IncomingProducts extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String selectDiller = adapterView.getAdapter().getItem(i).toString();
                 for (int i1 = 0; i1 < dillerList.size(); i1++) {
-                    Log.d("Diller", dillerList.get(i1));
                     if (selectDiller.equals(dillerList.get(i1))) {
                         dillerId = dillerListId.get(i1);
-                        Log.d("DillerId1", dillerId.toString());
                     }
                 }
-                Log.d("Adapter", adapterView.getAdapter().getItem(i).toString());
-
-                // dillerId = dillerListId.get(i);// xato shu joyda
             }
         });
         try {
@@ -191,33 +185,14 @@ public class IncomingProducts extends AppCompatActivity {
 
                 @Override
                 public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-
-                    Log.d("Modellist_IP1", modellList.toString());
-                    Log.d("position", String.valueOf(position));
                     try {
                         asos = modellList.get(position);
-                        Log.d("Asos", asos.getId().toString());
                     } catch (Exception e) {
                         Log.d("Catch", e.toString());
                     }
-
-                    Integer index = dillerListId.indexOf(asos.getDiler_id());
-                    Log.d("Index", index.toString());
-                    if ((index.equals(null) && index.equals(-1))) {
-                        try {
-                            incomingdiller.setSelection(index);
-                        } catch (Exception e) {
-                            Log.d("CatchError1", e.toString());
-                            Toast.makeText(IncomingProducts.this, "Taminotchi yo'q 1", LENGTH_SHORT).show();
-                        }
-
-                        dillerId = dillerListId.get(index); // +1
-                        incomingdiller.setText(incomingdiller.getAdapter().getItem(index).toString(), false);
-                    }
-                    if (index > -1) {
-                        dillerId = dillerListId.get(index);
-                        Log.d("Dillerid2", dillerId.toString());
-                        incomingdiller.setText(dillerList.get(index));
+                    if (position > -1) {
+                        dillerId = dillerListId.get(position);
+                        incomingdiller.setText(dillerList.get(position));
                         incomingNum.setText(asos.getNomer());
                         incomingDate.setText(asos.getSana());
                         incomingDollar.setChecked(asos.getDollar() == 1);
@@ -302,7 +277,6 @@ public class IncomingProducts extends AppCompatActivity {
         asosBefore.setHaridorId(0);
         asosBefore.setSana(asosLast.getSana());
         asosBefore.setDiler_id(asosLast.getDiler_id());
-        Log.d("dillerid", asosBefore.getDiler_id().toString());
         asosBefore.setTur_oper(1);
         asosBefore.setSumma(0.0);
         asosBefore.setSotuv_turi(1);
@@ -376,12 +350,13 @@ public class IncomingProducts extends AppCompatActivity {
             CharSequence x = "";
             int index = -1;
             index = dillerListId.indexOf(modellList.get(i).getDiler_id());
+
             if (index > -1)
                 x = dillerList.get(index);
             else
                 x = "Таминотчи йўқ";
 
-            x = x + " | Сумма: " + getModny(modellList.get(i).getSumma());
+            x = x + " | " + modellList.get(i).getNomer()+" | "+modellList.get(i).getSana()+" | "+modellList.get(i).getSumma();
             list.add(x);
             adapter.notifyDataSetChanged();
         }

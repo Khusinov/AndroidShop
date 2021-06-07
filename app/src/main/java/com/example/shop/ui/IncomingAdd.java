@@ -203,9 +203,10 @@ public class IncomingAdd extends AppCompatActivity {
                     Integer price_inproduct_count_int = tryParse(incount.getText().toString());
                     Slave slave = new Slave();
                     slave.setPutId(0);
-                    slave.setId(tovar.getId());
+                    //slave.setId(tovar.getId());
                     slave.setTovar_nom(tovar.getNom());
                     slave.setTovar_id(tovar.getId());
+                    slave.setAsos_id(asosId);
                     slave.setKol(price_product_count_int);
                     slave.setKol_in(price_inproduct_count_int);
                     slave.setKol_ost(price_product_count_int);

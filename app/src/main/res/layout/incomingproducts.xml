@@ -136,12 +136,7 @@
         android:layout_margin="10dp"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_delete" />
+
 
         <ImageView
             android:id="@+id/imageView5"
@@ -160,7 +155,7 @@
             app:srcCompat="@android:drawable/ic_menu_call" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/add_kirim_asos"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_weight="1"
@@ -172,7 +167,12 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             app:srcCompat="@android:drawable/ic_menu_save" />
-
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/ic_delete" />
 
     </LinearLayout>
 
