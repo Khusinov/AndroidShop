@@ -1,5 +1,6 @@
 package com.example.shop.ui;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.arch.lifecycle.Observer;
@@ -38,6 +39,8 @@ import com.example.shop.db.AppDatabase;
 import com.example.shop.db.beans.STovar;
 import com.example.shop.model.Slave;
 import com.example.shop.model.User;
+import com.example.shop.tools.Constants;
+import com.example.shop.tools.QrCodeActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,6 +54,7 @@ import me.sudar.zxingorient.ZxingOrientResult;
 
 
 public class IncomingAdd extends AppCompatActivity {
+    public static final int READ_BAR_CODE = 101;
 
     private static Integer selectedSlave = 0;
     private static Double selectProductSum = 0.0;
@@ -98,7 +102,7 @@ public class IncomingAdd extends AppCompatActivity {
 
         barcodescan = findViewById(R.id.product_incoming_add_barcodescan);
         listView = findViewById(R.id.product_incoming_add_list_view);
-        swrl  = findViewById(R.id.sw_refresh_layout);
+        swrl = findViewById(R.id.sw_refresh_layout);
         listView2 = findViewById(R.id.product_incoming_add_list_view2);
         searchView = findViewById(R.id.product_incoming_add_searchView);
         intent = getIntent();
@@ -129,7 +133,8 @@ public class IncomingAdd extends AppCompatActivity {
         barcodescan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new ZxingOrient(IncomingAdd.this).setIcon(R.mipmap.ic_launcher).initiateScan();
+                startQrCodeActivity();
+//                new ZxingOrient(IncomingAdd.this).setIcon(R.mipmap.ic_launcher).initiateScan();
             }
         });
 
@@ -291,12 +296,21 @@ public class IncomingAdd extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        ZxingOrientResult scanResult =
-                ZxingOrient.parseActivityResult(requestCode, resultCode, intent);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == READ_BAR_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data != null) {
+                    String barcode = data.getStringExtra("barcode");
+                    searchView.setQuery(barcode, false);
+                }
+            }
+        } else {
+            ZxingOrientResult scanResult =
+                    ZxingOrient.parseActivityResult(requestCode, resultCode, intent);
 
-        if (scanResult != null) {
-            searchView.setQuery(scanResult.getContents(), false);
+            if (scanResult != null) {
+                searchView.setQuery(scanResult.getContents(), false);
+            }
         }
     }
 
@@ -412,6 +426,11 @@ public class IncomingAdd extends AppCompatActivity {
         return retVal;
     }
 
+    public void startQrCodeActivity() {
+        Intent intent = new Intent(this, QrCodeActivity.class);
+        intent.putExtra("barcode_type", Constants.BARCODE_TYPE.READ_BARCODE);
+        startActivityForResult(intent, READ_BAR_CODE);
+    }
 
     private class AddProduct extends AsyncTask<Void, Void, Void> {
         String urlRequest = "http://" + ip + ":8080/application/json/asosslave2/" + asosId + "/" + thisuUser.getId();
@@ -445,7 +464,6 @@ public class IncomingAdd extends AppCompatActivity {
         }
 
     }
-
 
     private class GetProducts extends AsyncTask<Void, Void, Void> {
         //        http://localhost:8080/application/json/clientid=4/4/products
@@ -933,4 +951,6 @@ public class IncomingAdd extends AppCompatActivity {
 
         }
     }
+
+
 }

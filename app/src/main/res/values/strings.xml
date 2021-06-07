@@ -11,4 +11,5 @@
     <string name="ip_input_error">IP адресни тўғри киритинг !!!</string>
     <string name="invalid_ip">IP адрес хато йоки тармоқга уланилмаган !!!</string>
     <string name="btn">Button</string>
+    <string name="take_qr_code">Scan barcode</string>
 </resources>

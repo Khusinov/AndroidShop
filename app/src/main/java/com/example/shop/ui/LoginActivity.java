@@ -219,7 +219,7 @@ public class LoginActivity extends AppCompatActivity {
 
     String loadIP() {
         android.content.SharedPreferences sPref = getPreferences(MODE_PRIVATE);
-        return sPref.getString(SharedPreferences.IP_ADRES_SHARED_PREF, "LoginPref");
+        return sPref.getString(SharedPreferences.IP_ADRES_SHARED_PREF, "");
     }
 
     public void saveIP(String ip) {
@@ -231,7 +231,7 @@ public class LoginActivity extends AppCompatActivity {
 
     String loadLogin() {
         android.content.SharedPreferences sPref = getPreferences(MODE_PRIVATE);
-        return sPref.getString(SharedPreferences.LOGIN_SHARED_PREF, "LoginPref");
+        return sPref.getString(SharedPreferences.LOGIN_SHARED_PREF, "");
     }
 
     void saveLogin(String login) {
@@ -243,7 +243,7 @@ public class LoginActivity extends AppCompatActivity {
 
     String loadPassword() {
         android.content.SharedPreferences sPref = getPreferences(MODE_PRIVATE);
-        return sPref.getString(SharedPreferences.PASSWORD_SHARED_PREF, "LoginPref");
+        return sPref.getString(SharedPreferences.PASSWORD_SHARED_PREF, "");
     }
 
     void savePassword(String password) {
