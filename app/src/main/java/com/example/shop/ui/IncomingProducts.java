@@ -191,8 +191,14 @@ public class IncomingProducts extends AppCompatActivity {
                         Log.d("Catch", e.toString());
                     }
                     if (position > -1) {
-                        dillerId = dillerListId.get(position);
-                        incomingdiller.setText(dillerList.get(position));
+                        CharSequence x = "";
+                        dillerId = dillerListId.indexOf(modellList.get(position).getDiler_id());
+                        if (dillerId > -1)
+                            x = dillerList.get(dillerId);
+                        else
+                            x = "Таминотчи йўқ";
+
+                        incomingdiller.setText(x);
                         incomingNum.setText(asos.getNomer());
                         incomingDate.setText(asos.getSana());
                         incomingDollar.setChecked(asos.getDollar() == 1);
