@@ -63,6 +63,8 @@ public class IncomingWork extends AppCompatActivity {
     private TextView IWIchkiSoni ;
     private MutableLiveData<ArrayList<SeriesModel>> liveData;
     private Integer count = 0;
+    private String kol;
+    private String kol_in;
     private Integer mainSlaveId = 5511155;
     private Integer counts = 0;
     private String allNumber = "";
@@ -93,15 +95,14 @@ public class IncomingWork extends AppCompatActivity {
         sTovar = (STovar) intent.getSerializableExtra("stovar");
         slaveId = intent.getIntExtra("slaveId", -1);
         name = intent.getStringExtra("name");
-        allNumber = intent.getStringExtra("soni");
-        IWSoni.setText(allNumber);
+        kol="" + intent.getIntExtra("kol", 0);
+        kol_in="" + intent.getIntExtra("kol_in", 0);
+        IWSoni.setText(kol);
 
-        if (intent.getStringExtra("ichkiSoni")!=null && !intent.getStringExtra("ichkiSoni").isEmpty()) {
-            IWIchkiSoni.setText(intent.getStringExtra("ichkiSoni"));
-            Log.d("ichki Soni" , intent.getStringExtra("ichkiSoni"));
+        if (kol_in!=null && !kol_in.isEmpty()) {
+            IWIchkiSoni.setText(kol_in);
         }
         idForGetList = intent.getIntExtra("id", 0);
-        Log.d("getid", idForGetList.toString());
         next = findViewById(R.id.next);
         liveData = new MutableLiveData<>();
         if (idForGetList > 0) {
@@ -209,7 +210,7 @@ public class IncomingWork extends AppCompatActivity {
             count = 1;
             //new GetSeries().execute();
             searchView.setText(sequence, TextView.BufferType.EDITABLE); // list add
-            Log.d("Teg", "GetSeries().execute() " + mainSlaveId.toString());
+            Log.d("Teg",  "GetSeries().execute() " + mainSlaveId.toString());
 
             new AddSeries().execute();
             seriesModel.setSerial(String.valueOf(sequence));

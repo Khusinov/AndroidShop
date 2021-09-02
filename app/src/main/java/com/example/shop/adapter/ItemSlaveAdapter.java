@@ -88,7 +88,8 @@ public class ItemSlaveAdapter extends ArrayAdapter<Slave> {
                 intent.putExtra("ip", ip);
                 intent.putExtra("slaveId", items.get(position).getId()); // slaveId
                 intent.putExtra("name",items.get(position).getTovar_nom());
-                intent.putExtra("soni", items.get(position).getKol());
+                intent.putExtra("kol", items.get(position).getKol());
+                intent.putExtra("kol_in", items.get(position).getKol_in());
                 intent.putExtra("id", items.get(position).getId());
                 getContext().startActivity(intent);
             }

@@ -217,7 +217,7 @@ public class IncomingAdd extends AppCompatActivity {
                     slave.setKol_ost(price_product_count_int);
                     slave.setSena(0.0);
                     slave.setSena_in(0.0);
-                    slave.setSotish_in(0.0);
+                    slave.setSotish(0.0);
                     slave.setSotish_in(0.0);
                     selectSlave = slave;
                     new AddProduct().execute();

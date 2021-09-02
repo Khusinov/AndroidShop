@@ -83,7 +83,7 @@ public class ProductAdd extends AppCompatActivity {
     Integer barcode = 0;
     Integer update = 0;
     Integer series = 0;
-    Integer x;
+    private Integer xtovar;
     Integer isEdit = 0;
     Integer kat;
     Integer brend;
@@ -451,9 +451,9 @@ public class ProductAdd extends AppCompatActivity {
         nextIntent.putExtra("stovar", intent.getSerializableExtra("stovar"));
         nextIntent.putExtra("name", name.getText().toString());
         if (!for_count.getText().toString().isEmpty()) {
-            nextIntent.putExtra("slave_id", x);
-            nextIntent.putExtra("soni", for_count.getText().toString());
-            nextIntent.putExtra("ichkiSoni" , for_incount.getText().toString());
+            nextIntent.putExtra("slaveId", xtovar);
+            nextIntent.putExtra("kol", for_count.getText().toString());
+            nextIntent.putExtra("kol_in" , for_incount.getText().toString());
         }
 
     }
@@ -475,7 +475,7 @@ public class ProductAdd extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             HttpHandler httpHandler = new HttpHandler();
             String reqUrl = "http://" + ip + ":8080/application/json/addproduct";
-            x = httpHandler.makeServiceChangeProducts(reqUrl, sTovar, thisUser, kat, brend, papka, nom_sh);
+            xtovar = httpHandler.makeServiceChangeProducts(reqUrl, sTovar, thisUser, kat, brend, papka, nom_sh);
             return null;
         }
 
@@ -516,7 +516,7 @@ public class ProductAdd extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             HttpHandler httpHandler = new HttpHandler();
             String reqUrl = "http://" + ip + ":8080/application/json/addproduct";
-            x = httpHandler.makeServiceAddNewProducts(reqUrl, sTovar, thisUser);
+            xtovar = httpHandler.makeServiceAddNewProducts(reqUrl, sTovar, thisUser);
             return null;
         }
 

@@ -278,7 +278,7 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog = new ProgressDialog(LoginActivity.this);
-            progressDialog.setMessage("Тизимга кириш учун текширилйапти");
+            progressDialog.setMessage("Tizimga kirish uchun tekshirilmoqda");
             progressDialog.setCancelable(false);
             progressDialog.show();
         }

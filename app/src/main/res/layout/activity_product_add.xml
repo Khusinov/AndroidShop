@@ -374,19 +374,19 @@
 
         <Button
             android:id="@+id/product_add_back"
-            android:layout_margin="10dp"
+            android:layout_margin="2dp"
             android:background="@drawable/orqa_rounded"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
+            android:layout_weight="0"
             android:textColor="@color/white"
             android:text="Орқага" />
 
         <Button
             android:id="@+id/product_add_save_product_for_add"
-            android:layout_margin="10dp"
+            android:layout_margin="2dp"
             android:background="@drawable/button_rounded"
-            android:layout_weight="5"
+            android:layout_weight="0"
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -394,14 +394,14 @@
 
         <Button
             android:id="@+id/product_change_product_for_add"
-            android:layout_margin="10dp"
+            android:layout_margin="2dp"
             android:background="@drawable/button_rounded"
-            android:layout_weight="5"
-            android:visibility="gone"
+            android:layout_weight="0"
+
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Keyingi" />
+            android:text="Seriya" />
 
 
 
